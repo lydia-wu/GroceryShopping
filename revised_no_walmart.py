@@ -23,8 +23,8 @@ for row in ws_ing.iter_rows(min_row=2, values_only=True):
                 'cost_total': row[6]
             })
 
-# Target stores (no Walmart)
-grocery_stores = ['Costco', 'Safeway', 'H-Mart']
+# Target stores (Walmart added per user request)
+grocery_stores = ['Costco', 'Safeway', 'H-Mart', 'Walmart']
 ws_item = wb['ItemizedPurchase']
 
 # Build purchase history database
@@ -56,8 +56,8 @@ for row in ws_item.iter_rows(min_row=2, values_only=True):
             })
 
 print("=" * 80)
-print("REVISED SHOPPING LIST (NO WALMART)")
-print("Prioritizing: Costco for meat, H-Mart for produce")
+print("UPDATED SHOPPING LIST")
+print("Prioritizing: Costco for meat/eggs, H-Mart for produce, Safeway for frozen, Walmart for juice")
 print("=" * 80)
 
 # Categorize ingredients
@@ -71,13 +71,38 @@ assignments = {}
 
 # Manual store assignments (user preferences)
 manual_costco_items = ['blueberries', 'berries', 'brami', 'pasta', 'roma tomato', 'tomato',
-                       'tomato sauce', 'tomato paste', 'green beans', 'peanut butter', 'avocado']
+                       'tomato sauce', 'tomato paste', 'green beans', 'peanut butter', 'avocado',
+                       'sweet potato']
 manual_hmart_items = ['purple potato']
-manual_safeway_items = []
+manual_safeway_items = ['frozen peas', 'peas and carrots']
+manual_walmart_items = ['lemon juice']
 
 for ing in ingredients_needed:
     ing_name = ing['ingredient']
     ing_lower = ing_name.lower()
+
+    # Special handling for eggs (to avoid matching eggplant)
+    if ing_lower == 'egg' or (ing_lower.startswith('egg') and 'plant' not in ing_lower):
+        # Force Costco for eggs
+        found = False
+        for item_key in purchase_db['Costco'].keys():
+            if 'egg' in item_key and 'plant' not in item_key:
+                purchases = purchase_db['Costco'][item_key]
+                if purchases:
+                    assignments[ing_name] = {
+                        'store': 'Costco',
+                        'price': purchases[0]['price'],
+                        'item': purchases[0]['item']
+                    }
+                    found = True
+                    break
+        if not found:
+            assignments[ing_name] = {
+                'store': 'Costco',
+                'price': 0,
+                'item': 'To be purchased at Costco (not in history)'
+            }
+        continue
 
     # Check manual Costco assignments first
     if any(item in ing_lower for item in manual_costco_items):
@@ -154,6 +179,32 @@ for ing in ingredients_needed:
                 'store': 'Safeway',
                 'price': 0,
                 'item': 'To be purchased at Safeway (not in history)'
+            }
+        continue
+
+    # Check manual Walmart assignments
+    if any(item in ing_lower for item in manual_walmart_items):
+        # Force Walmart for these items
+        found = False
+        for item_key in purchase_db['Walmart'].keys():
+            ing_words = ing_lower.split()
+            match_score = sum(1 for word in ing_words if word in item_key and len(word) > 2)
+            if match_score > 0:
+                purchases = purchase_db['Walmart'][item_key]
+                if purchases:
+                    assignments[ing_name] = {
+                        'store': 'Walmart',
+                        'price': purchases[0]['price'],
+                        'item': purchases[0]['item']
+                    }
+                    found = True
+                    break
+        if not found:
+            # Item not in history, assign to Walmart anyway with $0 price
+            assignments[ing_name] = {
+                'store': 'Walmart',
+                'price': 0,
+                'item': 'To be purchased at Walmart (not in history)'
             }
         continue
 
