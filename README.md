@@ -12,7 +12,6 @@
 - [The 6 Meals](#-the-6-meals)
 - [Shopping Lists](#-shopping-lists)
 - [Cooking Schedule](#-cooking-schedule)
-- [Store Locations](#-store-locations)
 - [Key Tips & Strategies](#-key-tips--strategies)
 - [Cost Breakdown](#-cost-breakdown)
 
@@ -347,50 +346,6 @@
 
 ---
 
-## 📍 Store Locations
-
-### Your Address
-**9923 E Mexico Ave, Aurora, CO 80247**
-
----
-
-### 🏪 Costco Wholesale
-- **Address**: 1471 S Havana St, Aurora, CO 80012
-- **Phone**: (303) 750-2116
-- **Distance**: ~4 miles from your home
-- **Hours**: Mon-Fri 10am-8:30pm, Sat 9:30am-7pm, Sun 10am-8:30pm
-- **Why Here**: Best quality meats, bulk pricing on produce & dairy
-- **Parking**: Large lot, rarely full
-
----
-
-### 🌏 H-Mart
-- **Address**: 2751 S Parker Rd, Aurora, CO 80014
-- **Phone**: (303) 745-4592
-- **Distance**: ~5 miles from your home, ~5 min from Costco
-- **Hours**: Mon-Sun 9am-9pm (daily)
-- **Why Here**: Freshest produce, authentic Asian ingredients
-- **Parking**: Medium lot, busy on weekends
-
----
-
-### 🛍️ Safeway
-- **Address**: 1200 S Buckley Rd, Aurora, CO
-- **Distance**: ~3 miles from your home, ~10 min from H-Mart
-- **Hours**: Generally 6am-11pm (check local hours)
-- **Why Here**: Specialty items, organic options, weekly deals
-- **Parking**: Large lot, adequate spaces
-
----
-
-### 📦 Amazon
-- **Website**: amazon.com
-- **Delivery**: To your doorstep in 2-5 days
-- **Why Here**: Convenient canned mackerel delivery
-- **Tip**: Order 3-5 days before your shopping trip
-
----
-
 ## 💡 Key Tips & Strategies
 
 ### 🎯 Shopping Strategy
@@ -417,42 +372,6 @@ Total time: ~90 minutes including shopping
 **❌ AVOID:**
 - **Saturday 12-4pm**: All stores packed
 - **Sunday evenings**: Costco closes early, low stock
-
----
-
-### 🥬 Freshness Management
-
-#### **Highly Perishable (Use Days 1-5)**
-- ⚠️ Chicken breast (Meals B & C)
-- ⚠️ Kale (Meals A, B, C)
-- ⚠️ Eggplant (Meal B)
-- ⚠️ Fresh herbs: dill, parsley
-- ⚠️ Cucumber
-
-**Storage Tip**: Wrap herbs in damp paper towel, store in plastic bag
-
----
-
-#### **Moderately Perishable (Use Days 1-10)**
-- 🟡 Ground turkey (Meals D & F)
-- 🟡 Eggs
-- 🟡 Sweet potatoes
-- 🟡 Carrots
-- 🟡 Celery
-- 🟡 Berries
-
-**Storage Tip**: Keep turkey in coldest part of fridge (back, bottom shelf)
-
----
-
-#### **Long-Lasting (Use Anytime)**
-- ✅ Canned mackerel (Meals A & E)
-- ✅ Frozen peas & carrots
-- ✅ Kimchi
-- ✅ Pearl barley
-- ✅ Pasta
-- ✅ Tomato sauce
-- ✅ Grapes (last 1-2 weeks)
 
 ---
 
@@ -541,16 +460,6 @@ You'll need **~2 loaves** over 2 weeks:
 
 ---
 
-### ⚠️ Common Pitfalls to Avoid
-
-❌ **Don't skip ordering Amazon mackerel early** → Won't arrive in time
-❌ **Don't shop on Saturday afternoon** → Too crowded, stressful
-❌ **Don't cook Meal F before D** → Turkey may go bad
-❌ **Don't freeze chicken then thaw** → Use fresh within 3 days
-❌ **Don't overbuy kale** → 3 bunches is exactly right
-
----
-
 ## 💵 Cost Breakdown
 
 ### **By Store**
@@ -618,56 +527,6 @@ You'll need **~2 loaves** over 2 weeks:
 
 ---
 
-### **Budget Optimization Tips**
-
-If you need to reduce costs:
-
-1. **Skip Costco bulk items**: Buy only what you need
-   - Saves ~$40 but increases per-unit cost
-
-2. **Substitute regular pasta**: Instead of Brami protein pasta
-   - Saves ~$6
-
-3. **Use regular potatoes**: Instead of purple potatoes
-   - Saves ~$2
-
-4. **Buy frozen kale**: Instead of fresh from H-Mart
-   - Saves ~$15
-
-**Potential savings**: Up to $60-70, bringing total to ~$200
-
----
-
-## 📝 Notes & Customizations
-
-### **Already Have at Home:**
-- ✅ Olive oil
-- ✅ Salt & pepper
-- ✅ Basic spices
-- ✅ Garlic
-- ✅ Onions
-- ✅ Ginger
-- ✅ Sourdough bread (homemade!)
-
-### **Dietary Accommodations:**
-
-**Vegetarian Options:**
-- Meal D uses "vegan cheddar" already
-- Substitute chicken with tofu in Meals B & C
-- Substitute turkey with plant-based ground in Meals D & F
-
-**Gluten-Free:**
-- Brami protein pasta is lupini bean-based (GF)
-- Check all sauces and stocks for gluten
-- Your sourdough: Use GF starter
-
-**Dairy-Free:**
-- Meal D already uses vegan cheddar
-- Substitute regular feta with vegan feta (Violife brand at Safeway)
-- Use coconut yogurt instead of Greek yogurt in Meal A
-
----
-
 ## 🎓 Lessons Learned
 
 ### **What Worked Well:**
@@ -711,30 +570,6 @@ All costs are based on **your actual purchase history** from 2025, ensuring accu
 - 🥩 Costco for meats
 - 🥬 H-Mart for produce
 - 🏠 Uses homemade sourdough
-
----
-
-## 📞 Quick Reference
-
-### **Emergency Substitutions**
-
-| If You Can't Find... | Substitute With... |
-|----------------------|-------------------|
-| Brami protein pasta | Regular pasta or chickpea pasta |
-| Chinese eggplant | Regular eggplant (use 1-2 large) |
-| Purple potatoes | Regular russet or Yukon gold |
-| Fresh dill | 2 tbsp dried dill |
-| Pomegranate arils | Dried cranberries |
-| Ground turkey | Ground chicken or beef |
-| Kimchi | Sauerkraut (less spicy) |
-
----
-
-### **Store Customer Service**
-
-**Costco**: (303) 750-2116
-**H-Mart**: (303) 745-4592
-**Safeway**: Check local store
 
 ---
 
