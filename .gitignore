@@ -28,3 +28,9 @@ Thumbs.db
 
 # Output files
 output.txt
+
+# One-time task scripts (archived)
+scripts/one-time-tasks/
+
+# Task files
+nextClaudeSession

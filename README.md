@@ -615,9 +615,11 @@ Enjoy your meals! 🍽️
 9. ✅ Removed regular cheddar (kept only vegan cheddar)
 
 ### Additional Resources:
-- **`UPDATED_SHOPPING_LIST.md`** - Detailed shopping list with all changes highlighted
-- **`JAN_FEB_2026_MEAL_STRATEGY.md`** - Complete 52-day meal plan for January 8 - February 28, 2026
-- **`CHANGES_SUMMARY.md`** - Summary of all modifications
+- **[`docs/UPDATED_SHOPPING_LIST.md`](docs/UPDATED_SHOPPING_LIST.md)** - Detailed shopping list with all changes highlighted
+- **[`docs/JAN_FEB_2026_MEAL_STRATEGY.md`](docs/JAN_FEB_2026_MEAL_STRATEGY.md)** - Complete 52-day meal plan
+- **[`docs/JAN_FEB_2026_BULK_STRATEGY.md`](docs/JAN_FEB_2026_BULK_STRATEGY.md)** - Bulk buying strategy ($950)
+- **[`docs/JAN_FEB_BUDGET_STRATEGY.md`](docs/JAN_FEB_BUDGET_STRATEGY.md)** - Budget strategy under $700!
+- **[`docs/CHANGES_SUMMARY.md`](docs/CHANGES_SUMMARY.md)** - Summary of all modifications
 
 ---
 
