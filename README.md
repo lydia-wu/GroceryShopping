@@ -25,9 +25,10 @@
 | **Total Meals** | 6 different recipes |
 | **Total Servings** | 37 servings |
 | **Shopping Trips** | 1 major trip (3 stores) |
-| **Total Cost** | ~$270 ($7.16/serving) |
+| **Total Cost** | ~$296 ($7.99/serving) |
 | **Timeline** | 14 days |
-| **Stores** | Costco, H-Mart, Safeway, Amazon |
+| **Stores** | Costco, H-Mart, Safeway |
+| **Last Updated** | January 8, 2026 |
 
 ### What Makes This Plan Special
 
@@ -35,7 +36,7 @@
 🥩 **Quality Meats**: All proteins from Costco for best quality
 🥬 **Fresh Produce**: Maximum produce from H-Mart for freshness
 🏠 **Homemade Bread**: Uses your own sourdough (saves $15!)
-📦 **Convenient Delivery**: Canned mackerel from Amazon
+🥑 **Personalized**: No onions, kimchi, or items you already have at home
 
 ---
 
@@ -70,9 +71,9 @@
 
 - **Servings**: 5
 - **Why Third**: Uses remaining kale and fresh herbs
-- **Key Ingredients**: Canned mackerel (Amazon), kale, dill, cucumber, parsley, feta, eggs
+- **Key Ingredients**: Canned mackerel, kale, dill, cucumber, parsley, feta, eggs, avocado
 - **Serves With**: Your homemade sourdough bread
-- **Pro Tip**: Fresh dill makes all the difference
+- **Pro Tip**: Fresh dill and creamy avocado make all the difference
 
 ---
 
@@ -83,9 +84,9 @@
 
 - **Servings**: 6
 - **Why First**: Uses eggs & frozen veggies (all good shelf life)
-- **Key Ingredients**: Canned mackerel (Amazon), eggs, riced cauliflower, frozen peas/carrots, kimchi, ginger
+- **Key Ingredients**: Canned mackerel, eggs, riced cauliflower, frozen peas/carrots, ginger
 - **Cuisine**: Asian fusion
-- **Storage Tip**: Kimchi keeps for months in fridge
+- **Storage Tip**: Frozen veggies keep for months
 
 ---
 
@@ -94,7 +95,7 @@
 
 - **Servings**: 8
 - **Why Second**: Uses ground turkey, fresh celery & berries
-- **Key Ingredients**: Ground turkey, carrots, celery, berries, pearl barley, meat stock
+- **Key Ingredients**: Ground turkey, carrots, celery, berries, pearl barley, purple potatoes
 - **Serves With**: Your homemade sourdough bread
 - **Freezer-Friendly**: Great for batch cooking!
 
@@ -105,29 +106,17 @@
 
 - **Servings**: 6
 - **Why Last**: Uses remaining turkey & moderately perishable items
-- **Key Ingredients**: Ground turkey, Brami protein pasta, spinach, apples, squash, tomato sauce
+- **Key Ingredients**: Ground turkey, Brami protein pasta, kale, apples, squash, tomato sauce
 - **Serves With**: Your homemade sourdough bread
-- **Kid-Friendly**: Classic comfort food
+- **Kid-Friendly**: Classic comfort food with nutrient-rich kale
 
 ---
 
 ## 🛒 Shopping Lists
 
-### 📦 AMAZON (Order 3-5 Days Before Shopping Trip)
-
-**Total: $4.44**
-
-```
-☐ Canned Mackerel: 3 cans (13.5 oz each) @ $1.48 each
-  └─ For Meals A (2 cans) & E (1 can)
-  └─ Based on your historical $17.71/12 cans pricing
-```
-
----
-
 ### 🏪 COSTCO - Trip 1 (Start here!)
 
-**Total: $142.48** | **Time: 30-40 minutes**
+**Total: $235.31** | **Time: 30-40 minutes**
 
 #### 🥩 MEATS (Priority Items)
 ```
@@ -137,67 +126,91 @@
   └─ For: Meals B & C
   └─ Tip: Check date, use within 3 days
 
-☐ Ground Turkey: 1 package (4 lbs)
-  └─ $24.99
-  └─ For: Meals D & F (need 3.44 lbs)
-  └─ Extra: Freeze remaining 0.56 lbs for future use
+☐ Ground Turkey: 2 packages (3.44 lbs total)
+  └─ $24.99 × 2 = $49.98
+  └─ For: Meals D & F
 ```
 
 #### 🍎 PRODUCE
 ```
 ☐ Red grapes, seedless: 1 box
-  └─ $5.89
-  └─ For: Meals A, C, E (shared)
+  └─ $17.67 (shared across 3 meals)
+  └─ For: Meals A, C, E
 
 ☐ Fuji apples: 4 lb bag
   └─ $4.89
   └─ For: Meal F
 
+☐ Avocado: 2 count ⭐ NEW!
+  └─ $4.49
+  └─ For: Meal A (added per request)
+
 ☐ Grapefruit: 6-count bag
   └─ $5.29
-  └─ For: Meal B (need 2, rest for snacking)
+  └─ For: Meal B
 
 ☐ Pomegranate arils: 4-pack containers
   └─ $8.99
   └─ For: Meal C
-
-☐ Organic spinach: 1 box
-  └─ $3.89
-  └─ For: Meal F (need 1/2 container)
 ```
 
-#### 🧀 DAIRY & EGGS
+#### 🧀 DAIRY
 ```
 ☐ Feta cheese, crumbled: 24 oz (President brand)
-  └─ $6.99
-  └─ For: Meals A & B (covers 0.75 cup total)
-
-☐ Greek yogurt, plain: 3 lbs (Kirkland)
-  └─ $6.89
-  └─ For: Meal A
-
-☐ Eggs: 5 dozen (60 count)
-  └─ $9.39
-  └─ For: Meals A & E (need 8 total)
-  └─ Extra: Great for breakfast!
+  └─ $13.98 (for both meals)
+  └─ For: Meals A & B
 ```
 
 #### 🥜 NUTS
 ```
 ☐ Pistachios: 1 container (16 oz)
-  └─ $15.99
-  └─ For: Meal C (need 1 cup)
-  └─ Extra: Healthy snacking
+  └─ $1.97
+  └─ For: Meal C
 ```
 
-#### 📝 STILL NEED (Not in your purchase history)
+#### 🥫 PANTRY ITEMS ⭐ MOVED TO COSTCO
+```
+☐ Canned Mackerel: 3 cans
+  └─ $32.97
+  └─ For: Meals A (2 cans) & E (1 can)
+
+☐ Brami protein pasta: 2 boxes
+  └─ $10.99 × 2 = $21.98
+  └─ For: Meals B & F
+
+☐ Blueberries: 9 oz
+  └─ $4.99
+  └─ For: Meal D
+
+☐ Tomatoes (Roma): 379g
+  └─ $5.99
+  └─ For: Meal A
+
+☐ Tomato Paste: 8 oz
+  └─ $5.99
+  └─ For: Meal A
+
+☐ Tomato Sauce: 4 cans total
+  └─ $23.96
+  └─ For: Meals D (1 can) & F (3 cans)
+
+☐ Green beans (frozen): 5 lb bag
+  └─ $9.99
+  └─ For: Meal F (need 1/8 bag)
+
+☐ Peanut butter
+  └─ $5.99
+  └─ For: Meal F
+```
+
+#### 📝 ITEMS NOT IN HISTORY (Estimate Needed)
 ```
 ☐ Parmesan cheese block: ~$8-12 estimate
-  └─ For: Meal B (need 0.125 block)
+  └─ For: Meal B
   └─ Look for Parmigiano Reggiano
 
-☐ Riced cauliflower: 4 packages, ~$13
-  └─ For: Meal E (need 2 packages)
+☐ Riced cauliflower: 2 packages, ~$13
+  └─ For: Meal E
   └─ Check frozen section
 ```
 
@@ -205,15 +218,10 @@
 
 ### 🌏 H-MART - Trip 1 (5 min from Costco)
 
-**Total: $44.25** | **Time: 20-30 minutes**
+**Total: $38.19** | **Time: 20-30 minutes**
 
 #### 🥬 FRESH PRODUCE (Priority)
 ```
-☐ Organic kale: 3 bunches
-  └─ $2.79 × 3 = $8.37
-  └─ For: Meals A, B, C
-  └─ Tip: Choose dark, crisp leaves
-
 ☐ Chinese eggplant: 3 count
   └─ $3.67 (@$1.78/lb)
   └─ For: Meal B
@@ -222,22 +230,21 @@
   └─ $1.80
   └─ For: Meal A
 
-☐ Roma tomatoes: 1 lb
-  └─ $0.70 (@$1.08/lb)
-  └─ For: Meal A
-
 ☐ Whole carrots: 2 bags
   └─ $0.98 × 2 = $1.96
   └─ For: Meal D
 
 ☐ Celery: 1 bunch
   └─ $2.49
-  └─ For: Meal D (need 1 rib)
+  └─ For: Meal D
 
 ☐ Sweet potatoes: 3 count
   └─ $3.71 (@$2.49/lb)
   └─ For: Meal C
-  └─ Note: May be purple potatoes
+
+☐ Purple potatoes: 2 lb ⭐ MOVED FROM SAFEWAY
+  └─ $3.71 (@$2.49/lb)
+  └─ For: Meal D (fresher at H-Mart!)
 
 ☐ Zucchini squash: ~2 lbs
   └─ $1.98 (@$0.98/lb)
@@ -252,99 +259,66 @@
   └─ Worth it: Fresh makes the dish!
 
 ☐ Curly parsley: 1 bunch
-  └─ $0.99
-  └─ For: Meals A & D (need 1 bunch total)
+  └─ $1.98 (for both meals)
+  └─ For: Meals A & D
 
 ☐ Lime: 1
   └─ $0.20
   └─ For: Meal A
 
 ☐ Lemon: 1
-  └─ ~$0.20 (estimate)
+  └─ $3.79
+  └─ For: Meal A
+
+☐ Lemon Juice: 0.25 bottle
+  └─ $3.79
   └─ For: Meal A
 ```
 
-#### 🥘 ASIAN INGREDIENTS
+#### 🥚 EGGS & FROZEN
 ```
-☐ Napa cabbage kimchi: 1 container
-  └─ $6.48
-  └─ For: Meal E (need 1/8, rest keeps for months)
+☐ Eggs: 8 total
+  └─ $3.78
+  └─ For: Meals A (2) & E (6)
 
-☐ Ginger root: 2 roots
-  └─ $0.78
-  └─ For: Meal E
-```
-
-#### 🧊 FROZEN & PANTRY
-```
 ☐ Frozen peas & carrots: 1 bag
-  └─ $3.59
+  └─ $0.98
   └─ For: Meal E
-
-☐ Blueberries: 9 oz package
-  └─ $2.98
-  └─ For: Meal D
 ```
 
 ---
 
 ### 🛍️ SAFEWAY - Trip 1 (10 min from H-Mart)
 
-**Total: $53.47** | **Time: 20-30 minutes**
+**Total: $22.10** | **Time: 20-30 minutes**
 
-#### 🍝 PASTA & GRAINS
+#### 🥬 PRODUCE
 ```
-☐ Brami protein pasta: 2 boxes
-  └─ $7.98 (bought together)
-  └─ For: Meals B & F
-  └─ Alternative: Regular pasta if Brami unavailable
+☐ Kale: 4 bunches
+  └─ $3.49 × 4 = $13.96
+  └─ For: Meals A, B, C (1 bunch each) + F (1 bunch)
+  └─ Signature Kale Pre-Chopped
+```
 
+#### 🍝 GRAINS
+```
 ☐ Pearl barley: 2 bags (16 oz each)
-  └─ $4.29 × 2 = $8.58
+  └─ $1.58 × 2 = $3.16
   └─ For: Meals C & D
+  └─ Signature Select Beans Pearl Barley Dry
 ```
 
-#### 🥫 PROTEINS & PANTRY
+#### 🧀 DAIRY/VEGAN
 ```
-☐ Panko bread crumbs: 8 oz
-  └─ $2.21
-  └─ For: Meal A
-
-☐ Natural peanut butter: 1 jar
-  └─ $4.88
-  └─ For: Meal F (need 0.25 container)
-
-☐ Chicken/meat stock: 2 cartons (32 oz each)
-  └─ $6.49 × 2 = $12.98
-  └─ For: Meal D (need 5 cups = 40 oz total)
-  └─ Brand: Imagine or similar
-```
-
-#### 🧀 SPECIALTY ITEMS
-```
-☐ Violife vegan cheddar slices: 1 package
-  └─ $6.99
+☐ Cheddar: 0.25 cup
+  └─ $2.49
   └─ For: Meal D
+  └─ O Organics Vegan Mac Cheddar Style GF
 
-☐ Tomato paste: 1 can
-  └─ $1.29
-  └─ For: Meal A
-
-☐ Tomato sauce: 4 cans
-  └─ ~$0.89 × 4 = $3.56
-  └─ For: Meals D (1 can) & F (3 cans)
-```
-
-#### 📝 ESTIMATES (Not in purchase history)
-```
-☐ Green beans, frozen: 1 bag
-  └─ ~$2.00 estimate
-  └─ For: Meal F (need 1/8 bag)
-
-☐ Purple potatoes: 2 lbs
-  └─ ~$3.00 estimate
+☐ Vegan Cheddar: 2 slices
+  └─ $2.49
   └─ For: Meal D
-  └─ Alternative: Regular potatoes work too
+  └─ O Organics Vegan Mac Cheddar Style GF
 ```
 
 ---
@@ -358,7 +332,7 @@
 | **Day 1** | 🛒 Shopping Trip (Costco → H-Mart → Safeway) | Allow 90 minutes total |
 | **Day 2-3** | 👨‍🍳 **Cook Meal B** (Kale & Chicken Pasta) | Use chicken ASAP (most perishable) |
 | **Day 3-4** | 👨‍🍳 **Cook Meal C** (Warm Chicken Grain Bowl) | Use remaining chicken & kale |
-| **Day 5-6** | 👨‍🍳 **Cook Meal A** (Mackerel Meatball) | Use Amazon mackerel + remaining kale |
+| **Day 5-6** | 👨‍🍳 **Cook Meal A** (Mackerel Meatball) | Use mackerel + remaining kale + avocado |
 | **Day 7** | 🍽️ Enjoy leftovers! | All Week 1 meals complete |
 
 ### **🗓️ WEEK 2: Pantry & Frozen Focus**
@@ -583,12 +557,11 @@ You'll need **~2 loaves** over 2 weeks:
 
 | Store | Items | Subtotal | % of Total |
 |-------|-------|----------|------------|
-| **Costco** | 15 | $142.48 | 53% |
-| **H-Mart** | 16 | $44.25 | 16% |
-| **Safeway** | 11 | $53.47 | 20% |
-| **Amazon** | 3 | $4.44 | 2% |
-| **Estimates** | 2 | $23.00 | 9% |
-| **TOTAL** | **47** | **$267.64** | **100%** |
+| **Costco** | 25 | $235.31 | 80% |
+| **H-Mart** | 17 | $38.19 | 13% |
+| **Safeway** | 8 | $22.10 | 7% |
+| **Estimates** | 2 | $21.00 | (estimate) |
+| **TOTAL** | **52** | **$295.60** | **100%** |
 
 ---
 
@@ -611,13 +584,13 @@ You'll need **~2 loaves** over 2 weeks:
 
 | Meal | Servings | Est. Cost | Cost/Serving |
 |------|----------|-----------|--------------|
-| **A: Mackerel Meatball** | 5 | ~$35 | $7.00 |
-| **B: Kale & Chicken Pasta** | 6 | ~$48 | $8.00 |
+| **A: Mackerel Meatball** | 5 | ~$40 | $8.00 |
+| **B: Kale & Chicken Pasta** | 6 | ~$52 | $8.67 |
 | **C: Warm Chicken Grain Bowl** | 6 | ~$52 | $8.67 |
-| **D: Turkey Barley Soup** | 8 | ~$42 | $5.25 |
-| **E: Mackerel Cauliflower Fried Rice** | 6 | ~$38 | $6.33 |
-| **F: Turkey Spaghetti** | 6 | ~$45 | $7.50 |
-| **TOTAL** | **37** | **~$260** | **$7.03** |
+| **D: Turkey Barley Soup** | 8 | ~$45 | $5.63 |
+| **E: Mackerel Cauliflower Fried Rice** | 6 | ~$42 | $7.00 |
+| **F: Turkey Spaghetti** | 6 | ~$48 | $8.00 |
+| **TOTAL** | **37** | **~$279** | **$7.54** |
 
 *Note: Costs are estimates based on shared ingredients*
 
@@ -631,15 +604,17 @@ You'll need **~2 loaves** over 2 weeks:
 - No Walmart (as requested)
 - Premium meats from Costco
 - Fresh produce from H-Mart
-- Delivered mackerel (convenience)
+- Kale in all main meals
+- No items you can't eat (kimchi/onions removed)
+- No items you already have (stock, yogurt, breadcrumbs)
 
 #### **💰 Cost Comparison:**
-- **This plan**: $7.03/serving
+- **This plan**: $7.99/serving (updated)
 - **Fast casual**: $12-15/meal
 - **Fine dining**: $20-30/meal
 - **Meal kit delivery**: $10-12/serving
 
-**You're saving 40-70% compared to eating out!**
+**You're saving 33-62% compared to eating out!**
 
 ---
 
@@ -772,13 +747,33 @@ This plan is optimized for:
 - **Budget**: Best prices based on your shopping history
 - **Preference**: Zero Walmart shopping
 
-**Total Investment**: ~$268 for 37 delicious, home-cooked servings
+**Total Investment**: ~$296 for 37 delicious, home-cooked servings
 
-**That's just $7.03 per serving!** 🎊
+**That's just $7.99 per serving!** 🎊
 
 Enjoy your meals! 🍽️
 
 ---
 
-*Generated on January 8, 2026*
+## 📝 Updates & Changes
+
+**Latest Update: January 8, 2026**
+
+### Changes Applied:
+1. ✅ Removed stock, yogurt, and breadcrumbs (you already have/make these)
+2. ✅ Swapped spinach → kale in Meal F (Turkey Spaghetti)
+3. ✅ Removed kimchi from Meal E (contains onion)
+4. ✅ Moved items to Costco: blueberries, brami pasta, tomatoes, tomato sauce, green beans, peanut butter
+5. ✅ Moved purple potato to H-Mart (fresher produce)
+6. ✅ Added avocado (2 count) to Meal A at Costco
+
+### Additional Resources:
+- **`UPDATED_SHOPPING_LIST.md`** - Detailed shopping list with all changes highlighted
+- **`JAN_FEB_2026_MEAL_STRATEGY.md`** - Complete 52-day meal plan for January 8 - February 28, 2026
+- **`CHANGES_SUMMARY.md`** - Summary of all modifications
+
+---
+
+*Last updated: January 8, 2026*
 *Based on actual purchase history from Aurora, CO stores*
+*Personalized for your dietary needs and preferences*
