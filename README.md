@@ -2,7 +2,7 @@
 
 > **Optimized grocery shopping plan for 6 delicious meals over 14 days**
 > Location: Aurora, CO 80247
-> Shopping Strategy: No Walmart • Costco for Meats • H-Mart for Produce
+> Shopping Strategy: Costco for Meats/Eggs • H-Mart for Produce • Safeway for Frozen • Walmart for Juice/Kale
 
 ---
 
@@ -23,10 +23,10 @@
 |--------|-------|
 | **Total Meals** | 6 different recipes |
 | **Total Servings** | 37 servings |
-| **Shopping Trips** | 1 major trip (3 stores) |
-| **Total Cost** | ~$296 ($7.99/serving) |
+| **Shopping Trips** | 1 major trip (4 stores) |
+| **Total Cost** | ~$273 ($7.38/serving) |
 | **Timeline** | 14 days |
-| **Stores** | Costco, H-Mart, Safeway |
+| **Stores** | Costco, H-Mart, Safeway, Walmart |
 | **Last Updated** | January 8, 2026 |
 
 ### What Makes This Plan Special
@@ -34,8 +34,17 @@
 ✨ **Fresh-First Philosophy**: Meals ordered by ingredient perishability
 🥩 **Quality Meats**: All proteins from Costco for best quality
 🥬 **Fresh Produce**: Maximum produce from H-Mart for freshness
-🏠 **Homemade Bread**: Uses your own sourdough (saves $15!)
-🥑 **Personalized**: No onions, kimchi, or items you already have at home
+🏠 **Homemade Staples**: Uses your homemade sourdough, yogurt, stock, and breadcrumbs
+🥑 **Personalized**: No onions, kimchi, or items you can't eat
+
+### What You Make at Home
+
+These items are excluded from shopping lists because you make them yourself:
+
+- **Sourdough Bread** - Fresh baked for meals (saves $15.32!)
+- **Yogurt** - Homemade yogurt
+- **Stock** - Homemade meat/vegetable stock
+- **Breadcrumbs** - Homemade breadcrumbs/panko
 
 ---
 
@@ -595,12 +604,15 @@ Enjoy your meals! 🍽️
 **Latest Update: January 8, 2026**
 
 ### Changes Applied:
-1. ✅ Removed stock, yogurt, and breadcrumbs (you already have/make these)
+1. ✅ Removed stock, yogurt, and breadcrumbs (you make these at home)
 2. ✅ Swapped spinach → kale in Meal F (Turkey Spaghetti)
 3. ✅ Removed kimchi from Meal E (contains onion)
-4. ✅ Moved items to Costco: blueberries, brami pasta, tomatoes, tomato sauce, green beans, peanut butter
+4. ✅ Moved items to Costco: eggs, sweet potato, blueberries, brami pasta, tomatoes, tomato sauce, green beans, peanut butter
 5. ✅ Moved purple potato to H-Mart (fresher produce)
-6. ✅ Added avocado (2 count) to Meal A at Costco
+6. ✅ Moved frozen peas/carrots to Safeway
+7. ✅ Added Walmart for lemon juice
+8. ✅ Added avocado (2 count) to Meal A at Costco
+9. ✅ Removed regular cheddar (kept only vegan cheddar)
 
 ### Additional Resources:
 - **`UPDATED_SHOPPING_LIST.md`** - Detailed shopping list with all changes highlighted
