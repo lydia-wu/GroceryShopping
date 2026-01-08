@@ -69,9 +69,93 @@ produce_items = ['kale', 'cucumber', 'dill', 'eggplant', 'tomato', 'carrot', 'ce
 # Manually assign based on priorities
 assignments = {}
 
+# Manual store assignments (user preferences)
+manual_costco_items = ['blueberries', 'berries', 'brami', 'pasta', 'roma tomato', 'tomato',
+                       'tomato sauce', 'tomato paste', 'green beans', 'peanut butter', 'avocado']
+manual_hmart_items = ['purple potato']
+manual_safeway_items = []
+
 for ing in ingredients_needed:
     ing_name = ing['ingredient']
     ing_lower = ing_name.lower()
+
+    # Check manual Costco assignments first
+    if any(item in ing_lower for item in manual_costco_items):
+        # Force Costco for these items
+        found = False
+        for item_key in purchase_db['Costco'].keys():
+            ing_words = ing_lower.split()
+            match_score = sum(1 for word in ing_words if word in item_key and len(word) > 2)
+            if match_score > 0:
+                purchases = purchase_db['Costco'][item_key]
+                if purchases:
+                    assignments[ing_name] = {
+                        'store': 'Costco',
+                        'price': purchases[0]['price'],
+                        'item': purchases[0]['item']
+                    }
+                    found = True
+                    break
+        if not found:
+            # Item not in history, assign to Costco anyway with $0 price
+            assignments[ing_name] = {
+                'store': 'Costco',
+                'price': 0,
+                'item': 'To be purchased at Costco (not in history)'
+            }
+        continue
+
+    # Check manual H-Mart assignments
+    if any(item in ing_lower for item in manual_hmart_items):
+        # Force H-Mart for these items
+        found = False
+        for item_key in purchase_db['H-Mart'].keys():
+            ing_words = ing_lower.split()
+            match_score = sum(1 for word in ing_words if word in item_key and len(word) > 2)
+            if match_score > 0:
+                purchases = purchase_db['H-Mart'][item_key]
+                if purchases:
+                    assignments[ing_name] = {
+                        'store': 'H-Mart',
+                        'price': purchases[0]['price'],
+                        'item': purchases[0]['item']
+                    }
+                    found = True
+                    break
+        if not found:
+            # Item not in history, assign to H-Mart anyway with $0 price
+            assignments[ing_name] = {
+                'store': 'H-Mart',
+                'price': 0,
+                'item': 'To be purchased at H-Mart (not in history)'
+            }
+        continue
+
+    # Check manual Safeway assignments
+    if any(item in ing_lower for item in manual_safeway_items):
+        # Force Safeway for these items
+        found = False
+        for item_key in purchase_db['Safeway'].keys():
+            ing_words = ing_lower.split()
+            match_score = sum(1 for word in ing_words if word in item_key and len(word) > 2)
+            if match_score > 0:
+                purchases = purchase_db['Safeway'][item_key]
+                if purchases:
+                    assignments[ing_name] = {
+                        'store': 'Safeway',
+                        'price': purchases[0]['price'],
+                        'item': purchases[0]['item']
+                    }
+                    found = True
+                    break
+        if not found:
+            # Item not in history, assign to Safeway anyway with $0 price
+            assignments[ing_name] = {
+                'store': 'Safeway',
+                'price': 0,
+                'item': 'To be purchased at Safeway (not in history)'
+            }
+        continue
 
     # Check if it's meat -> prioritize Costco
     if any(meat in ing_lower for meat in meat_items):
