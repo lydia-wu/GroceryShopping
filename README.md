@@ -128,211 +128,148 @@ These items are excluded from shopping lists because you make them yourself:
 
 ## 🛒 Shopping Lists
 
-### 🏪 COSTCO - Trip 1 (Start here!)
+---
 
-**Total: $235.31** | **Time: 30-40 minutes**
+### ✅ TRIP 1 COMPLETED (Jan 8, 2026) - $91.20 spent
 
-#### 🥩 MEATS (Priority Items)
+#### 🏪 COSTCO - $73.91
 ```
-☐ Boneless skinless chicken breast: 2 large packages (~8 lbs)
-  └─ $24.64 per package × 2 = $49.28
-  └─ Historical price: @$2.99/lb
+✓ Crumbled Feta Cheese (President)                $6.99
+  └─ For: Meals A & B
+✓ Avocados Fresh (6 count)                        $3.99
+  └─ For: Meal A
+✓ Blueberries                                     $4.89
+  └─ For: Meal D
+✓ Eggs (5 Dozen Cage Free)                        $9.39
+  └─ For: Meals A & E + extras for breakfast!
+✓ Grapefruit (6 count)                            $5.69
+  └─ For: Meal B
+✓ KS Tomato Paste                                 $9.99
+  └─ For: Meal A
+
+BONUS ITEMS:
+✓ Beef Tallow                                     $13.99 (after $4 discount)
+✓ Org Avocado Cups                                $9.99 (after $4 discount)
+✓ Bread Flour King Arthur (10 lb)                 $8.99
+  └─ For homemade sourdough
+```
+
+#### 🌏 H-MART - $17.29
+```
+✓ Curly Parsley                                   $0.99
+  └─ For: Meals A & D
+✓ Dill (@$14.99/lb)                               $3.60
+  └─ For: Meal A
+✓ Green Kale (3 bunches @$1.79/bunch)             $5.37
+  └─ For: Meals A, B, C
+✓ Chinese Eggplant (@$1.48/lb)                    $0.77
+  └─ For: Meal B
+✓ Purple Potato (@$2.49/lb)                       $2.94
+  └─ For: Meal D
+✓ Lime (@$1.00/5)                                 $0.87
+  └─ For: Meal A
+✓ Zucchini Squash (@$1.28/lb)                     $2.02
+  └─ For: Meal F
+✓ American Cucumber (@$0.58/lb)                   $0.73
+  └─ For: Meal A
+```
+
+---
+
+### 🛒 TRIP 2 NEEDED - ~$287.84 estimated
+
+#### 🏪 COSTCO - ~$266.21
+
+**🥩 MEATS (Priority - Get First!)**
+```
+☐ Chicken breast (2 packages)                     $49.28
   └─ For: Meals B & C
-  └─ Tip: Check date, use within 3 days
+  └─ Use within 3 days of purchase!
 
-☐ Ground Turkey: 2 packages (3.44 lbs total)
-  └─ $24.99 × 2 = $49.98
+☐ Ground Turkey (2 packages)                      $49.98
   └─ For: Meals D & F
+  └─ Can freeze one package
 ```
 
-#### 🍎 PRODUCE
+**🍎 PRODUCE**
 ```
-☐ Red grapes, seedless: 1 box
-  └─ $17.67 (shared across 3 meals)
-  └─ For: Meals A, C, E
+☐ Red Grapes (1 box)                              $17.67
+  └─ For: Meals A, C, E (shared)
 
-☐ Fuji apples: 4 lb bag
-  └─ $4.89
+☐ Fuji Apples (4 lb bag)                          $4.89
   └─ For: Meal F
 
-☐ Avocado: 2 count ⭐ NEW!
-  └─ $4.49
-  └─ For: Meal A (added per request)
-
-☐ Grapefruit: 6-count bag
-  └─ $5.29
-  └─ For: Meal B
-
-☐ Pomegranate arils: 4-pack containers
-  └─ $8.99
+☐ Pomegranate Arils (4-pack)                      $8.99
   └─ For: Meal C
 ```
 
-#### 🧀 DAIRY
+**🥫 PANTRY & FROZEN**
 ```
-☐ Feta cheese, crumbled: 24 oz (President brand)
-  └─ $13.98 (for both meals)
-  └─ For: Meals A & B
-```
-
-#### 🥜 NUTS
-```
-☐ Pistachios: 1 container (16 oz)
-  └─ $1.97
-  └─ For: Meal C
-```
-
-#### 🥫 PANTRY ITEMS ⭐ MOVED TO COSTCO
-```
-☐ Canned Mackerel: 3 cans
-  └─ $32.97
-  └─ For: Meals A (2 cans) & E (1 can)
-
-☐ Brami protein pasta: 2 boxes
-  └─ $10.99 × 2 = $21.98
+☐ Brami Protein Pasta (2 boxes)                   $21.98
   └─ For: Meals B & F
 
-☐ Blueberries: 9 oz
-  └─ $4.99
-  └─ For: Meal D
+☐ Canned Mackerel (3 cans)                        $32.97
+  └─ For: Meals A (2 cans) & E (1 can)
 
-☐ Tomatoes (Roma): 379g
-  └─ $5.99
-  └─ For: Meal A
-
-☐ Tomato Paste: 8 oz
-  └─ $5.99
-  └─ For: Meal A
-
-☐ Tomato Sauce: 4 cans total
-  └─ $23.96
+☐ Tomato Sauce (4 cans)                           $12.99
   └─ For: Meals D (1 can) & F (3 cans)
+  └─ Note: Tomato paste already purchased
 
-☐ Green beans (frozen): 5 lb bag
-  └─ $9.99
+☐ Green Beans Frozen (5 lb bag)                   $9.99
   └─ For: Meal F (need 1/8 bag)
 
-☐ Peanut butter
-  └─ $5.99
+☐ Peanut Butter                                   $9.49
   └─ For: Meal F
+
+☐ Riced Cauliflower (2 packages)                  $12.99
+  └─ For: Meal E (frozen section)
 ```
 
-#### 📝 ITEMS NOT IN HISTORY (Estimate Needed)
+**🧀 DAIRY & NUTS**
 ```
-☐ Parmesan cheese block: ~$8-12 estimate
-  └─ For: Meal B
-  └─ Look for Parmigiano Reggiano
-
-☐ Riced cauliflower: 2 packages, ~$13
-  └─ For: Meal E
-  └─ Check frozen section
-```
-
----
-
-### 🌏 H-MART - Trip 1 (5 min from Costco)
-
-**Total: $38.19** | **Time: 20-30 minutes**
-
-#### 🥬 FRESH PRODUCE (Priority)
-```
-☐ Chinese eggplant: 3 count
-  └─ $3.67 (@$1.78/lb)
-  └─ For: Meal B
-
-☐ Cucumber: 1 American cucumber
-  └─ $1.80
-  └─ For: Meal A
-
-☐ Whole carrots: 2 bags
-  └─ $0.98 × 2 = $1.96
-  └─ For: Meal D
-
-☐ Celery: 1 bunch
-  └─ $2.49
-  └─ For: Meal D
-
-☐ Sweet potatoes: 3 count
-  └─ $3.71 (@$2.49/lb)
+☐ Pistachios (16 oz container)                    $15.99
   └─ For: Meal C
 
-☐ Purple potatoes: 2 lb ⭐ MOVED FROM SAFEWAY
-  └─ $3.71 (@$2.49/lb)
-  └─ For: Meal D (fresher at H-Mart!)
-
-☐ Zucchini squash: ~2 lbs
-  └─ $1.98 (@$0.98/lb)
-  └─ For: Meal F
+☐ Parmesan Cheese Block                           $19.00 (estimate)
+  └─ For: Meal B
+  └─ Look for Parmigiano Reggiano
 ```
 
-#### 🌿 HERBS & CITRUS
+#### 🌏 H-MART - ~$13.49
+
 ```
-☐ Fresh dill: 0.29 lb
-  └─ $4.35 (@$14.99/lb)
-  └─ For: Meal A
-  └─ Worth it: Fresh makes the dish!
+☐ Carrots (2 bags)                                $1.96
+  └─ For: Meal D
 
-☐ Curly parsley: 1 bunch
-  └─ $1.98 (for both meals)
-  └─ For: Meals A & D
+☐ Celery (1 bunch)                                $2.49
+  └─ For: Meal D
 
-☐ Lime: 1
-  └─ $0.20
-  └─ For: Meal A
+☐ Sweet Potatoes (3 count)                        $3.71
+  └─ For: Meal C
 
-☐ Lemon: 1
-  └─ $3.79
+☐ Frozen Peas & Carrots (1 bag)                   $0.98
+  └─ For: Meal E
+
+☐ Lemon (1 count)                                 $0.58
   └─ For: Meal A
 
-☐ Lemon Juice: 0.25 bottle
-  └─ $3.79
+☐ Lemon Juice (0.25 bottle)                       $2.99
   └─ For: Meal A
-```
 
-#### 🥚 EGGS & FROZEN
-```
-☐ Eggs: 8 total
-  └─ $3.78
-  └─ For: Meals A (2) & E (6)
-
-☐ Frozen peas & carrots: 1 bag
-  └─ $0.98
+☐ Ginger                                          $0.78
   └─ For: Meal E
 ```
 
----
+#### 🛍️ SAFEWAY - ~$8.14
 
-### 🛍️ SAFEWAY - Trip 1 (10 min from H-Mart)
-
-**Total: $22.10** | **Time: 20-30 minutes**
-
-#### 🥬 PRODUCE
 ```
-☐ Kale: 4 bunches
-  └─ $3.49 × 4 = $13.96
-  └─ For: Meals A, B, C (1 bunch each) + F (1 bunch)
-  └─ Signature Kale Pre-Chopped
-```
-
-#### 🍝 GRAINS
-```
-☐ Pearl barley: 2 bags (16 oz each)
-  └─ $1.58 × 2 = $3.16
+☐ Pearl Barley (2 bags, 16 oz each)               $3.16
   └─ For: Meals C & D
-  └─ Signature Select Beans Pearl Barley Dry
-```
+  └─ Signature Select brand
 
-#### 🧀 DAIRY/VEGAN
-```
-☐ Cheddar: 0.25 cup
-  └─ $2.49
+☐ Vegan Cheddar (2 slices)                        $4.98
   └─ For: Meal D
-  └─ O Organics Vegan Mac Cheddar Style GF
-
-☐ Vegan Cheddar: 2 slices
-  └─ $2.49
-  └─ For: Meal D
-  └─ O Organics Vegan Mac Cheddar Style GF
+  └─ O Organics brand
 ```
 
 ---
@@ -421,17 +358,17 @@ You'll need **~2 loaves** over 2 weeks:
    - **Extra**: 12 oz
    - **Action**: Healthy snacking!
 
-3. **Eggs**: Buying 60, need 8
+3. **Eggs**: Already bought 60, need 8
    - **Extra**: 52 eggs
    - **Action**: Breakfast for weeks!
 
-4. **Kimchi**: Buying full container, need 1/8
-   - **Extra**: 7/8 container
-   - **Action**: Keeps for months, great with rice
-
-5. **Green Beans**: Buying full bag, need 1/8
+4. **Green Beans**: Buying full bag, need 1/8
    - **Extra**: 7/8 bag
    - **Action**: Easy side dish anytime
+
+5. **Avocados**: Already bought 6, need 2
+   - **Extra**: 4 avocados + avocado cups
+   - **Action**: Snacking and extra meals!
 
 ---
 
