@@ -23,11 +23,17 @@
 |--------|-------|
 | **Total Meals** | 6 different recipes |
 | **Total Servings** | 37 servings |
-| **Shopping Trips** | 1 major trip (4 stores) |
-| **Total Cost** | ~$273 ($7.38/serving) |
+| **Shopping Trips** | 2 trips (Trip 1 done, Trip 2 pending) |
+| **Total Cost** | ~$379 ($10.24/serving) |
 | **Timeline** | 14 days |
-| **Stores** | Costco, H-Mart, Safeway, Walmart |
-| **Last Updated** | January 8, 2026 |
+| **Stores** | Costco, H-Mart, Safeway |
+| **Last Updated** | January 9, 2026 |
+
+### Shopping Progress
+| Trip | Status | Spent/Estimate |
+|------|--------|----------------|
+| **Trip 1** | COMPLETED (Jan 8) | $91.20 |
+| **Trip 2** | UPCOMING | ~$287.84 |
 
 ### What Makes This Plan Special
 
@@ -471,15 +477,20 @@ You'll need **~2 loaves** over 2 weeks:
 
 ## 💵 Cost Breakdown
 
-### **By Store**
+### **By Store (Updated with Actual Data)**
 
-| Store | Items | Subtotal | % of Total |
-|-------|-------|----------|------------|
-| **Costco** | 25 | $235.31 | 80% |
-| **H-Mart** | 17 | $38.19 | 13% |
-| **Safeway** | 8 | $22.10 | 7% |
-| **Estimates** | 2 | $21.00 | (estimate) |
-| **TOTAL** | **52** | **$295.60** | **100%** |
+| Store | Trip 1 (Actual) | Trip 2 (Est.) | Total | % |
+|-------|-----------------|---------------|-------|---|
+| **Costco** | $73.91 | $266.21 | $340.12 | 90% |
+| **H-Mart** | $17.29 | $13.49 | $30.78 | 8% |
+| **Safeway** | $0.00 | $8.14 | $8.14 | 2% |
+| **TOTAL** | **$91.20** | **$287.84** | **$379.04** | **100%** |
+
+### Price Discoveries from Trip 1 (Jan 8, 2026)
+- **Kale at H-Mart**: $1.79/bunch (vs $3.49 at Safeway - 49% savings!)
+- **Eggs at Costco**: $9.39 for 60 eggs ($0.16/egg - excellent value)
+- **Feta at Costco**: $6.99 (vs $13.98 estimated - 50% savings!)
+- **Eggplant at H-Mart**: $0.77 (vs $3.67 estimated - 79% savings!)
 
 ---
 
@@ -527,12 +538,19 @@ You'll need **~2 loaves** over 2 weeks:
 - No items you already have (stock, yogurt, breadcrumbs)
 
 #### **💰 Cost Comparison:**
-- **This plan**: $7.99/serving (updated)
+- **This plan**: $10.24/serving (based on actual + estimated costs)
 - **Fast casual**: $12-15/meal
 - **Fine dining**: $20-30/meal
 - **Meal kit delivery**: $10-12/serving
 
-**You're saving 33-62% compared to eating out!**
+**You're saving 15-66% compared to eating out!**
+
+#### **📊 Trip 1 Results (Jan 8, 2026)**
+Already in your kitchen:
+- 60 eggs, feta, avocados, blueberries, grapefruit
+- 3 bunches kale, fresh herbs (dill, parsley)
+- Eggplant, cucumber, zucchini, purple potato, limes
+- Tomato paste, bread flour for sourdough
 
 ---
 
@@ -587,32 +605,41 @@ All costs are based on **your actual purchase history** from 2025, ensuring accu
 This plan is optimized for:
 - **Quality**: Premium meats from Costco
 - **Freshness**: Maximum produce from H-Mart
-- **Convenience**: Amazon delivery, strategic cooking order
-- **Budget**: Best prices based on your shopping history
+- **Convenience**: Strategic cooking order based on perishability
+- **Budget**: Best prices based on your actual shopping history
 - **Preference**: Zero Walmart shopping
 
-**Total Investment**: ~$296 for 37 delicious, home-cooked servings
+**Total Investment**: ~$379 for 37 delicious, home-cooked servings
 
-**That's just $7.99 per serving!** 🎊
+**That's $10.24 per serving!** (Still great value vs eating out!)
 
-Enjoy your meals! 🍽️
+### Current Status (Jan 9, 2026)
+- Trip 1 DONE: $91.20 spent (Jan 8)
+- Trip 2 NEEDED: ~$287.84 estimated
+- Fresh produce in kitchen - start cooking soon!
 
 ---
 
 ## 📝 Updates & Changes
 
-**Latest Update: January 8, 2026**
+**Latest Update: January 9, 2026**
 
-### Changes Applied:
+### January 9, 2026 - Actual Shopping Data Integration
+- Integrated actual purchase data from Jan 8, 2026 shopping trip
+- Updated all prices based on real receipts from Costco and H-Mart
+- Split shopping into Trip 1 (completed) and Trip 2 (upcoming)
+- Updated cost estimates: $379.04 total ($10.24/serving)
+- Key price discoveries: H-Mart kale 49% cheaper, Costco feta 50% cheaper
+
+### January 8, 2026 - Previous Changes
 1. ✅ Removed stock, yogurt, and breadcrumbs (you make these at home)
 2. ✅ Swapped spinach → kale in Meal F (Turkey Spaghetti)
 3. ✅ Removed kimchi from Meal E (contains onion)
 4. ✅ Moved items to Costco: eggs, sweet potato, blueberries, brami pasta, tomatoes, tomato sauce, green beans, peanut butter
 5. ✅ Moved purple potato to H-Mart (fresher produce)
 6. ✅ Moved frozen peas/carrots to Safeway
-7. ✅ Added Walmart for lemon juice
-8. ✅ Added avocado (2 count) to Meal A at Costco
-9. ✅ Removed regular cheddar (kept only vegan cheddar)
+7. ✅ Added avocado (2 count) to Meal A at Costco
+8. ✅ Removed regular cheddar (kept only vegan cheddar)
 
 ### Additional Resources:
 - **[`docs/UPDATED_SHOPPING_LIST.md`](docs/UPDATED_SHOPPING_LIST.md)** - Detailed shopping list with all changes highlighted
@@ -623,6 +650,6 @@ Enjoy your meals! 🍽️
 
 ---
 
-*Last updated: January 8, 2026*
-*Based on actual purchase history from Aurora, CO stores*
+*Last updated: January 9, 2026*
+*Based on actual purchase history from Aurora, CO stores (including Jan 8, 2026 trip)*
 *Personalized for your dietary needs and preferences*
