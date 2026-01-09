@@ -1,3 +1,5 @@
+Next session, just say:
+  "Read CLAUDE_SESSION_CONTEXT.md, then [your task]"
 # 🍽️ 2-Week Meal Plan & Grocery Shopping Guide
 
 > **Optimized grocery shopping plan for 6 delicious meals over 14 days**
@@ -45,7 +47,6 @@
 🥑 **Personalized**: No onions, kimchi, or items you can't eat
 
 ### What You Make at Home
-
 These items are excluded from shopping lists because you make them yourself:
 
 - **Sourdough Bread** - Fresh baked for meals (saves $15.32!)
