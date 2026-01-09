@@ -24,7 +24,7 @@
 | **Total Meals** | 6 different recipes |
 | **Total Servings** | 37 servings |
 | **Shopping Trips** | 2 trips (Trip 1 done, Trip 2 pending) |
-| **Total Cost** | ~$379 ($10.24/serving) |
+| **Total Cost** | ~$161 ($4.35/serving) |
 | **Timeline** | 14 days |
 | **Stores** | Costco, H-Mart, Safeway |
 | **Last Updated** | January 9, 2026 |
@@ -33,7 +33,8 @@
 | Trip | Status | Spent/Estimate |
 |------|--------|----------------|
 | **Trip 1** | COMPLETED (Jan 8) | $91.20 |
-| **Trip 2** | UPCOMING | ~$287.84 |
+| **Trip 2** | UPCOMING | ~$70.03 |
+| **Pantry** | ALREADY HAVE | ~$217.81 saved! |
 
 ### What Makes This Plan Special
 
@@ -176,20 +177,24 @@ BONUS ITEMS:
 
 ---
 
-### 🛒 TRIP 2 NEEDED - ~$287.84 estimated
+### 🛒 TRIP 2 NEEDED - ~$70.03 estimated
 
-#### 🏪 COSTCO - ~$266.21
-
-**🥩 MEATS (Priority - Get First!)**
+#### 🏠 ALREADY IN PANTRY (from 2025)
 ```
-☐ Chicken breast (2 packages)                     $49.28
-  └─ For: Meals B & C
-  └─ Use within 3 days of purchase!
-
-☐ Ground Turkey (2 packages)                      $49.98
-  └─ For: Meals D & F
-  └─ Can freeze one package
+✓ Chicken (frozen)                    - For: Meals B & C
+✓ Ground Turkey (frozen)              - For: Meals D & F
+✓ Pomegranate Arils                   - For: Meal C
+✓ Brami Protein Pasta                 - For: Meals B & F
+✓ Canned Mackerel                     - For: Meals A & E
+✓ Tomato Sauce                        - For: Meals D & F
+✓ Green Beans (frozen)                - For: Meal F
+✓ Peanut Butter                       - For: Meal F
+✓ Pistachios                          - For: Meal C
+✓ Lemon Juice                         - For: Meal A
+✓ Pearl Barley                        - For: Meals C & D
 ```
+
+#### 🏪 COSTCO - ~$54.55
 
 **🍎 PRODUCE**
 ```
@@ -198,44 +203,22 @@ BONUS ITEMS:
 
 ☐ Fuji Apples (4 lb bag)                          $4.89
   └─ For: Meal F
-
-☐ Pomegranate Arils (4-pack)                      $8.99
-  └─ For: Meal C
 ```
 
-**🥫 PANTRY & FROZEN**
+**🥫 FROZEN**
 ```
-☐ Brami Protein Pasta (2 boxes)                   $21.98
-  └─ For: Meals B & F
-
-☐ Canned Mackerel (3 cans)                        $32.97
-  └─ For: Meals A (2 cans) & E (1 can)
-
-☐ Tomato Sauce (4 cans)                           $12.99
-  └─ For: Meals D (1 can) & F (3 cans)
-  └─ Note: Tomato paste already purchased
-
-☐ Green Beans Frozen (5 lb bag)                   $9.99
-  └─ For: Meal F (need 1/8 bag)
-
-☐ Peanut Butter                                   $9.49
-  └─ For: Meal F
-
 ☐ Riced Cauliflower (2 packages)                  $12.99
   └─ For: Meal E (frozen section)
 ```
 
-**🧀 DAIRY & NUTS**
+**🧀 DAIRY**
 ```
-☐ Pistachios (16 oz container)                    $15.99
-  └─ For: Meal C
-
 ☐ Parmesan Cheese Block                           $19.00 (estimate)
   └─ For: Meal B
   └─ Look for Parmigiano Reggiano
 ```
 
-#### 🌏 H-MART - ~$13.49
+#### 🌏 H-MART - ~$10.50
 
 ```
 ☐ Carrots (2 bags)                                $1.96
@@ -253,20 +236,13 @@ BONUS ITEMS:
 ☐ Lemon (1 count)                                 $0.58
   └─ For: Meal A
 
-☐ Lemon Juice (0.25 bottle)                       $2.99
-  └─ For: Meal A
-
 ☐ Ginger                                          $0.78
   └─ For: Meal E
 ```
 
-#### 🛍️ SAFEWAY - ~$8.14
+#### 🛍️ SAFEWAY - ~$4.98
 
 ```
-☐ Pearl Barley (2 bags, 16 oz each)               $3.16
-  └─ For: Meals C & D
-  └─ Signature Select brand
-
 ☐ Vegan Cheddar (2 slices)                        $4.98
   └─ For: Meal D
   └─ O Organics brand
@@ -414,14 +390,20 @@ You'll need **~2 loaves** over 2 weeks:
 
 ## 💵 Cost Breakdown
 
-### **By Store (Updated with Actual Data)**
+### **By Store (Updated with Actual Data + Pantry Items)**
 
 | Store | Trip 1 (Actual) | Trip 2 (Est.) | Total | % |
 |-------|-----------------|---------------|-------|---|
-| **Costco** | $73.91 | $266.21 | $340.12 | 90% |
-| **H-Mart** | $17.29 | $13.49 | $30.78 | 8% |
-| **Safeway** | $0.00 | $8.14 | $8.14 | 2% |
-| **TOTAL** | **$91.20** | **$287.84** | **$379.04** | **100%** |
+| **Costco** | $73.91 | $54.55 | $128.46 | 80% |
+| **H-Mart** | $17.29 | $10.50 | $27.79 | 17% |
+| **Safeway** | $0.00 | $4.98 | $4.98 | 3% |
+| **TOTAL** | **$91.20** | **$70.03** | **$161.23** | **100%** |
+
+### Pantry Items (Already Have from 2025) - ~$217.81 saved!
+- Chicken, Ground Turkey, Pomegranate Arils
+- Brami Pasta, Canned Mackerel, Tomato Sauce
+- Green Beans, Peanut Butter, Pistachios
+- Lemon Juice, Pearl Barley
 
 ### Price Discoveries from Trip 1 (Jan 8, 2026)
 - **Kale at H-Mart**: $1.79/bunch (vs $3.49 at Safeway - 49% savings!)
@@ -475,12 +457,12 @@ You'll need **~2 loaves** over 2 weeks:
 - No items you already have (stock, yogurt, breadcrumbs)
 
 #### **💰 Cost Comparison:**
-- **This plan**: $10.24/serving (based on actual + estimated costs)
+- **This plan**: $4.35/serving (thanks to pantry items!)
 - **Fast casual**: $12-15/meal
 - **Fine dining**: $20-30/meal
 - **Meal kit delivery**: $10-12/serving
 
-**You're saving 15-66% compared to eating out!**
+**You're saving 64-85% compared to eating out!**
 
 #### **📊 Trip 1 Results (Jan 8, 2026)**
 Already in your kitchen:
@@ -546,13 +528,14 @@ This plan is optimized for:
 - **Budget**: Best prices based on your actual shopping history
 - **Preference**: Zero Walmart shopping
 
-**Total Investment**: ~$379 for 37 delicious, home-cooked servings
+**Total Investment**: ~$161 for 37 delicious, home-cooked servings
 
-**That's $10.24 per serving!** (Still great value vs eating out!)
+**That's only $4.35 per serving!** (Thanks to your well-stocked pantry!)
 
 ### Current Status (Jan 9, 2026)
 - Trip 1 DONE: $91.20 spent (Jan 8)
-- Trip 2 NEEDED: ~$287.84 estimated
+- Trip 2 NEEDED: ~$70.03 estimated
+- Pantry items: ~$217.81 worth already on hand!
 - Fresh produce in kitchen - start cooking soon!
 
 ---

@@ -13,12 +13,15 @@
 - **Total Spent**: $91.20
 
 ### Trip 2: UPCOMING (Estimated)
-- **Costco**: ~$266.21
-- **H-Mart**: ~$13.49
-- **Safeway**: ~$8.14
-- **Total Estimate**: ~$287.84
+- **Costco**: ~$54.55
+- **H-Mart**: ~$10.50
+- **Safeway**: ~$4.98
+- **Total Estimate**: ~$70.03
 
-### Grand Total (Both Trips): ~$379.04
+### Pantry Items (Already Have from 2025)
+- **Savings**: ~$217.81 worth of items already on hand!
+
+### Grand Total: ~$161.23 ($4.35/serving)
 
 ---
 
@@ -70,20 +73,27 @@ BONUS ITEMS (not on original list):
 
 ---
 
+## PANTRY ITEMS (Already Have from 2025) - ~$217.81 saved!
+
+```
+[x] Chicken (frozen)                              - For Meals B & C
+[x] Ground Turkey (frozen)                        - For Meals D & F
+[x] Pomegranate Arils                             - For Meal C
+[x] Brami Protein Pasta                           - For Meals B & F
+[x] Canned Mackerel                               - For Meals A & E
+[x] Tomato Sauce                                  - For Meals D & F
+[x] Green Beans (frozen)                          - For Meal F
+[x] Peanut Butter                                 - For Meal F
+[x] Pistachios                                    - For Meal C
+[x] Lemon Juice                                   - For Meal A
+[x] Pearl Barley                                  - For Meals C & D
+```
+
+---
+
 ## TRIP 2 NEEDED - Remaining Items
 
-### COSTCO (~$266.21 estimated)
-
-#### MEATS (Priority - Get First!)
-```
-[ ] Chicken breast (2 packages)                   $49.28
-    - For Meals B & C
-    - Use within 3 days of purchase!
-
-[ ] Ground Turkey (2 packages)                    $49.98
-    - For Meals D & F
-    - Can freeze one package
-```
+### COSTCO (~$54.55 estimated)
 
 #### PRODUCE
 ```
@@ -92,44 +102,22 @@ BONUS ITEMS (not on original list):
 
 [ ] Fuji Apples (4 lb bag)                        $4.89
     - For Meal F
-
-[ ] Pomegranate Arils (4-pack)                    $8.99
-    - For Meal C
 ```
 
-#### PANTRY & FROZEN
+#### FROZEN
 ```
-[ ] Brami Protein Pasta (2 boxes)                 $21.98
-    - For Meals B & F
-
-[ ] Canned Mackerel (3 cans)                      $32.97
-    - For Meals A (2 cans) & E (1 can)
-
-[ ] Tomato Sauce (4 cans)                         $12.99
-    - For Meals D (1 can) & F (3 cans)
-    - Note: Tomato paste already purchased
-
-[ ] Green Beans Frozen (5 lb bag)                 $9.99
-    - For Meal F (need 1/8 bag)
-
-[ ] Peanut Butter                                 $9.49
-    - For Meal F
-
 [ ] Riced Cauliflower (2 packages)                $12.99
     - For Meal E (frozen section)
 ```
 
-#### DAIRY & NUTS
+#### DAIRY
 ```
-[ ] Pistachios (16 oz container)                  $15.99
-    - For Meal C
-
 [ ] Parmesan Cheese Block                         $19.00 (estimate)
     - For Meal B
     - Look for Parmigiano Reggiano
 ```
 
-### H-MART (~$13.49 estimated)
+### H-MART (~$10.50 estimated)
 
 ```
 [ ] Carrots (2 bags)                              $1.96
@@ -147,20 +135,13 @@ BONUS ITEMS (not on original list):
 [ ] Lemon (1 count)                               $0.58
     - For Meal A
 
-[ ] Lemon Juice (0.25 bottle)                     $2.99
-    - For Meal A
-
 [ ] Ginger                                        $0.78
     - For Meal E
 ```
 
-### SAFEWAY (~$8.14 estimated)
+### SAFEWAY (~$4.98 estimated)
 
 ```
-[ ] Pearl Barley (2 bags, 16 oz each)             $3.16
-    - For Meals C & D
-    - Signature Select brand
-
 [ ] Vegan Cheddar (2 slices)                      $4.98
     - For Meal D
     - O Organics brand
@@ -214,14 +195,15 @@ Based on your Jan 8 trip, these prices have been updated:
 
 | Category | Trip 1 (Actual) | Trip 2 (Est.) | Total |
 |----------|-----------------|---------------|-------|
-| **Costco** | $73.91 | $266.21 | $340.12 |
-| **H-Mart** | $17.29 | $13.49 | $30.78 |
-| **Safeway** | $0.00 | $8.14 | $8.14 |
-| **TOTAL** | **$91.20** | **$287.84** | **$379.04** |
+| **Costco** | $73.91 | $54.55 | $128.46 |
+| **H-Mart** | $17.29 | $10.50 | $27.79 |
+| **Safeway** | $0.00 | $4.98 | $4.98 |
+| **TOTAL** | **$91.20** | **$70.03** | **$161.23** |
+| **Pantry Savings** | - | - | **$217.81** |
 
 ### Cost Per Serving
-- Total: $379.04 / 37 servings = **$10.24/serving**
-- Still great value vs eating out ($12-15/meal)
+- Total: $161.23 / 37 servings = **$4.35/serving**
+- Amazing value vs eating out ($12-15/meal) - saving 64-71%!
 
 ---
 
