@@ -1,7 +1,7 @@
 # Claude Session Context
 
 > **Read this file first to minimize token usage**
-> Last updated: January 9, 2026
+> Last updated: January 12, 2026
 
 ## Quick Start Command
 
@@ -32,15 +32,15 @@ GroceryList/
 └── docs/UPDATED_SHOPPING_LIST.md    # Detailed trip checklist
 ```
 
-## Current State (Jan 9, 2026)
+## Current State (Jan 12, 2026)
 
 ### Shopping Status
 | Trip | Status | Amount |
 |------|--------|--------|
 | Trip 1 | COMPLETED (Jan 8) | $91.20 |
-| Trip 2 | PENDING | ~$70.03 |
+| Trip 2 | PENDING | ~$84.81 |
 | Pantry | Already have | ~$217.81 saved |
-| **Total** | | **$161.23** |
+| **Total** | | **$176.01** |
 
 ### Pantry Items (from 2025, don't need to buy)
 - Chicken, Ground Turkey, Pomegranate Arils
@@ -48,8 +48,8 @@ GroceryList/
 - Green Beans, Peanut Butter, Pistachios, Lemon Juice, Pearl Barley
 
 ### Trip 2 Still Needed
-**Costco** (~$54.55): Red grapes, apples, riced cauliflower, parmesan
-**H-Mart** (~$10.50): Carrots, celery, sweet potatoes, frozen peas/carrots, lemon, ginger
+**Costco** (~$67.54): Red grapes, apples, riced cauliflower, parmesan, maple syrup
+**H-Mart** (~$12.29): Kale (1 more bunch), carrots, celery, sweet potatoes, frozen peas/carrots, lemon, ginger
 **Safeway** (~$4.98): Vegan cheddar
 
 ## Meal Codes Reference
@@ -58,7 +58,7 @@ GroceryList/
 |------|------|----------|
 | A | Mackerel Meatball | 5 |
 | B | Kale & Chicken Pasta | 6 |
-| C | Warm Chicken Grain Bowl | 6 |
+| C | Warm Chicken Grain Bowl | 8 |
 | D | Turkey Barley Soup | 8 |
 | E | Mackerel Cauliflower Fried Rice | 6 |
 | F | Turkey Spaghetti | 6 |
