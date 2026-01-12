@@ -32,7 +32,7 @@ Sourdough bread, yogurt, stock, breadcrumbs
 ## Meals (in cooking order)
 
 ### Meal B: Kale & Chicken Pasta
-**Servings:** 6 | **Shelf life:** Use chicken within 3 days | **Serve with:** Sourdough bread
+**Servings:** 6 | **Shelf life:** Use chicken within 3 days | **Serve with:** Sourdough bread, grapefruit
 
 | Ingredient | Amount |
 |------------|--------|
@@ -40,7 +40,6 @@ Sourdough bread, yogurt, stock, breadcrumbs
 | Brami protein pasta | 1 box |
 | Kale | 1 bunch |
 | Chinese eggplant | 0.6 lb |
-| Grapefruit | 2 |
 | Feta cheese | ½ cup |
 | Parmesan | ⅛ block |
 | Lemon juice | 1 cup |
@@ -65,6 +64,7 @@ Sourdough bread, yogurt, stock, breadcrumbs
 | Pearl barley | 1¾ cups |
 | Pomegranate arils | 1 cup |
 | Pistachios | 3.25 oz shelled |
+| Feta cheese | ½ cup |
 | Parsley | ½ bunch |
 | Parmesan | 3 oz |
 | Lemon juice | 1½ cups |
@@ -79,7 +79,7 @@ Sourdough bread, yogurt, stock, breadcrumbs
 ---
 
 ### Meal A: Mackerel Meatball
-**Servings:** 5 | **Shelf life:** Fresh herbs best within 5 days | **Serve with:** Sourdough bread
+**Servings:** 5 | **Shelf life:** Fresh herbs best within 5 days | **Serve with:** Sourdough bread, apples
 
 | Ingredient | Amount |
 |------------|--------|
@@ -95,7 +95,6 @@ Sourdough bread, yogurt, stock, breadcrumbs
 | Parsley | ½ bunch |
 | Lemon | 1 |
 | Lemon juice | ¼ bottle |
-| Lime | 1 |
 | Olive oil | 4 tbsp |
 | Red pepper flakes | 1 tsp |
 | Salt & pepper | to taste |
@@ -103,7 +102,7 @@ Sourdough bread, yogurt, stock, breadcrumbs
 ---
 
 ### Meal E: Mackerel Cauliflower Fried Rice
-**Servings:** 6 | **Shelf life:** Frozen items keep for months | **Serve with:** None specified
+**Servings:** 6 | **Shelf life:** Frozen items keep for months | **Serve with:** Grapes, kimchi
 
 | Ingredient | Amount |
 |------------|--------|
@@ -113,12 +112,11 @@ Sourdough bread, yogurt, stock, breadcrumbs
 | Frozen peas & carrots | 1 bag |
 | Ginger | 2 roots |
 | Garlic | 4 tbsp |
-| Grapes | ⅓ box |
 
 ---
 
 ### Meal D: Turkey Barley Soup
-**Servings:** 8 | **Shelf life:** Freezer-friendly | **Serve with:** Sourdough bread
+**Servings:** 8 | **Shelf life:** Freezer-friendly | **Serve with:** Grilled cheese (vegan cheddar + sourdough), apples, berries
 
 | Ingredient | Amount |
 |------------|--------|
@@ -127,23 +125,20 @@ Sourdough bread, yogurt, stock, breadcrumbs
 | Carrots | 2 lb |
 | Celery | 1 rib |
 | Purple potato | 2 lb |
-| Berries | 9 oz |
 | Tomato sauce | 1 can |
 | Parsley | ½ bunch |
-| Vegan cheddar | 2 slices |
 | Salt & pepper | to taste |
 
 ---
 
 ### Meal F: Turkey Spaghetti
-**Servings:** 6 | **Shelf life:** Good shelf life items | **Serve with:** Sourdough bread
+**Servings:** 6 | **Shelf life:** Good shelf life items | **Serve with:** Sourdough bread, apples
 
 | Ingredient | Amount |
 |------------|--------|
 | Ground turkey | 1.72 lb |
 | Brami protein pasta | 1 box |
 | Kale | ½ container |
-| Apples | 2 |
 | Squash | 1 |
 | Green beans | ⅛ bag |
 | Tomato sauce | 3 cans |
