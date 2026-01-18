@@ -32,11 +32,18 @@ Next session, just say:
 | Yogurt | **$0.046/oz** | 1.25 gal milk + ½ FAGE cup → 6.5 pints |
 | Breadcrumbs | **$0.23/cup** | 500g KA flour + yeast + oil + sugar + salt → 6 cups |
 
+### Production Log
+| Date | Item | Amount |
+|------|------|--------|
+| Sun 1/11 | Sourdough bread | 3 loaves |
+| Sat 1/17 | Sourdough bread | 3 loaves |
+| Sat 1/17 | Yogurt | 6.5 pints |
+
 ---
 
 ## Meals (in cooking order)
 
-### Meal B: Kale & Chicken Pasta
+### Meal B: Kale & Chicken Pasta ✓ COOKED Thu 1/8
 **Servings:** 6 | **Shelf life:** Use chicken within 3 days | **Serve with:** Sourdough bread, grapefruit, yogurt parfait (6 cups total, 1 cup/serving = $2.22)
 
 | Ingredient | Amount |
@@ -56,7 +63,7 @@ Next session, just say:
 
 ---
 
-### Meal C: Warm Chicken Grain Bowl
+### Meal C: Warm Chicken Grain Bowl ✓ COOKED Sun 1/11
 **Servings:** 8 | **Shelf life:** Barley keeps for months | **Serve with:** Sourdough bread
 
 **Cooking:** Pressure cook barley; roast potatoes at 350°F ~45 min; bake chicken with marinade ~25 min
@@ -109,21 +116,6 @@ Next session, just say:
 
 ---
 
-### Meal E: Mackerel Cauliflower Fried Rice — PLANNED Tue/Wed 1/20-21
-**Servings:** 6 | **Shelf life:** Frozen items keep for months | **Serve with:** Grapes
-
-| Ingredient | Amount | Status |
-|------------|--------|--------|
-| Canned mackerel | 1 can | ✓ have (pantry) |
-| Eggs | 6 | ✓ have |
-| Riced cauliflower | 2 packages | ✗ NEED (Costco) |
-| Frozen peas & carrots | 1 bag | ✗ NEED (H-Mart) |
-| Ginger | 2 roots | ✗ NEED (H-Mart) |
-| Garlic | 4 tbsp | ✓ have (KS minced) |
-| Grapes | ⅓ box | ✗ NEED (Costco) |
-
----
-
 ### Meal D: Turkey Barley Soup ✓ COOKED Fri 1/16
 **Servings:** 8 | **Shelf life:** Freezer-friendly | **Serve with:** See sides below
 
@@ -151,21 +143,43 @@ Next session, just say:
 
 ---
 
-### Meal F: Turkey Spaghetti ✓ COOKING Sat 1/18 (tonight)
-**Servings:** 6 | **Shelf life:** Good shelf life items | **Serve with:** Sourdough bread, apples
+### Meal F: Turkey Spaghetti ✓ COOKED Sat 1/18
+**Servings:** 6 | **Shelf life:** Good shelf life items | **Serve with:** See sides below
 
 | Ingredient | Amount |
 |------------|--------|
-| Ground turkey | 1.72 lb |
-| Brami protein pasta | 1 box |
-| Kale | ½ container |
-| Squash | 1 |
-| Green beans | ⅛ bag |
+| Ground turkey | 1 package |
 | Tomato sauce | 3 cans |
-| Peanut butter | ¼ container |
+| Brami protein pasta | 1 box |
+| Kale | 1 bunch |
 | Garlic | 4 tbsp |
 | Olive oil | 4 tbsp |
-| Spices | 15 container |
+| Italian spices | 12 tbsp |
+| Cayenne pepper + misc spices | 12 tbsp |
+
+**Sides (per 6 servings):**
+| Item | Amount | Notes |
+|------|--------|-------|
+| Apples | 3 | sliced |
+| Sourdough bread | 1 loaf | $1.63 |
+| Peanut butter | ½ cup | for apples |
+| Raw kale | ½ bunch | |
+| Cucumber tomato salad | 1 cup | from Meal A recipe |
+
+---
+
+### Meal E: Mackerel Cauliflower Fried Rice — PLANNED Tue/Wed 1/20-21
+**Servings:** 6 | **Shelf life:** Frozen items keep for months | **Serve with:** Grapes
+
+| Ingredient | Amount | Status |
+|------------|--------|--------|
+| Canned mackerel | 1 can | ✓ have (pantry) |
+| Eggs | 6 | ✓ have |
+| Riced cauliflower | 2 packages | ✗ NEED (Costco) |
+| Frozen peas & carrots | 1 bag | ✗ NEED (H-Mart) |
+| Ginger | 2 roots | ✗ NEED (H-Mart) |
+| Garlic | 4 tbsp | ✓ have (KS minced) |
+| Grapes | ⅓ box | ✗ NEED (Costco) |
 
 ---
 
@@ -279,11 +293,15 @@ Next session, just say:
 | Date | Day | Action | Status |
 |------|-----|--------|--------|
 | Jan 8 | Thu | Shop Trip 1 (Costco + H-Mart) | ✓ DONE |
+| Jan 8 | Thu | **Meal B** - Kale & Chicken Pasta | ✓ DONE |
+| Jan 11 | Sun | Baked 3 loaves sourdough | ✓ DONE |
+| Jan 11 | Sun | **Meal C** - Warm Chicken Grain Bowl | ✓ DONE |
 | Jan 14 | Tue | Shop (Safeway + Costco): milk, FAGE, tomatoes | ✓ DONE |
 | Jan 14 | Wed | **Meal A** - Mackerel Meatball | ✓ DONE |
 | Jan 15 | Wed | Shop (Sprouts): Bob's Red Mill flour | ✓ DONE |
 | Jan 16 | Fri | **Meal D** - Turkey Barley Soup | ✓ DONE |
-| Jan 18 | Sat | **Meal F** - Turkey Spaghetti | 🔄 TODAY |
+| Jan 17 | Sat | Made 3 loaves sourdough + 6.5 pints yogurt | ✓ DONE |
+| Jan 18 | Sat | **Meal F** - Turkey Spaghetti | ✓ DONE |
 | Jan 19-20 | Sun-Mon | Shop Trip 3 (see below) | ⏳ NEEDED |
 | Jan 21-22 | Tue-Wed | **Meal E** - Mackerel Cauliflower Fried Rice | ⏳ PLANNED |
 
@@ -293,9 +311,9 @@ Next session, just say:
 | 1 | B - Kale & Chicken Pasta | Need chicken, kale, eggplant, parmesan |
 | 2 | C - Warm Chicken Grain Bowl | Need chicken, kale, sweet potatoes, parmesan, maple syrup |
 | 3 | A - Mackerel Meatball | Need tomatoes, dill, herbs |
-| 4 | E - Mackerel Fried Rice | Need riced cauliflower, peas/carrots, ginger |
-| 5 | D - Turkey Barley Soup | Need turkey, vegetables |
-| 6 | F - Turkey Spaghetti | Need turkey, pasta |
+| 4 | D - Turkey Barley Soup | Need turkey, vegetables |
+| 5 | F - Turkey Spaghetti | Need turkey, pasta |
+| 6 | E - Mackerel Fried Rice | Need riced cauliflower, peas/carrots, ginger |
 
 ---
 
@@ -313,17 +331,22 @@ Next session, just say:
 ## Updates
 
 **January 18, 2026** - Major update with actual cooking data:
+- **Production log added:** 3 loaves sourdough (Sun 1/11), 3 loaves sourdough + 6.5 pints yogurt (Sat 1/17)
 - **Homemade costs calculated:**
   - Sourdough: $1.63/loaf (750g BRM whole wheat + 750g KA bread flour + 30g salt + starter)
   - Yogurt: $0.046/oz (1.25 gal milk + ½ FAGE → 6.5 pints)
   - Breadcrumbs: $0.23/cup (500g KA flour + yeast + oil + sugar + salt → 6 cups)
 - **Cooking completed:**
+  - Meal B (Kale & Chicken Pasta): Thu 1/8
+  - Meal C (Warm Chicken Grain Bowl): Sun 1/11
   - Meal A (Mackerel Meatball): Wed 1/14
   - Meal D (Turkey Barley Soup): Fri 1/16
-  - Meal F (Turkey Spaghetti): Sat 1/18 (tonight)
+  - Meal F (Turkey Spaghetti): Sat 1/18
+- **Meal order changed:** E (Fried Rice) now listed last in cooking order
 - **Meal A updated:** Added 2 cups yogurt ($0.74), 1 cup breadcrumbs ($0.23)
 - **Meal B updated:** Added yogurt parfait side (6 cups = $2.22)
 - **Meal D completely revised:** 2 pkg turkey, 1 cup barley, 3 carrots, 4 celery stalks, 2 cans tomato sauce, 3 zucchinis, Italian seasoning, chili flakes, garlic. Sides: 2 lb purple potatoes, 4 apples, grilled cheese, 8 oz yogurt
+- **Meal F completely revised:** 1 pkg turkey, 3 cans tomato sauce, 1 box pasta, 1 bunch kale, garlic, olive oil, 12 tbsp Italian spices, 12 tbsp cayenne + misc. Sides: 3 apples, 1 loaf sourdough, ½ cup peanut butter, ½ bunch raw kale, 1 cup cucumber tomato salad
 - **Meal E planned:** Tue/Wed 1/20-21, need Trip 3 shopping first
 - **Trip 3 added:** Shopping list for fried rice + cycle 2 restart
 
