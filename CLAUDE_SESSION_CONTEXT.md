@@ -1,7 +1,7 @@
 # Claude Session Context
 
 > **Read this file first to minimize token usage**
-> Last updated: January 12, 2026
+> Last updated: January 18, 2026
 
 ## Quick Start Command
 
@@ -32,25 +32,40 @@ GroceryList/
 └── docs/UPDATED_SHOPPING_LIST.md    # Detailed trip checklist
 ```
 
-## Current State (Jan 12, 2026)
+## Current State (Jan 18, 2026)
+
+### Cooking Status
+| Meal | Status | Date |
+|------|--------|------|
+| A - Mackerel Meatball | ✓ DONE | Wed 1/14 |
+| D - Turkey Barley Soup | ✓ DONE | Fri 1/16 |
+| F - Turkey Spaghetti | ✓ DONE | Sat 1/18 |
+| E - Mackerel Fried Rice | PLANNED | Tue/Wed 1/20-21 |
+| B - Kale Chicken Pasta | CYCLE 2 | TBD |
+| C - Warm Chicken Bowl | CYCLE 2 | TBD |
+
+### Homemade Staple Costs
+| Item | Cost |
+|------|------|
+| Sourdough bread | $1.63/loaf |
+| Yogurt | $0.046/oz |
+| Breadcrumbs | $0.23/cup |
 
 ### Shopping Status
 | Trip | Status | Amount |
 |------|--------|--------|
 | Trip 1 | COMPLETED (Jan 8) | $91.20 |
-| Trip 2 | PENDING | ~$84.81 |
-| Pantry | Already have | ~$217.81 saved |
-| **Total** | | **$176.01** |
+| Trip 2 | PARTIAL | milk, FAGE, tomatoes, flour done |
+| Trip 3 | NEEDED | ~$85-100 for fried rice + restart |
 
-### Pantry Items (from 2025, don't need to buy)
-- Chicken, Ground Turkey, Pomegranate Arils
-- Brami Pasta, Canned Mackerel, Tomato Sauce
-- Green Beans, Peanut Butter, Pistachios, Lemon Juice, Pearl Barley
+### Trip 3 - Immediate (for Fried Rice)
+**Costco**: Riced cauliflower ($12.99), red grapes ($17.67)
+**H-Mart**: Frozen peas/carrots ($0.98), ginger ($0.78)
 
-### Trip 2 Still Needed
-**Costco** (~$67.54): Red grapes, apples, riced cauliflower, parmesan, maple syrup
-**H-Mart** (~$12.29): Kale (1 more bunch), carrots, celery, sweet potatoes, frozen peas/carrots, lemon, ginger
-**Safeway** (~$4.98): Vegan cheddar
+### Trip 3 - Also Needed (Cycle 2 restart)
+**Costco**: Apples, parmesan, maple syrup, turkey, milk
+**H-Mart**: Kale, carrots, celery, sweet potatoes, lemon
+**Safeway**: Vegan cheddar
 
 ## Meal Codes Reference
 
@@ -86,7 +101,7 @@ GroceryList/
 - Edit: `README.md` (Shopping Lists section)
 - Edit: `docs/UPDATED_SHOPPING_LIST.md` (detailed checklist)
 
-## Key Prices (Actual from Jan 8, 2026)
+## Key Prices (Actual from Jan 2026)
 
 | Item | Store | Actual Price |
 |------|-------|--------------|
@@ -94,9 +109,15 @@ GroceryList/
 | Eggs (60) | Costco | $9.39 |
 | Feta | Costco | $6.99 |
 | Grapefruit (6) | Costco | $5.69 |
-| Tomato Paste | Costco | $9.99 |
+| Tomato Paste (12x6oz) | Costco | $9.99 |
 | Dill | H-Mart | $3.60 |
 | Eggplant | H-Mart | $0.77 |
+| Whole Milk (2 gal) | Costco | $6.69 |
+| FAGE 5.3oz | Safeway | $1.27 (after discount) |
+| KA Bread Flour (10 lb) | Costco | $8.99 |
+| BRM Whole Wheat (5 lb) | Sprouts | $9.99 |
+| Pink Salt (5 lb) | Costco | $6.59 |
+| Vine Tomatoes (4 lb) | Costco | $6.99 |
 
 ## User Preferences
 

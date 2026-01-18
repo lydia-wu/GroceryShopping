@@ -4,7 +4,7 @@ Next session, just say:
 # 2-Week Meal Plan & Grocery Guide
 
 > Location: Aurora, CO 80247 | Stores: Costco, H-Mart, Safeway
-> Last updated: January 12, 2026
+> Last updated: January 18, 2026
 
 ---
 
@@ -21,18 +21,23 @@ Next session, just say:
 | Trip | Status | Amount |
 |------|--------|--------|
 | Trip 1 | COMPLETED (Jan 8) | $91.20 |
-| Trip 2 | PENDING | ~$84.81 |
+| Trip 2 | PARTIAL - see below | ~$84.81 est |
+| Trip 3 | NEEDED for fried rice + restart | TBD |
 | Pantry | Already have | ~$217.81 saved |
 
-### Homemade Staples (not in shopping lists)
-Sourdough bread, yogurt, stock, breadcrumbs
+### Homemade Staples (calculated costs)
+| Item | Cost | Notes |
+|------|------|-------|
+| Sourdough bread | **$1.63/loaf** | 750g BRM whole wheat + 750g KA bread flour + 30g salt |
+| Yogurt | **$0.046/oz** | 1.25 gal milk + ½ FAGE cup → 6.5 pints |
+| Breadcrumbs | **$0.23/cup** | 500g KA flour + yeast + oil + sugar + salt → 6 cups |
 
 ---
 
 ## Meals (in cooking order)
 
 ### Meal B: Kale & Chicken Pasta
-**Servings:** 6 | **Shelf life:** Use chicken within 3 days | **Serve with:** Sourdough bread, grapefruit
+**Servings:** 6 | **Shelf life:** Use chicken within 3 days | **Serve with:** Sourdough bread, grapefruit, yogurt parfait (6 cups total, 1 cup/serving = $2.22)
 
 | Ingredient | Amount |
 |------------|--------|
@@ -78,60 +83,75 @@ Sourdough bread, yogurt, stock, breadcrumbs
 
 ---
 
-### Meal A: Mackerel Meatball
-**Servings:** 5 | **Shelf life:** Fresh herbs best within 5 days | **Serve with:** Sourdough bread, apples
+### Meal A: Mackerel Meatball ✓ COOKED Wed 1/14
+**Servings:** 5 | **Shelf life:** Fresh herbs best within 5 days | **Serve with:** Sourdough bread, grapes, yogurt parfait
 
-| Ingredient | Amount |
-|------------|--------|
-| Canned mackerel | 2 cans |
-| Eggs | 2 |
-| Kale | 1 bunch |
-| Cucumber | ⅔ |
-| Avocado | 2 |
-| Feta cheese | ½ cup |
-| Tomato | 379g |
-| Tomato paste | 8 oz |
-| Dill | 0.29 lb |
-| Parsley | ½ bunch |
-| Lemon | 1 |
-| Lemon juice | ¼ bottle |
-| Olive oil | 4 tbsp |
-| Red pepper flakes | 1 tsp |
-| Salt & pepper | to taste |
-
----
-
-### Meal E: Mackerel Cauliflower Fried Rice
-**Servings:** 6 | **Shelf life:** Frozen items keep for months | **Serve with:** Grapes, kimchi
-
-| Ingredient | Amount |
-|------------|--------|
-| Canned mackerel | 1 can |
-| Eggs | 6 |
-| Riced cauliflower | 2 packages |
-| Frozen peas & carrots | 1 bag |
-| Ginger | 2 roots |
-| Garlic | 4 tbsp |
+| Ingredient | Amount | Notes |
+|------------|--------|-------|
+| Canned mackerel | 2 cans | |
+| Eggs | 2 | |
+| **Homemade breadcrumbs** | 1 cup | $0.23 |
+| **Homemade yogurt** | 2 cups (16 oz) | $0.74 |
+| Kale | 1 bunch | |
+| Cucumber | ⅔ | |
+| Avocado | 2 | |
+| Feta cheese | ½ cup | |
+| Tomato | 379g | Vine tomatoes |
+| Tomato paste | 8 oz | |
+| Dill | 0.29 lb | |
+| Parsley | ½ bunch | |
+| Lemon | 1 | |
+| Lime | 1 | |
+| Lemon juice | ¼ bottle | |
+| Olive oil | 4 tbsp | |
+| Red pepper flakes | 1 tsp | |
+| Salt & pepper | to taste | |
 
 ---
 
-### Meal D: Turkey Barley Soup
-**Servings:** 8 | **Shelf life:** Freezer-friendly | **Serve with:** Grilled cheese (vegan cheddar + sourdough), apples, berries
+### Meal E: Mackerel Cauliflower Fried Rice — PLANNED Tue/Wed 1/20-21
+**Servings:** 6 | **Shelf life:** Frozen items keep for months | **Serve with:** Grapes
 
-| Ingredient | Amount |
-|------------|--------|
-| Ground turkey | 1.72 lb |
-| Pearl barley | 1 bag |
-| Carrots | 2 lb |
-| Celery | 1 rib |
-| Purple potato | 2 lb |
-| Tomato sauce | 1 can |
-| Parsley | ½ bunch |
-| Salt & pepper | to taste |
+| Ingredient | Amount | Status |
+|------------|--------|--------|
+| Canned mackerel | 1 can | ✓ have (pantry) |
+| Eggs | 6 | ✓ have |
+| Riced cauliflower | 2 packages | ✗ NEED (Costco) |
+| Frozen peas & carrots | 1 bag | ✗ NEED (H-Mart) |
+| Ginger | 2 roots | ✗ NEED (H-Mart) |
+| Garlic | 4 tbsp | ✓ have (KS minced) |
+| Grapes | ⅓ box | ✗ NEED (Costco) |
 
 ---
 
-### Meal F: Turkey Spaghetti
+### Meal D: Turkey Barley Soup ✓ COOKED Fri 1/16
+**Servings:** 8 | **Shelf life:** Freezer-friendly | **Serve with:** See sides below
+
+| Ingredient | Amount | Notes |
+|------------|--------|-------|
+| Ground turkey | 2 packages (~3.44 lb) | |
+| Pearl barley | 1 cup | |
+| Carrots | 3 | |
+| Celery | 4 stalks | |
+| Tomato sauce | 2 cans | |
+| Zucchini | 3 | |
+| Italian seasoning | 3 tbsp | |
+| Red chili flakes | 4 tbsp | |
+| Garlic (knob) | 1 large | |
+| KS minced garlic | 4 tbsp | |
+| Salt & pepper | to taste | |
+
+**Sides (per 8 servings):**
+| Item | Amount | Cost |
+|------|--------|------|
+| Roasted purple potatoes | 2 lb | $4.98 |
+| Sliced apples | 4 (½ per serving) | $1.83 |
+| Grilled cheese (vegan cheddar + sourdough) | ~1 loaf | $1.63 + cheddar |
+| Homemade yogurt | 16 tbsp (8 oz) | $0.37 |
+
+---
+
+### Meal F: Turkey Spaghetti ✓ COOKING Sat 1/18 (tonight)
 **Servings:** 6 | **Shelf life:** Good shelf life items | **Serve with:** Sourdough bread, apples
 
 | Ingredient | Amount |
@@ -195,7 +215,46 @@ Sourdough bread, yogurt, stock, breadcrumbs
 - Ginger - $0.78
 
 **Safeway - ~$4.98**
-- Vegan Cheddar (2 slices) - $4.98
+- Vegan Cheddar - $4.98
+
+---
+
+### TRIP 3 - NEEDED for Fried Rice + Cycle 2 Restart
+
+**Immediate Need (for Meal E - Fried Rice):**
+
+**Costco**
+- Riced Cauliflower (2 packages) - $12.99
+- Red Grapes (1 box) - $17.67
+
+**H-Mart**
+- Frozen Peas & Carrots (1 bag) - $0.98
+- Ginger (2 roots) - $0.78
+
+**Subtotal for Fried Rice: ~$32.42**
+
+---
+
+**Also Needed (from Trip 2 still pending + Cycle 2 restart):**
+
+**Costco**
+- Fuji Apples (4 lb bag) - $4.89
+- Parmesan Cheese Block - $19.00
+- Maple Syrup (Kirkland Organic) - $12.99
+- Ground Turkey (2+ packages) - ~$12.50
+- Whole Milk (for yogurt) - $6.69
+
+**H-Mart**
+- Kale (2-3 bunches) - $3.58-$5.37
+- Carrots - $1.96
+- Celery - $2.49
+- Sweet Potatoes (3 count) - $3.71
+- Lemon - $0.58
+
+**Safeway**
+- Vegan Cheddar - $4.98
+
+**Estimated Trip 3 Total: ~$85-100**
 
 ---
 
@@ -216,21 +275,27 @@ Sourdough bread, yogurt, stock, breadcrumbs
 
 ## Cooking Schedule
 
-### Week 1
-| Day | Date | Action |
-|-----|------|--------|
-| Thu | Jan 8 | Shop Trip 1 (Costco + H-Mart) |
-| Thu | Jan 8 | **Cook Meal B** (Kale & Chicken Pasta) |
-| Sun | Jan 11 | **Cook Meal C** (Warm Chicken Grain Bowl) |
-| Mid-week | | **Cook Meal A** (Mackerel Meatball) |
+### Cycle 1 - ACTUAL
+| Date | Day | Action | Status |
+|------|-----|--------|--------|
+| Jan 8 | Thu | Shop Trip 1 (Costco + H-Mart) | ✓ DONE |
+| Jan 14 | Tue | Shop (Safeway + Costco): milk, FAGE, tomatoes | ✓ DONE |
+| Jan 14 | Wed | **Meal A** - Mackerel Meatball | ✓ DONE |
+| Jan 15 | Wed | Shop (Sprouts): Bob's Red Mill flour | ✓ DONE |
+| Jan 16 | Fri | **Meal D** - Turkey Barley Soup | ✓ DONE |
+| Jan 18 | Sat | **Meal F** - Turkey Spaghetti | 🔄 TODAY |
+| Jan 19-20 | Sun-Mon | Shop Trip 3 (see below) | ⏳ NEEDED |
+| Jan 21-22 | Tue-Wed | **Meal E** - Mackerel Cauliflower Fried Rice | ⏳ PLANNED |
 
-### Week 2
-| Day | Action |
-|-----|--------|
-| TBD | Shop Trip 2 (Costco + H-Mart + Safeway) |
-| TBD | **Cook Meal E** (Mackerel Cauliflower Fried Rice) |
-| TBD | **Cook Meal D** (Turkey Barley Soup) |
-| TBD | **Cook Meal F** (Turkey Spaghetti) |
+### Cycle 2 - After Fried Rice
+| Order | Meal | Notes |
+|-------|------|-------|
+| 1 | B - Kale & Chicken Pasta | Need chicken, kale, eggplant, parmesan |
+| 2 | C - Warm Chicken Grain Bowl | Need chicken, kale, sweet potatoes, parmesan, maple syrup |
+| 3 | A - Mackerel Meatball | Need tomatoes, dill, herbs |
+| 4 | E - Mackerel Fried Rice | Need riced cauliflower, peas/carrots, ginger |
+| 5 | D - Turkey Barley Soup | Need turkey, vegetables |
+| 6 | F - Turkey Spaghetti | Need turkey, pasta |
 
 ---
 
@@ -246,6 +311,21 @@ Sourdough bread, yogurt, stock, breadcrumbs
 ---
 
 ## Updates
+
+**January 18, 2026** - Major update with actual cooking data:
+- **Homemade costs calculated:**
+  - Sourdough: $1.63/loaf (750g BRM whole wheat + 750g KA bread flour + 30g salt + starter)
+  - Yogurt: $0.046/oz (1.25 gal milk + ½ FAGE → 6.5 pints)
+  - Breadcrumbs: $0.23/cup (500g KA flour + yeast + oil + sugar + salt → 6 cups)
+- **Cooking completed:**
+  - Meal A (Mackerel Meatball): Wed 1/14
+  - Meal D (Turkey Barley Soup): Fri 1/16
+  - Meal F (Turkey Spaghetti): Sat 1/18 (tonight)
+- **Meal A updated:** Added 2 cups yogurt ($0.74), 1 cup breadcrumbs ($0.23)
+- **Meal B updated:** Added yogurt parfait side (6 cups = $2.22)
+- **Meal D completely revised:** 2 pkg turkey, 1 cup barley, 3 carrots, 4 celery stalks, 2 cans tomato sauce, 3 zucchinis, Italian seasoning, chili flakes, garlic. Sides: 2 lb purple potatoes, 4 apples, grilled cheese, 8 oz yogurt
+- **Meal E planned:** Tue/Wed 1/20-21, need Trip 3 shopping first
+- **Trip 3 added:** Shopping list for fried rice + cycle 2 restart
 
 **January 12, 2026** - Updated Meal C (Warm Chicken Grain Bowl):
 - Servings: 6 → 8
