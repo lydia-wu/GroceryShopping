@@ -29,7 +29,7 @@ python3 revised_no_walmart.py
 
 This generates an optimized shopping list based on:
 - Your purchase history in `MealCostCalculator.xlsx`
-- Store preferences (Costco, H-Mart, Safeway, Walmart)
+- Store preferences (Costco, H-Mart, Safeway only - no Walmart)
 - Dietary restrictions and preferences
 
 ## 📊 Data Source

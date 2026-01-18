@@ -1,10 +1,11 @@
-Next session, just say:
-  "Read CLAUDE_SESSION_CONTEXT.md, then [your task]"
-
 # 2-Week Meal Plan & Grocery Guide
 
-> Location: Aurora, CO 80247 | Stores: Costco, H-Mart, Safeway
-> Last updated: January 18, 2026
+A meal planning and cost tracking system for a 6-meal rotation with optimized shopping across Costco, H-Mart, and Safeway.
+
+> **Location:** Aurora, CO 80247 | **Stores:** Costco, H-Mart, Safeway
+> **Last updated:** January 18, 2026
+
+**For Claude sessions:** Start with "Read CLAUDE_SESSION_CONTEXT.md, then [your task]"
 
 ---
 
