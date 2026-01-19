@@ -3,7 +3,7 @@
 A meal planning and cost tracking system for a 6-meal rotation with optimized shopping across Costco, H-Mart, and Safeway.
 
 > **Location:** Aurora, CO 80247 | **Stores:** Costco, H-Mart, Safeway
-> **Last updated:** January 18, 2026
+> **Last updated:** January 19, 2026
 
 **For Claude sessions:** Start with "Read CLAUDE_SESSION_CONTEXT.md, then [your task]"
 
@@ -22,8 +22,8 @@ A meal planning and cost tracking system for a 6-meal rotation with optimized sh
 | Trip | Status | Amount |
 |------|--------|--------|
 | Trip 1 | COMPLETED (Jan 8) | $91.20 |
-| Trip 2 | PARTIAL - see below | ~$84.81 est |
-| Trip 3 | NEEDED for fried rice + restart | TBD |
+| Trip 2 | PARTIAL (Jan 14-15) | $25.56 |
+| Trip 3 | COMPLETED (Jan 19) | $149.05 |
 | Pantry | Already have | ~$217.81 saved |
 
 ### Homemade Staples (calculated costs)
@@ -170,17 +170,17 @@ A meal planning and cost tracking system for a 6-meal rotation with optimized sh
 ---
 
 ### Meal E: Mackerel Cauliflower Fried Rice — PLANNED Tue/Wed 1/20-21
-**Servings:** 6 | **Shelf life:** Frozen items keep for months | **Serve with:** Grapes
+**Servings:** 6 | **Shelf life:** Frozen items keep for months | **Serve with:** Oranges (or grapes)
 
 | Ingredient | Amount | Status |
 |------------|--------|--------|
 | Canned mackerel | 1 can | ✓ have (pantry) |
-| Eggs | 6 | ✓ have |
-| Riced cauliflower | 2 packages | ✗ NEED (Costco) |
-| Frozen peas & carrots | 1 bag | ✗ NEED (H-Mart) |
-| Ginger | 2 roots | ✗ NEED (H-Mart) |
+| Eggs | 6 | ✓ have (60 ct, $9.39) |
+| Riced cauliflower | 2 packages | ✗ STILL NEED (Costco) |
+| Frozen peas & carrots | 1 bag | ✓ have (3 bags, $2.94) |
+| Ginger | 2 roots | ✗ STILL NEED |
 | Garlic | 4 tbsp | ✓ have (KS minced) |
-| Grapes | ⅓ box | ✗ NEED (Costco) |
+| Cara Cara Oranges | 5 lb | ✓ have ($3.39)
 
 ---
 
@@ -211,65 +211,66 @@ A meal planning and cost tracking system for a 6-meal rotation with optimized sh
 
 ---
 
-### TRIP 2 - PENDING - ~$84.81
+### TRIP 2 - COMPLETED (Jan 14-15) - $25.56
 
-**Costco - ~$67.54**
-- Red Grapes (1 box) - $17.67
-- Fuji Apples (4 lb bag) - $4.89
-- Riced Cauliflower (2 packages) - $12.99
-- Parmesan Cheese Block - $19.00
-- Maple Syrup (Kirkland Organic) - $12.99
+**Costco (Jan 14) - $13.68**
+- Whole Milk (2 gal) - $6.69
+- Vine Tomatoes (4 lb) - $6.99
 
-**H-Mart - ~$12.29**
-- Kale (1 bunch) - $1.79
-- Carrots (2 bags) - $1.96
-- Celery (1 bunch) - $2.49
-- Sweet Potatoes (3 count) - $3.71
-- Frozen Peas & Carrots (1 bag) - $0.98
-- Lemon (1 count) - $0.58
-- Ginger - $0.78
+**Safeway (Jan 14) - $1.89**
+- FAGE Greek Yogurt (5.3 oz cup) - $1.89 (with -$0.62 discount = $1.27)
 
-**Safeway - ~$4.98**
-- Vegan Cheddar - $4.98
+**Sprouts (Jan 15) - $9.99**
+- Bob's Red Mill Organic Stone-Ground Whole Wheat Flour (5 lb) - $9.99
 
 ---
 
-### TRIP 3 - NEEDED for Fried Rice + Cycle 2 Restart
+### TRIP 3 - COMPLETED (Jan 19) - $149.05
 
-**Immediate Need (for Meal E - Fried Rice):**
+**Costco - $84.68**
+- KS 5 Dozen Eggs (60 ct) - $9.39
+- KS Triple Berry Frozen Blend (4 lb) - $11.99
+- KS Fresh Chicken Fryer Thighs (11.7 lb @ $1.79/lb) - $20.94
+- Ground Turkey (4 pkg, 5.6 lb) - $25.99
+- Organic Squash (3.5 lb) - $7.99
+- Sweet Potatoes (5 lb) - $4.99
+- Cara Cara Oranges (5 lb) - $4.89 (-$1.50 discount = $3.39)
 
-**Costco**
-- Riced Cauliflower (2 packages) - $12.99
-- Red Grapes (1 box) - $17.67
+**Walmart - $33.97**
+- Fresh Purple Eggplant - $2.45
+- Organic Bagged Green Kale (1 lb) - $4.76
+- Great Value Peas & Carrots (3 x 12 oz) - $2.94
+- Tabasco Chipotle Pepper Sauce (5 oz) - $3.56
+- Terrasoul Organic Cacao Powder (1 lb) - $17.99
+- CO Retail Delivery Fee - $0.28
+- Taxes - $1.99
 
-**H-Mart**
-- Frozen Peas & Carrots (1 bag) - $0.98
-- Ginger (2 roots) - $0.78
-
-**Subtotal for Fried Rice: ~$32.42**
+**Grains from the Plains - Sunflower Acres - $30.40** *(for sourdough flour)*
+- Scout 66 Heirloom Hard Red Winter Wheat Berries (4 lb @ $1.40/lb) - $5.60
+- Turkey Red Heirloom Hard Winter Wheat Berries (4 lb @ $1.40/lb) - $5.60
+- Rustic Red Hard Red Winter Wheat Berries (4 lb @ $0.75/lb) - $3.00
+- Windy White Hard White Winter Wheat Berries (4 lb @ $0.75/lb) - $3.00
+- Stone Milled Fee (16 lb) - $3.20
+- Shipping, Tax, Fees - $10.00
 
 ---
 
-**Also Needed (from Trip 2 still pending + Cycle 2 restart):**
+### TRIP 4 - STILL NEEDED for Fried Rice + Cycle 2
 
-**Costco**
-- Fuji Apples (4 lb bag) - $4.89
-- Parmesan Cheese Block - $19.00
-- Maple Syrup (Kirkland Organic) - $12.99
-- Ground Turkey (2+ packages) - ~$12.50
-- Whole Milk (for yogurt) - $6.69
+**For Meal E (Fried Rice):**
+- Riced Cauliflower (2 packages) - ~$12.99 (Costco)
+- Ginger (2 roots) - ~$0.78
 
-**H-Mart**
-- Kale (2-3 bunches) - $3.58-$5.37
-- Carrots - $1.96
-- Celery - $2.49
-- Sweet Potatoes (3 count) - $3.71
-- Lemon - $0.58
+**For Cycle 2:**
+- Parmesan Cheese Block - $19.00 (Costco)
+- Maple Syrup (Kirkland Organic) - $12.99 (Costco)
+- Red Grapes (1 box) - $17.67 (Costco)
+- Carrots - $1.96 (H-Mart)
+- Celery - $2.49 (H-Mart)
+- Lemon - $0.58 (H-Mart)
+- Vegan Cheddar - $4.98 (Safeway)
 
-**Safeway**
-- Vegan Cheddar - $4.98
-
-**Estimated Trip 3 Total: ~$85-100**
+**Estimated Trip 4 Total: ~$73
 
 ---
 
@@ -303,8 +304,9 @@ A meal planning and cost tracking system for a 6-meal rotation with optimized sh
 | Jan 16 | Fri | **Meal D** - Turkey Barley Soup | ✓ DONE |
 | Jan 17 | Sat | Made 3 loaves sourdough + 6.5 pints yogurt | ✓ DONE |
 | Jan 18 | Sat | **Meal F** - Turkey Spaghetti | ✓ DONE |
-| Jan 19-20 | Sun-Mon | Shop Trip 3 (see below) | ⏳ NEEDED |
-| Jan 21-22 | Tue-Wed | **Meal E** - Mackerel Cauliflower Fried Rice | ⏳ PLANNED |
+| Jan 19 | Sun | Shop Trip 3 (Costco, Walmart, Grains from Plains) | ✓ DONE |
+| Jan 20+ | Mon+ | Shop Trip 4 (riced cauliflower, ginger) | ⏳ NEEDED |
+| TBD | TBD | **Meal E** - Mackerel Cauliflower Fried Rice | ⏳ PLANNED |
 
 ### Cycle 2 - After Fried Rice
 | Order | Meal | Notes |
@@ -320,16 +322,27 @@ A meal planning and cost tracking system for a 6-meal rotation with optimized sh
 
 ## Cost Summary
 
-| Store | Trip 1 | Trip 2 | Total |
-|-------|--------|--------|-------|
-| Costco | $73.91 | $67.54 | $141.45 |
-| H-Mart | $17.29 | $12.29 | $29.58 |
-| Safeway | $0.00 | $4.98 | $4.98 |
-| **Total** | **$91.20** | **$84.81** | **$176.01** |
+| Store | Trip 1 | Trip 2 | Trip 3 | Total |
+|-------|--------|--------|--------|-------|
+| Costco | $73.91 | $13.68 | $84.68 | $172.27 |
+| H-Mart | $17.29 | - | - | $17.29 |
+| Safeway | - | $1.27 | - | $1.27 |
+| Sprouts | - | $9.99 | - | $9.99 |
+| Walmart | - | - | $33.97 | $33.97 |
+| Grains from Plains | - | - | $30.40 | $30.40 |
+| **Total** | **$91.20** | **$24.94** | **$149.05** | **$265.19** |
 
 ---
 
 ## Updates
+
+**January 19, 2026** - Trip 3 completed:
+- **Trip 3 shopping:** Costco ($84.68), Walmart ($33.97), Grains from the Plains ($30.40) = $149.05 total
+- **Costco purchases:** Eggs, frozen berries, chicken thighs, ground turkey (4 pkg), squash, sweet potatoes, Cara Cara oranges
+- **Walmart purchases:** Eggplant, bagged kale, peas & carrots (3 bags), chipotle sauce, cacao powder
+- **Grains from the Plains:** 16 lb wheat berries (4 varieties) + stone milling for sourdough flour
+- **Meal E status:** Still need riced cauliflower and ginger before cooking
+- **New Trip 4 added:** Items still needed for fried rice + Cycle 2
 
 **January 18, 2026** - Major update with actual cooking data:
 - **Production log added:** 3 loaves sourdough (Sun 1/11), 3 loaves sourdough + 6.5 pints yogurt (Sat 1/17)
