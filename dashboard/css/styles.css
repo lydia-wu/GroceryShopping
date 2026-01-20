@@ -1,0 +1,1291 @@
+/* ==========================================================================
+   Meal Dashboard - Warm Earth Tones Theme
+   ========================================================================== */
+
+/* CSS Variables - Design System */
+:root {
+    /* Primary Colors - Warm Earth Tones */
+    --color-cream: #FDF6E3;
+    --color-cream-dark: #F5ECD7;
+    --color-brown: #5D4037;
+    --color-brown-light: #795548;
+    --color-brown-dark: #3E2723;
+    --color-terracotta: #C2703C;
+    --color-terracotta-light: #D4845A;
+    --color-terracotta-dark: #A0522D;
+    --color-sage: #7C9473;
+    --color-sage-light: #9AB094;
+    --color-sage-dark: #5C7454;
+
+    /* Accent Colors */
+    --color-gold: #D4A574;
+    --color-rust: #B7472A;
+    --color-olive: #708238;
+
+    /* Semantic Colors */
+    --color-success: #6B8E23;
+    --color-warning: #DAA520;
+    --color-error: #CD5C5C;
+    --color-info: #5F9EA0;
+
+    /* Neutral Colors */
+    --color-white: #FFFFFF;
+    --color-gray-100: #F7F4EF;
+    --color-gray-200: #E8E4DD;
+    --color-gray-300: #D4CFC5;
+    --color-gray-400: #A39E93;
+    --color-gray-500: #706B61;
+    --color-gray-600: #524E46;
+    --color-gray-700: #3D3A34;
+    --color-gray-800: #2A2825;
+    --color-black: #1A1917;
+
+    /* Badge Colors */
+    --color-seasonal: #6B8E23;
+    --color-local: #4682B4;
+
+    /* Typography */
+    --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 1.875rem;
+    --font-size-4xl: 2.25rem;
+
+    /* Spacing */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-10: 2.5rem;
+    --space-12: 3rem;
+    --space-16: 4rem;
+
+    /* Border Radius */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-full: 9999px;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(93, 64, 55, 0.05);
+    --shadow-md: 0 4px 6px rgba(93, 64, 55, 0.07), 0 2px 4px rgba(93, 64, 55, 0.06);
+    --shadow-lg: 0 10px 15px rgba(93, 64, 55, 0.1), 0 4px 6px rgba(93, 64, 55, 0.05);
+    --shadow-xl: 0 20px 25px rgba(93, 64, 55, 0.1), 0 10px 10px rgba(93, 64, 55, 0.04);
+
+    /* Transitions */
+    --transition-fast: 0.15s ease;
+    --transition-base: 0.2s ease;
+    --transition-slow: 0.3s ease;
+
+    /* Z-index layers */
+    --z-dropdown: 100;
+    --z-sticky: 200;
+    --z-modal-backdrop: 300;
+    --z-modal: 400;
+    --z-toast: 500;
+}
+
+/* ==========================================================================
+   Base Styles
+   ========================================================================== */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    line-height: 1.6;
+    color: var(--color-brown-dark);
+    background-color: var(--color-cream);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0 0 var(--space-4);
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--color-brown-dark);
+}
+
+h1 { font-size: var(--font-size-4xl); }
+h2 { font-size: var(--font-size-3xl); }
+h3 { font-size: var(--font-size-2xl); }
+h4 { font-size: var(--font-size-xl); }
+h5 { font-size: var(--font-size-lg); }
+h6 { font-size: var(--font-size-base); }
+
+p {
+    margin: 0 0 var(--space-4);
+}
+
+a {
+    color: var(--color-terracotta);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+a:hover {
+    color: var(--color-terracotta-dark);
+}
+
+/* ==========================================================================
+   Layout
+   ========================================================================== */
+
+.container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--space-4);
+}
+
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+.header {
+    background: linear-gradient(135deg, var(--color-brown) 0%, var(--color-brown-light) 100%);
+    color: var(--color-cream);
+    padding: var(--space-4) 0;
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+    box-shadow: var(--shadow-md);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+}
+
+.header-title {
+    margin: 0;
+    font-size: var(--font-size-2xl);
+    color: var(--color-cream);
+}
+
+.header-subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--color-cream-dark);
+    opacity: 0.8;
+}
+
+.header-version {
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-300);
+    opacity: 0.7;
+}
+
+.header-actions {
+    display: flex;
+    gap: var(--space-3);
+    align-items: center;
+}
+
+/* ==========================================================================
+   Navigation
+   ========================================================================== */
+
+.nav {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+}
+
+.nav-btn {
+    padding: var(--space-2) var(--space-4);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-md);
+    color: var(--color-cream);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.nav-btn.active {
+    background: var(--color-terracotta);
+    border-color: var(--color-terracotta);
+}
+
+/* ==========================================================================
+   Main Content
+   ========================================================================== */
+
+.main-content {
+    flex: 1;
+    padding: var(--space-6) 0;
+}
+
+.section {
+    margin-bottom: var(--space-8);
+}
+
+.section-title {
+    font-size: var(--font-size-xl);
+    color: var(--color-brown);
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-2);
+    border-bottom: 2px solid var(--color-terracotta);
+}
+
+/* ==========================================================================
+   Hero Section - Next Meal
+   ========================================================================== */
+
+.hero {
+    background: linear-gradient(135deg, var(--color-cream-dark) 0%, var(--color-white) 100%);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    margin-bottom: var(--space-6);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-gray-200);
+}
+
+.hero-date {
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-2);
+}
+
+.hero-title {
+    font-size: var(--font-size-3xl);
+    color: var(--color-brown-dark);
+    margin-bottom: var(--space-2);
+}
+
+.hero-subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--color-terracotta);
+    margin-bottom: var(--space-4);
+}
+
+.hero-meta {
+    display: flex;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+    color: var(--color-gray-600);
+    font-size: var(--font-size-sm);
+}
+
+.hero-meta-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+/* ==========================================================================
+   Rotation Timeline
+   ========================================================================== */
+
+.rotation-timeline {
+    display: flex;
+    gap: var(--space-3);
+    overflow-x: auto;
+    padding: var(--space-4) 0;
+    -webkit-overflow-scrolling: touch;
+}
+
+.rotation-item {
+    flex: 0 0 auto;
+    min-width: 100px;
+    padding: var(--space-3);
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    border: 2px solid var(--color-gray-200);
+    transition: all var(--transition-base);
+}
+
+.rotation-item:hover {
+    border-color: var(--color-terracotta-light);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.rotation-item.completed {
+    background: var(--color-sage-light);
+    border-color: var(--color-sage);
+}
+
+.rotation-item.next {
+    background: var(--color-terracotta);
+    border-color: var(--color-terracotta-dark);
+    color: var(--color-white);
+}
+
+.rotation-item.next .rotation-date {
+    color: var(--color-cream);
+}
+
+.rotation-code {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    margin-bottom: var(--space-1);
+}
+
+.rotation-date {
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-500);
+}
+
+.rotation-status {
+    font-size: var(--font-size-xs);
+    margin-top: var(--space-1);
+}
+
+/* ==========================================================================
+   Meal Cards Grid
+   ========================================================================== */
+
+.meals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-6);
+}
+
+/* ==========================================================================
+   Meal Card
+   ========================================================================== */
+
+.meal-card {
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    transition: all var(--transition-base);
+    border: 1px solid var(--color-gray-200);
+}
+
+.meal-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+.meal-card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: linear-gradient(135deg, var(--color-brown) 0%, var(--color-brown-light) 100%);
+    color: var(--color-cream);
+}
+
+.meal-code {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--color-terracotta);
+    border-radius: var(--radius-full);
+    font-weight: 700;
+    font-size: var(--font-size-lg);
+}
+
+.meal-name {
+    flex: 1;
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+}
+
+.meal-card-body {
+    padding: var(--space-4);
+}
+
+.meal-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-600);
+}
+
+.meal-meta-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+}
+
+.meal-tags {
+    display: flex;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+}
+
+.meal-dates {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-3);
+    background: var(--color-gray-100);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-4);
+    font-size: var(--font-size-sm);
+}
+
+.meal-date-label {
+    color: var(--color-gray-500);
+}
+
+.meal-date-value {
+    font-weight: 600;
+    color: var(--color-brown);
+}
+
+.meal-card-actions {
+    display: flex;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-gray-100);
+    border-top: 1px solid var(--color-gray-200);
+}
+
+/* ==========================================================================
+   Badges
+   ========================================================================== */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-2);
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    border-radius: var(--radius-full);
+}
+
+.badge-seasonal {
+    background: rgba(107, 142, 35, 0.15);
+    color: var(--color-seasonal);
+}
+
+.badge-local {
+    background: rgba(70, 130, 180, 0.15);
+    color: var(--color-local);
+}
+
+.badge-warning {
+    background: rgba(218, 165, 32, 0.15);
+    color: var(--color-warning);
+}
+
+.badge-count {
+    background: var(--color-gray-200);
+    color: var(--color-gray-600);
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    border-radius: var(--radius-md);
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    min-height: 44px; /* Touch target */
+}
+
+.btn-primary {
+    background: var(--color-terracotta);
+    color: var(--color-white);
+}
+
+.btn-primary:hover {
+    background: var(--color-terracotta-dark);
+}
+
+.btn-secondary {
+    background: var(--color-gray-200);
+    color: var(--color-brown);
+}
+
+.btn-secondary:hover {
+    background: var(--color-gray-300);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--color-gray-300);
+    color: var(--color-brown);
+}
+
+.btn-outline:hover {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-400);
+}
+
+.btn-sm {
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--font-size-xs);
+    min-height: 32px;
+}
+
+.btn-icon {
+    padding: var(--space-2);
+    min-width: 44px;
+}
+
+/* ==========================================================================
+   Charts Section
+   ========================================================================== */
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: var(--space-6);
+}
+
+.chart-card {
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    padding: var(--space-4);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-gray-200);
+}
+
+.chart-title {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--color-brown);
+    margin-bottom: var(--space-4);
+}
+
+.chart-container {
+    position: relative;
+    height: 300px;
+}
+
+/* ==========================================================================
+   Modal
+   ========================================================================== */
+
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 25, 23, 0.5);
+    z-index: var(--z-modal-backdrop);
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-base);
+}
+
+.modal-backdrop.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.95);
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    z-index: var(--z-modal);
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-base);
+}
+
+.modal.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-4) var(--space-6);
+    background: var(--color-gray-100);
+    border-bottom: 1px solid var(--color-gray-200);
+}
+
+.modal-title {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--color-brown-dark);
+    margin: 0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: var(--font-size-xl);
+    cursor: pointer;
+    color: var(--color-gray-500);
+    padding: var(--space-2);
+    transition: color var(--transition-fast);
+}
+
+.modal-close:hover {
+    color: var(--color-brown);
+}
+
+.modal-body {
+    padding: var(--space-6);
+    overflow-y: auto;
+    max-height: calc(90vh - 140px);
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-6);
+    background: var(--color-gray-100);
+    border-top: 1px solid var(--color-gray-200);
+}
+
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+
+.form-group {
+    margin-bottom: var(--space-4);
+}
+
+.form-label {
+    display: block;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--color-brown);
+    margin-bottom: var(--space-2);
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+    width: 100%;
+    padding: var(--space-3);
+    font-size: var(--font-size-base);
+    border: 1px solid var(--color-gray-300);
+    border-radius: var(--radius-md);
+    background: var(--color-white);
+    color: var(--color-brown-dark);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--color-terracotta);
+    box-shadow: 0 0 0 3px rgba(194, 112, 60, 0.15);
+}
+
+.form-textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* ==========================================================================
+   Nutrition Display
+   ========================================================================== */
+
+.nutrition-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+.nutrition-item {
+    text-align: center;
+    padding: var(--space-3);
+    background: var(--color-gray-100);
+    border-radius: var(--radius-md);
+}
+
+.nutrition-value {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--color-terracotta);
+}
+
+.nutrition-label {
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-600);
+}
+
+.nutrition-bar {
+    height: 8px;
+    background: var(--color-gray-200);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin-top: var(--space-2);
+}
+
+.nutrition-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-sage) 0%, var(--color-terracotta) 100%);
+    border-radius: var(--radius-full);
+    transition: width var(--transition-slow);
+}
+
+.nutrition-section {
+    margin-bottom: var(--space-6);
+}
+
+.nutrition-section-title {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--color-brown);
+    margin-bottom: var(--space-3);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-gray-200);
+}
+
+.nutrition-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-2) 0;
+}
+
+.nutrition-row-name {
+    color: var(--color-gray-600);
+}
+
+.nutrition-row-value {
+    font-weight: 500;
+    color: var(--color-brown);
+}
+
+.nutrition-row-dv {
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-500);
+    margin-left: var(--space-2);
+}
+
+/* ==========================================================================
+   What's Fresh Section
+   ========================================================================== */
+
+.fresh-section {
+    background: linear-gradient(135deg, var(--color-sage-light) 0%, var(--color-cream) 100%);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    margin-top: var(--space-8);
+    border: 1px solid var(--color-sage);
+}
+
+.fresh-title {
+    font-size: var(--font-size-xl);
+    color: var(--color-sage-dark);
+    margin-bottom: var(--space-4);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.fresh-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+}
+
+.fresh-column h4 {
+    font-size: var(--font-size-base);
+    color: var(--color-brown);
+    margin-bottom: var(--space-3);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-sage);
+}
+
+.fresh-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.fresh-item {
+    padding: var(--space-2) 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-brown);
+}
+
+.fresh-item .badge-local {
+    margin-left: auto;
+}
+
+/* ==========================================================================
+   Ingredients List
+   ========================================================================== */
+
+.ingredients-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ingredient-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--color-gray-100);
+}
+
+.ingredient-item:last-child {
+    border-bottom: none;
+}
+
+.ingredient-name {
+    flex: 1;
+}
+
+.ingredient-quantity {
+    color: var(--color-gray-500);
+    font-size: var(--font-size-sm);
+}
+
+.ingredient-warning {
+    color: var(--color-warning);
+    cursor: help;
+}
+
+/* ==========================================================================
+   Shopping List
+   ========================================================================== */
+
+.shopping-list {
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    box-shadow: var(--shadow-md);
+}
+
+.store-section {
+    margin-bottom: var(--space-6);
+}
+
+.store-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-3);
+    background: var(--color-brown);
+    color: var(--color-cream);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-3);
+}
+
+.store-name {
+    font-weight: 600;
+}
+
+.store-total {
+    font-size: var(--font-size-sm);
+}
+
+.shopping-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    border-bottom: 1px solid var(--color-gray-100);
+}
+
+.shopping-item:hover {
+    background: var(--color-gray-100);
+}
+
+.shopping-checkbox {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--color-terracotta);
+}
+
+/* ==========================================================================
+   Staples Tracker
+   ========================================================================== */
+
+.staples-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-4);
+}
+
+.staple-card {
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--color-gray-200);
+}
+
+.staple-icon {
+    font-size: var(--font-size-3xl);
+    margin-bottom: var(--space-2);
+}
+
+.staple-name {
+    font-weight: 600;
+    color: var(--color-brown);
+    margin-bottom: var(--space-2);
+}
+
+.staple-info {
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-600);
+}
+
+.staple-date {
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-500);
+    margin-top: var(--space-2);
+}
+
+/* ==========================================================================
+   Loading States
+   ========================================================================== */
+
+.loading-skeleton {
+    background: linear-gradient(90deg,
+        var(--color-gray-200) 0%,
+        var(--color-gray-100) 50%,
+        var(--color-gray-200) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: var(--radius-md);
+}
+
+@keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.skeleton-text {
+    height: 1em;
+    margin-bottom: var(--space-2);
+}
+
+.skeleton-card {
+    height: 200px;
+}
+
+/* ==========================================================================
+   Toast Notifications
+   ========================================================================== */
+
+.toast-container {
+    position: fixed;
+    bottom: var(--space-6);
+    right: var(--space-6);
+    z-index: var(--z-toast);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.toast {
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-width: 300px;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.toast-success {
+    border-left: 4px solid var(--color-success);
+}
+
+.toast-error {
+    border-left: 4px solid var(--color-error);
+}
+
+.toast-warning {
+    border-left: 4px solid var(--color-warning);
+}
+
+/* ==========================================================================
+   Empty States
+   ========================================================================== */
+
+.empty-state {
+    text-align: center;
+    padding: var(--space-12);
+    color: var(--color-gray-500);
+}
+
+.empty-state-icon {
+    font-size: 4rem;
+    margin-bottom: var(--space-4);
+    opacity: 0.5;
+}
+
+.empty-state-title {
+    font-size: var(--font-size-xl);
+    color: var(--color-gray-600);
+    margin-bottom: var(--space-2);
+}
+
+.empty-state-text {
+    font-size: var(--font-size-base);
+    margin-bottom: var(--space-4);
+}
+
+/* ==========================================================================
+   Mobile Bottom Sheet Modal
+   ========================================================================== */
+
+@media (max-width: 480px) {
+    .modal {
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        transform: translateY(100%);
+        border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+        width: 100%;
+        max-width: none;
+        max-height: 85vh;
+    }
+
+    .modal.active {
+        transform: translateY(0);
+    }
+
+    .modal-header {
+        padding: var(--space-3) var(--space-4);
+    }
+
+    .modal-header::before {
+        content: '';
+        position: absolute;
+        top: var(--space-2);
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 4px;
+        background: var(--color-gray-300);
+        border-radius: var(--radius-full);
+    }
+
+    .modal-body {
+        padding: var(--space-4);
+    }
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+
+/* Tablet */
+@media (max-width: 768px) {
+    :root {
+        --font-size-4xl: 1.875rem;
+        --font-size-3xl: 1.5rem;
+        --font-size-2xl: 1.25rem;
+    }
+
+    .container {
+        padding: 0 var(--space-3);
+    }
+
+    .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .meals-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .chart-card {
+        padding: var(--space-3);
+    }
+
+    .chart-container {
+        height: 250px;
+    }
+
+    .fresh-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    :root {
+        --font-size-4xl: 1.5rem;
+        --font-size-3xl: 1.25rem;
+        --font-size-2xl: 1.125rem;
+    }
+
+    .header {
+        padding: var(--space-3) 0;
+    }
+
+    .header-title {
+        font-size: var(--font-size-xl);
+    }
+
+    .nav {
+        width: 100%;
+    }
+
+    .nav-btn {
+        flex: 1;
+        text-align: center;
+    }
+
+    .hero {
+        padding: var(--space-4);
+    }
+
+    .hero-title {
+        font-size: var(--font-size-xl);
+    }
+
+    .hero-meta {
+        flex-direction: column;
+        gap: var(--space-2);
+    }
+
+    .meals-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+    }
+
+    .meal-card-header {
+        padding: var(--space-3);
+    }
+
+    .meal-card-body {
+        padding: var(--space-3);
+    }
+
+    .nutrition-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .rotation-timeline {
+        gap: var(--space-2);
+    }
+
+    .rotation-item {
+        min-width: 80px;
+        padding: var(--space-2);
+    }
+
+    .toast-container {
+        left: var(--space-3);
+        right: var(--space-3);
+        bottom: calc(var(--space-6) + env(safe-area-inset-bottom, 0));
+    }
+
+    .toast {
+        min-width: auto;
+    }
+}
+
+/* Safe area for iOS */
+@supports (padding: env(safe-area-inset-bottom)) {
+    .modal-footer {
+        padding-bottom: calc(var(--space-4) + env(safe-area-inset-bottom));
+    }
+}
+
+/* Smooth scroll with momentum for iOS */
+.rotation-timeline,
+.modal-body {
+    -webkit-overflow-scrolling: touch;
+}
+
+/* ==========================================================================
+   Utility Classes
+   ========================================================================== */
+
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-muted { color: var(--color-gray-500); }
+.text-small { font-size: var(--font-size-sm); }
+
+.mt-4 { margin-top: var(--space-4); }
+.mb-4 { margin-bottom: var(--space-4); }
+.my-4 { margin-top: var(--space-4); margin-bottom: var(--space-4); }
+
+.hidden { display: none !important; }
+.visible { display: block; }
+
+.flex { display: flex; }
+.flex-wrap { flex-wrap: wrap; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap-2 { gap: var(--space-2); }
+.gap-4 { gap: var(--space-4); }
