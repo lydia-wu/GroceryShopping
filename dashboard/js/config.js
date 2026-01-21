@@ -23,7 +23,7 @@ const CONFIG = {
         servingsPerDay: 2
     },
 
-    // Meal definitions (will be updated from Google Sheets)
+    // Meal definitions with actual ingredients
     meals: {
         'A': {
             code: 'A',
@@ -31,9 +31,25 @@ const CONFIG = {
             servings: 5,
             prepTime: 30,
             cookTime: 25,
-            ingredients: [],
-            instructions: '',
-            sides: ['Kale salad', 'Sourdough bread']
+            ingredients: [
+                { name: 'mackerel', grams: 340, display: '2 cans canned mackerel' },
+                { name: 'egg', grams: 100, display: '2 eggs' },
+                { name: 'breadcrumbs', grams: 60, display: '1 cup homemade breadcrumbs' },
+                { name: 'yogurt', grams: 480, display: '2 cups homemade yogurt' },
+                { name: 'kale', grams: 150, display: '1 bunch kale' },
+                { name: 'cucumber', grams: 200, display: '⅔ cucumber' },
+                { name: 'avocado', grams: 300, display: '2 avocados' },
+                { name: 'feta', grams: 75, display: '½ cup feta cheese' },
+                { name: 'tomato', grams: 379, display: '379g vine tomatoes' },
+                { name: 'tomato paste', grams: 227, display: '8 oz tomato paste' },
+                { name: 'dill', grams: 130, display: '0.29 lb fresh dill' },
+                { name: 'parsley', grams: 30, display: '½ bunch parsley' },
+                { name: 'lemon', grams: 60, display: '1 lemon' },
+                { name: 'lime', grams: 50, display: '1 lime' },
+                { name: 'olive oil', grams: 54, display: '4 tbsp olive oil' }
+            ],
+            instructions: 'Mix mackerel with eggs and breadcrumbs, form into balls. Bake at 400°F for 20-25 min. Serve with yogurt sauce and kale cucumber salad.',
+            sides: ['Sourdough bread', 'Grapes', 'Yogurt parfait']
         },
         'B': {
             code: 'B',
@@ -41,19 +57,49 @@ const CONFIG = {
             servings: 6,
             prepTime: 20,
             cookTime: 30,
-            ingredients: [],
-            instructions: '',
-            sides: ['Grapefruit']
+            ingredients: [
+                { name: 'chicken breast', grams: 680, display: '2 packages chicken breast' },
+                { name: 'pasta', grams: 340, display: '1 box Brami protein pasta' },
+                { name: 'kale', grams: 150, display: '1 bunch kale' },
+                { name: 'eggplant', grams: 270, display: '0.6 lb Chinese eggplant' },
+                { name: 'feta', grams: 75, display: '½ cup feta cheese' },
+                { name: 'parmesan', grams: 30, display: '⅛ block parmesan' },
+                { name: 'lemon juice', grams: 240, display: '1 cup lemon juice' },
+                { name: 'honey', grams: 170, display: '½ cup honey' },
+                { name: 'olive oil', grams: 54, display: '4 tbsp olive oil' },
+                { name: 'garlic', grams: 30, display: '2 tbsp minced garlic' },
+                { name: 'thyme', grams: 8, display: '4 tsp dried thyme' },
+                { name: 'oregano', grams: 8, display: '4 tsp dried oregano' }
+            ],
+            instructions: 'Cook pasta. Sauté chicken with garlic, thyme, oregano. Roast eggplant. Massage kale with lemon-honey dressing. Toss all together with feta and parmesan.',
+            sides: ['Sourdough bread', 'Grapefruit', 'Yogurt parfait']
         },
         'C': {
             code: 'C',
             name: 'Warm Chicken Grain Bowl',
-            servings: 6,
+            servings: 8,
             prepTime: 25,
-            cookTime: 35,
-            ingredients: [],
-            instructions: '',
-            sides: ['Pomegranate', 'Grapes']
+            cookTime: 45,
+            ingredients: [
+                { name: 'chicken breast', grams: 680, display: '2 packages chicken breast' },
+                { name: 'kale', grams: 300, display: '2 bunches kale' },
+                { name: 'sweet potato', grams: 600, display: '3 sweet potatoes' },
+                { name: 'barley', grams: 315, display: '1¾ cups pearl barley' },
+                { name: 'pomegranate', grams: 150, display: '1 cup pomegranate arils' },
+                { name: 'pistachios', grams: 92, display: '3.25 oz shelled pistachios' },
+                { name: 'feta', grams: 75, display: '½ cup feta cheese' },
+                { name: 'parsley', grams: 30, display: '½ bunch parsley' },
+                { name: 'parmesan', grams: 85, display: '3 oz parmesan' },
+                { name: 'lemon juice', grams: 360, display: '1½ cups lemon juice' },
+                { name: 'maple syrup', grams: 60, display: '3-4 tbsp maple syrup' },
+                { name: 'olive oil', grams: 27, display: '2 tbsp olive oil' },
+                { name: 'honey', grams: 42, display: '2 tbsp honey' },
+                { name: 'garlic powder', grams: 6, display: '2 tsp garlic powder' },
+                { name: 'rosemary', grams: 2, display: '1 tsp dried rosemary' },
+                { name: 'thyme', grams: 2, display: '1 tsp dried thyme' }
+            ],
+            instructions: 'Pressure cook barley. Roast sweet potatoes at 350°F ~45 min. Bake chicken with lemon-maple marinade ~25 min. Make kale pesto. Assemble bowls.',
+            sides: ['Sourdough bread']
         },
         'D': {
             code: 'D',
@@ -61,9 +107,18 @@ const CONFIG = {
             servings: 8,
             prepTime: 20,
             cookTime: 60,
-            ingredients: [],
-            instructions: '',
-            sides: ['Sourdough bread']
+            ingredients: [
+                { name: 'ground turkey', grams: 1560, display: '2 packages (~3.44 lb) ground turkey' },
+                { name: 'barley', grams: 180, display: '1 cup pearl barley' },
+                { name: 'carrots', grams: 180, display: '3 carrots' },
+                { name: 'celery', grams: 160, display: '4 stalks celery' },
+                { name: 'tomato sauce', grams: 850, display: '2 cans tomato sauce' },
+                { name: 'zucchini', grams: 450, display: '3 zucchinis' },
+                { name: 'garlic', grams: 60, display: '1 large garlic knob + 4 tbsp minced' },
+                { name: 'italian seasoning', grams: 15, display: '3 tbsp Italian seasoning' }
+            ],
+            instructions: 'Brown turkey with garlic. Add vegetables and cook 5 min. Add tomato sauce, barley, and water. Simmer 45-60 min until barley is tender.',
+            sides: ['Roasted purple potatoes', 'Sliced apples', 'Grilled cheese', 'Yogurt']
         },
         'E': {
             code: 'E',
@@ -71,9 +126,16 @@ const CONFIG = {
             servings: 6,
             prepTime: 15,
             cookTime: 20,
-            ingredients: [],
-            instructions: '',
-            sides: ['Grapes']
+            ingredients: [
+                { name: 'mackerel', grams: 170, display: '1 can canned mackerel' },
+                { name: 'egg', grams: 300, display: '6 eggs' },
+                { name: 'cauliflower', grams: 680, display: '2 packages riced cauliflower' },
+                { name: 'peas and carrots', grams: 340, display: '1 bag frozen peas & carrots' },
+                { name: 'ginger', grams: 30, display: '2 roots fresh ginger' },
+                { name: 'garlic', grams: 60, display: '4 tbsp minced garlic' }
+            ],
+            instructions: 'Scramble eggs, set aside. Sauté ginger and garlic. Add cauliflower rice and peas/carrots. Flake in mackerel. Add eggs back. Season with soy sauce.',
+            sides: ['Oranges', 'Grapes']
         },
         'F': {
             code: 'F',
@@ -81,9 +143,18 @@ const CONFIG = {
             servings: 6,
             prepTime: 15,
             cookTime: 30,
-            ingredients: [],
-            instructions: '',
-            sides: ['Kale salad']
+            ingredients: [
+                { name: 'ground turkey', grams: 454, display: '1 package ground turkey' },
+                { name: 'tomato sauce', grams: 1275, display: '3 cans tomato sauce' },
+                { name: 'pasta', grams: 340, display: '1 box Brami protein pasta' },
+                { name: 'kale', grams: 150, display: '1 bunch kale' },
+                { name: 'garlic', grams: 60, display: '4 tbsp minced garlic' },
+                { name: 'olive oil', grams: 54, display: '4 tbsp olive oil' },
+                { name: 'italian seasoning', grams: 36, display: '12 tbsp Italian seasoning' },
+                { name: 'cayenne', grams: 12, display: 'Cayenne pepper + misc spices' }
+            ],
+            instructions: 'Brown turkey with garlic and Italian seasonings. Add tomato sauce and simmer 20 min. Cook pasta. Massage raw kale. Serve pasta with sauce and kale side.',
+            sides: ['Sliced apples with peanut butter', 'Sourdough bread', 'Raw kale salad']
         }
     },
 

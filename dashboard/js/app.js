@@ -101,7 +101,7 @@ class MealDashboardApp {
             this.state.isLoading = false;
 
             // Use fallback demo data
-            this.loadDemoData();
+            await this.loadDemoData();
         }
 
         this.hideLoading();
@@ -130,15 +130,20 @@ class MealDashboardApp {
             merged[code] = { ...CONFIG.meals[code] };
         }
 
-        // Overlay Excel data
+        // Overlay Excel data (but preserve CONFIG ingredients if Excel doesn't have them)
         for (const code in excelMeals) {
             if (merged[code]) {
+                const excelData = excelMeals[code];
                 merged[code] = {
                     ...merged[code],
-                    ...excelMeals[code],
+                    ...excelData,
+                    // Preserve config ingredients if Excel doesn't have them or they're empty
+                    ingredients: (excelData.ingredients && excelData.ingredients.length > 0)
+                        ? excelData.ingredients
+                        : merged[code].ingredients,
                     // Keep config values for certain fields if not in Excel
-                    prepTime: excelMeals[code].prepTime || merged[code].prepTime,
-                    cookTime: excelMeals[code].cookTime || merged[code].cookTime
+                    prepTime: excelData.prepTime || merged[code].prepTime,
+                    cookTime: excelData.cookTime || merged[code].cookTime
                 };
             } else {
                 merged[code] = excelMeals[code];
@@ -151,7 +156,7 @@ class MealDashboardApp {
     /**
      * Load demo data when APIs fail
      */
-    loadDemoData() {
+    async loadDemoData() {
         console.log('Loading demo data...');
 
         this.state.meals = { ...CONFIG.meals };
@@ -166,17 +171,25 @@ class MealDashboardApp {
             'Safeway': 95.00,
             'Grains from the Plains': 16.75
         };
+
+        // Calculate nutrition for demo meals
+        await this.calculateMealNutrition();
     }
 
     /**
      * Calculate nutrition for all meals
      */
     async calculateMealNutrition() {
+        console.log('Calculating nutrition for meals:', Object.keys(this.state.meals));
+
         for (const code in this.state.meals) {
             const meal = this.state.meals[code];
+            console.log(`Processing meal ${code}:`, meal?.name, 'ingredients:', meal?.ingredients?.length);
 
             try {
                 const nutrition = await nutritionAPI.getMealNutritionPerServing(meal);
+                console.log(`Meal ${code} nutrition:`, nutrition);
+
                 const dailyValues = nutritionAPI.getDailyValuePercent(nutrition);
                 const funFacts = nutritionAPI.getFunFacts(nutrition, meal.ingredients);
 
@@ -186,10 +199,13 @@ class MealDashboardApp {
                     dailyValues,
                     funFacts
                 };
+                console.log(`Meal ${code} nutrition stored successfully`);
             } catch (error) {
-                console.warn(`Failed to calculate nutrition for meal ${code}:`, error);
+                console.error(`Failed to calculate nutrition for meal ${code}:`, error);
             }
         }
+
+        console.log('Final mealsNutrition:', Object.keys(this.state.mealsNutrition));
     }
 
     /**
@@ -829,8 +845,14 @@ class MealDashboardApp {
      * Show nutrition modal
      */
     showNutritionModal(mealCode) {
+        console.log('showNutritionModal called for:', mealCode);
+        console.log('Available mealsNutrition keys:', Object.keys(this.state.mealsNutrition));
+
         const meal = this.state.meals[mealCode] || CONFIG.meals[mealCode];
         const nutritionData = this.state.mealsNutrition[mealCode];
+
+        console.log('Meal found:', meal?.name);
+        console.log('NutritionData:', nutritionData);
 
         if (!meal) return;
 
@@ -874,29 +896,75 @@ class MealDashboardApp {
                 </div>
             `;
 
-            // Render vitamins
+            // Render vitamins (expanded list)
             vitaminsContainer.innerHTML = this.renderNutrientBars([
                 { name: 'Vitamin A', percent: dv.vitaminA || 0 },
                 { name: 'Vitamin C', percent: dv.vitaminC || 0 },
+                { name: 'Vitamin D', percent: dv.vitaminD || 0 },
+                { name: 'Vitamin E', percent: dv.vitaminE || 0 },
                 { name: 'Vitamin K', percent: dv.vitaminK || 0 },
                 { name: 'Vitamin B6', percent: dv.vitaminB6 || 0 },
                 { name: 'Vitamin B12', percent: dv.vitaminB12 || 0 },
-                { name: 'Folate', percent: dv.folate || 0 }
+                { name: 'Folate', percent: dv.folate || 0 },
+                { name: 'Choline', percent: dv.choline || 0 }
             ]);
 
-            // Render minerals
+            // Render minerals (expanded list)
             mineralsContainer.innerHTML = this.renderNutrientBars([
                 { name: 'Iron', percent: dv.iron || 0 },
                 { name: 'Calcium', percent: dv.calcium || 0 },
                 { name: 'Potassium', percent: dv.potassium || 0 },
                 { name: 'Magnesium', percent: dv.magnesium || 0 },
-                { name: 'Zinc', percent: dv.zinc || 0 }
+                { name: 'Zinc', percent: dv.zinc || 0 },
+                { name: 'Selenium', percent: dv.selenium || 0 },
+                { name: 'Manganese', percent: dv.manganese || 0 }
             ]);
 
-            // Render fun facts
+            // Add special nutrients section (omega-3, lycopene)
+            const specialContainer = document.getElementById('nutrition-special');
+            if (specialContainer) {
+                const hasOmega3 = (n.omega3 || 0) > 0;
+                const hasLycopene = (n.lycopene || 0) > 0;
+
+                if (hasOmega3 || hasLycopene) {
+                    specialContainer.parentElement.style.display = 'block';
+                    let specialHTML = '<h4 class="nutrition-section-title">Special Nutrients</h4>';
+
+                    if (hasOmega3) {
+                        specialHTML += `
+                            <div class="nutrition-row">
+                                <span class="nutrition-row-name">Omega-3 Fatty Acids</span>
+                                <span class="nutrition-row-value">${Math.round(n.omega3)}mg</span>
+                                <span class="nutrition-row-dv">(${dv.omega3 || 0}% DV)</span>
+                            </div>
+                        `;
+                    }
+
+                    if (hasLycopene) {
+                        specialHTML += `
+                            <div class="nutrition-row">
+                                <span class="nutrition-row-name">Lycopene</span>
+                                <span class="nutrition-row-value">${Math.round(n.lycopene)}mcg</span>
+                            </div>
+                        `;
+                    }
+
+                    specialContainer.innerHTML = specialHTML;
+                } else {
+                    specialContainer.innerHTML = '';
+                    specialContainer.parentElement.style.display = 'none';
+                }
+            }
+
+            // Render health benefit facts with category-based styling
             const facts = nutritionData.funFacts || [];
             factsContainer.innerHTML = facts.length > 0
-                ? facts.map(f => `<p>${f.icon} ${f.text}</p>`).join('')
+                ? `<div class="health-facts-grid">${facts.map(f => `
+                    <div class="health-fact" data-category="${f.category || 'general'}">
+                        <span class="health-fact-icon">${f.icon}</span>
+                        <span class="health-fact-text">${f.text}</span>
+                    </div>
+                `).join('')}</div>`
                 : '<p class="text-muted">Calculating nutrition facts...</p>';
 
         } else {

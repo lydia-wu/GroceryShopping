@@ -810,6 +810,72 @@ a:hover {
     margin-left: var(--space-2);
 }
 
+/* Health Facts Cards */
+.health-facts-grid {
+    display: grid;
+    gap: var(--space-3);
+}
+
+.health-fact {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    background: var(--color-gray-100);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--color-sage);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.health-fact:hover {
+    transform: translateX(4px);
+    box-shadow: var(--shadow-sm);
+}
+
+.health-fact-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.health-fact-text {
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-600);
+    line-height: 1.5;
+}
+
+/* Health fact category colors */
+.health-fact[data-category="heart"] { border-color: #CD5C5C; }
+.health-fact[data-category="brain"] { border-color: #9B59B6; }
+.health-fact[data-category="cancer"] { border-color: var(--color-sage); }
+.health-fact[data-category="gut"] { border-color: #F39C12; }
+.health-fact[data-category="muscle"] { border-color: var(--color-terracotta); }
+.health-fact[data-category="dna"] { border-color: #3498DB; }
+.health-fact[data-category="immune"] { border-color: #27AE60; }
+.health-fact[data-category="regeneration"] { border-color: #1ABC9C; }
+.health-fact[data-category="metabolism"] { border-color: #E67E22; }
+.health-fact[data-category="bone"] { border-color: #95A5A6; }
+.health-fact[data-category="eye"] { border-color: #2980B9; }
+.health-fact[data-category="skin"] { border-color: #E91E63; }
+
+/* Legacy fact styling (for backwards compatibility) */
+#nutrition-facts p {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    background: var(--color-gray-100);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--color-sage);
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-600);
+    line-height: 1.5;
+    margin-bottom: var(--space-2);
+}
+
+#nutrition-facts p:last-child {
+    margin-bottom: 0;
+}
+
 /* ==========================================================================
    What's Fresh Section
    ========================================================================== */
