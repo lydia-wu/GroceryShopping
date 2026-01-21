@@ -1,6 +1,8 @@
 /**
  * Main Application Module
  * Ties together all components and manages UI state
+ *
+ * v2.0.0 - Integrated with new core infrastructure
  */
 
 import CONFIG from './config.js';
@@ -8,11 +10,17 @@ import excelReader from './excel-reader.js';
 import googleSheets from './google-sheets.js';
 import nutritionAPI from './nutrition.js';
 import chartManager from './charts.js';
-import mealLibrary from './meal-library.js';
+import mealLibrary, { TAG_CATEGORIES } from './meal-library.js';
 import shoppingListGenerator from './shopping-list.js';
 import staplesTracker from './staples-tracker.js';
 import seasonalData from './seasonal-data.js';
 import dietaryAlerts from './dietary-alerts.js';
+
+// v2.0.0 Core Infrastructure
+import { getState, setState, subscribe } from './core/state-manager.js';
+import { emit, on, EVENTS } from './core/event-bus.js';
+import priceService from './services/price-service.js';
+import { getDiverseFactsForMeal, getFactsForCategory } from './data/health-benefits.js';
 
 class MealDashboardApp {
     constructor() {
@@ -28,6 +36,7 @@ class MealDashboardApp {
         };
 
         this.modals = {};
+        this.v2Enabled = true; // Flag for v2.0.0 features
         this.init();
     }
 
@@ -43,17 +52,95 @@ class MealDashboardApp {
         // Set up event listeners
         this.setupEventListeners();
 
+        // v2.0.0: Initialize core infrastructure
+        if (this.v2Enabled) {
+            await this.initCoreInfrastructure();
+        }
+
         // Initialize modules
         await mealLibrary.loadData();
         await staplesTracker.loadLogs();
 
+        // v2.0.0: Enable state manager integration in meal library
+        if (this.v2Enabled) {
+            mealLibrary.enableStateManager();
+        }
+
         // Load data
         await this.loadAllData();
+
+        // v2.0.0: Import prices from shopping trips
+        if (this.v2Enabled && this.state.trips.length > 0) {
+            const result = priceService.importFromTrips(this.state.trips);
+            console.log(`Price service: imported ${result.imported} prices, skipped ${result.skipped}`);
+        }
 
         // Render UI
         this.renderDashboard();
 
         console.log('Dashboard initialized successfully');
+    }
+
+    /**
+     * v2.0.0: Initialize core infrastructure modules
+     */
+    async initCoreInfrastructure() {
+        console.log('Initializing v2.0.0 core infrastructure...');
+
+        // Initialize price service
+        await priceService.init();
+
+        // Subscribe to key events
+        this.setupEventSubscriptions();
+
+        console.log('Core infrastructure initialized');
+    }
+
+    /**
+     * v2.0.0: Set up event bus subscriptions
+     */
+    setupEventSubscriptions() {
+        // Meal events
+        on(EVENTS.MEAL_ADDED, (data) => {
+            console.log('Event: Meal added', data.code);
+            this.state.meals[data.code] = data.meal;
+            this.renderDashboard();
+        });
+
+        on(EVENTS.MEAL_UPDATED, (data) => {
+            console.log('Event: Meal updated', data.code);
+            if (this.state.meals[data.code]) {
+                this.state.meals[data.code] = { ...this.state.meals[data.code], ...data.meal };
+            }
+        });
+
+        on(EVENTS.MEAL_ARCHIVED, (data) => {
+            console.log('Event: Meal archived', data.code);
+            delete this.state.meals[data.code];
+            this.showToast(`Archived ${data.meal.name}`, 'info');
+            this.renderDashboard();
+        });
+
+        on(EVENTS.MEAL_RESTORED, (data) => {
+            console.log('Event: Meal restored', data.code);
+            this.state.meals[data.code] = data.meal;
+            this.showToast(`Restored ${data.meal.name}`, 'success');
+            this.renderDashboard();
+        });
+
+        on(EVENTS.ROTATION_CHANGED, (data) => {
+            console.log('Event: Rotation changed', data.action);
+            this.renderRotationTimeline();
+        });
+
+        on(EVENTS.PRICE_UPDATED, (data) => {
+            console.log('Event: Price updated', data.ingredientKey);
+        });
+
+        // UI events
+        on(EVENTS.TOAST_SHOW, (data) => {
+            this.showToast(data.message, data.type);
+        });
     }
 
     /**
@@ -547,8 +634,21 @@ class MealDashboardApp {
             );
             const seasonalLocal = seasonalData.countSeasonalLocal(ingredientNames);
 
-            // Calculate cost
-            const totalCost = meal.totalCost || (meal.costPerServing ? meal.costPerServing * meal.servings : 0);
+            // Calculate cost (v2.0.0: use price service if available)
+            let totalCost = meal.totalCost || (meal.costPerServing ? meal.costPerServing * meal.servings : 0);
+            let costSource = 'config';
+
+            if (this.v2Enabled && totalCost === 0) {
+                try {
+                    const costData = priceService.calculateMealCost(meal);
+                    if (costData.totalCost > 0) {
+                        totalCost = costData.totalCost;
+                        costSource = 'tracked';
+                    }
+                } catch (e) {
+                    // Price service not ready, use default
+                }
+            }
 
             html += `
                 <div class="meal-card" data-meal="${code}">
@@ -583,6 +683,10 @@ class MealDashboardApp {
                                     ⚠️ ${alerts.count} alert${alerts.count > 1 ? 's' : ''}
                                 </span>
                             ` : ''}
+                            ${this.v2Enabled && meal.tags?.length > 0 ? meal.tags.slice(0, 2).map(tagId => {
+                                const tag = mealLibrary.getAllTags().find(t => t.id === tagId);
+                                return tag ? `<span class="badge badge-tag" data-category="${tag.category}">${tag.name}</span>` : '';
+                            }).join('') : ''}
                         </div>
 
                         <div class="meal-dates">
@@ -956,13 +1060,38 @@ class MealDashboardApp {
                 }
             }
 
-            // Render health benefit facts with category-based styling
-            const facts = nutritionData.funFacts || [];
+            // v2.0.0: Use enhanced health benefits system
+            let facts = nutritionData.funFacts || [];
+
+            // Get ingredient names for health benefits lookup
+            const ingredientNames = (meal.ingredients || []).map(ing =>
+                typeof ing === 'string' ? ing : (ing.name || '')
+            );
+
+            // Try to get richer facts from health-benefits.js
+            if (this.v2Enabled && ingredientNames.length > 0) {
+                try {
+                    const enhancedFacts = getDiverseFactsForMeal(ingredientNames, 8);
+                    if (enhancedFacts.length > 0) {
+                        facts = enhancedFacts.map(f => ({
+                            icon: this.getCategoryIcon(f.category),
+                            text: f.fact,
+                            category: f.category,
+                            source: f.source,
+                            ingredient: f.ingredient
+                        }));
+                    }
+                } catch (e) {
+                    console.warn('Could not load enhanced health facts:', e);
+                }
+            }
+
             factsContainer.innerHTML = facts.length > 0
                 ? `<div class="health-facts-grid">${facts.map(f => `
                     <div class="health-fact" data-category="${f.category || 'general'}">
                         <span class="health-fact-icon">${f.icon}</span>
                         <span class="health-fact-text">${f.text}</span>
+                        ${f.source ? `<span class="health-fact-source" title="Source: ${f.source}">📚</span>` : ''}
                     </div>
                 `).join('')}</div>`
                 : '<p class="text-muted">Calculating nutrition facts...</p>';
@@ -992,6 +1121,31 @@ class MealDashboardApp {
                 <span class="nutrition-row-value">${n.percent}%</span>
             </div>
         `).join('');
+    }
+
+    /**
+     * v2.0.0: Get icon for health benefit category
+     */
+    getCategoryIcon(category) {
+        const icons = {
+            heart: '❤️',
+            brain: '🧠',
+            immunity: '🛡️',
+            cancer: '🎗️',
+            gut: '🦠',
+            bone: '🦴',
+            skin: '✨',
+            eye: '👁️',
+            metabolism: '🔥',
+            muscle: '💪',
+            regeneration: '🔄',
+            dna: '🧬',
+            anti_inflammatory: '🌿',
+            blood_sugar: '📊',
+            longevity: '⏳',
+            general: '💡'
+        };
+        return icons[category] || '💡';
     }
 
     /**

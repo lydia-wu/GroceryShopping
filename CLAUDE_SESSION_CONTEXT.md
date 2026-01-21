@@ -5,11 +5,11 @@
 
 ---
 
-## IMPLEMENTATION v2.0.0 - PAUSED
+## IMPLEMENTATION v2.0.0 - IN PROGRESS
 
 ### What Was Completed (Jan 21, 2026)
 
-**Phase 1 partial - Core infrastructure created:**
+**Phase 1 - Core infrastructure:**
 
 | File | Purpose | Status |
 |------|---------|--------|
@@ -19,15 +19,19 @@
 | `/dashboard/js/core/state-manager.js` | Centralized state with persistence | DONE |
 | `/dashboard/js/core/event-bus.js` | Pub/sub for components | DONE |
 | `/dashboard/js/core/sync-manager.js` | Offline sync with IndexedDB | DONE |
+| `/dashboard/js/services/price-service.js` | Track ingredient prices from shopping data | DONE |
+| `/dashboard/js/meal-library.js` | Enhanced with tag system & state manager | DONE |
+| `/dashboard/js/app.js` | Integrated with v2.0.0 core modules | DONE |
 
 ### WHERE TO RESUME
 
-**Next tasks (in order):**
-1. Create `/dashboard/js/services/price-service.js` - Track ingredient prices from shopping data
-2. Update `/dashboard/js/meal-library.js` - Add archive/restore with tag system
-3. Integrate new core modules into `/dashboard/js/app.js`
+**Phase 2 - Next tasks (in order):**
+1. Test dashboard in browser - verify all v2.0.0 integrations work
+2. Add UI for meal tags (tag editor modal, filter by tags)
+3. Create price history visualization component
+4. Build meal archive browser with search
 
-**Reference:** See `IMPLEMENTATION_PLAN.md` for full 7-phase plan.
+**Reference:** Full feature list in v2.0.0 implementation notes.
 
 ---
 
@@ -46,24 +50,26 @@
 GroceryList/
 ├── README.md                        # Main shopping guide & meal plans
 ├── CLAUDE_SESSION_CONTEXT.md        # THIS FILE - read first
-├── IMPLEMENTATION_PLAN.md           # Full v2.0.0 implementation plan
 ├── MealCostCalculator.xlsx          # Meal costs & ingredients
-├── 2026_actualShoppingData.xlsx     # Actual purchase receipts
+├── Best_actualShoppingData.xlsx     # Actual purchase receipts (sheets by year)
 ├── dashboard/
 │   ├── index.html                   # Main app
 │   ├── css/styles.css               # Styling
 │   ├── js/
-│   │   ├── app.js                   # Main app (NOT YET integrated with new modules)
+│   │   ├── app.js                   # Main app (v2.0.0 integrated)
 │   │   ├── config.js                # Meal definitions
+│   │   ├── meal-library.js          # Meal CRUD + tag system
 │   │   ├── nutrition.js             # Nutrition API
-│   │   ├── core/                    # NEW - Core infrastructure
+│   │   ├── core/                    # Core infrastructure
 │   │   │   ├── supabase-client.js
 │   │   │   ├── state-manager.js
 │   │   │   ├── event-bus.js
 │   │   │   └── sync-manager.js
-│   │   └── data/                    # NEW - Data modules
+│   │   ├── services/                # Business logic services
+│   │   │   └── price-service.js     # Ingredient price tracking
+│   │   └── data/                    # Data modules
 │   │       └── health-benefits.js
-│   └── data/                        # NEW - Static data
+│   └── data/                        # Static data
 │       └── ingredients.json
 └── docs/
 ```
@@ -99,6 +105,17 @@ on(EVENTS.MEAL_ADDED, (data) => handleMealAdded(data));
 // Health benefits
 import { getDiverseFactsForMeal } from './data/health-benefits.js';
 const facts = getDiverseFactsForMeal(meal.ingredients, 10);
+
+// Price service
+import priceService from './services/price-service.js';
+await priceService.init();
+const costData = priceService.calculateMealCost(meal);
+
+// Meal tags
+import mealLibrary from './meal-library.js';
+mealLibrary.enableStateManager();
+mealLibrary.addTagToMeal('A', 'fish');
+const tagged = mealLibrary.filterMealsByTags(['fish', 'quick']);
 ```
 
 ---

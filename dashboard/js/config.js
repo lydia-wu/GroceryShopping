@@ -13,7 +13,7 @@ const CONFIG = {
     // Update these URLs if your repo is different
     excelUrls: {
         mealCostCalculator: 'https://raw.githubusercontent.com/lydia-wu/GroceryShopping/main/MealCostCalculator.xlsx',
-        actualShoppingData: 'https://raw.githubusercontent.com/lydia-wu/GroceryShopping/main/2026_actualShoppingData.xlsx'
+        actualShoppingData: 'https://raw.githubusercontent.com/lydia-wu/GroceryShopping/main/Best_actualShoppingData.xlsx'
     },
 
     // Meal rotation configuration
