@@ -23,13 +23,37 @@
 | `/dashboard/js/meal-library.js` | Enhanced with tag system & state manager | DONE |
 | `/dashboard/js/app.js` | Integrated with v2.0.0 core modules | DONE |
 
-### WHERE TO RESUME
+### WHERE TO RESUME - DEBUGGING IN PROGRESS
 
-**Phase 2 - Next tasks (in order):**
-1. Test dashboard in browser - verify all v2.0.0 integrations work
-2. Add UI for meal tags (tag editor modal, filter by tags)
-3. Create price history visualization component
-4. Build meal archive browser with search
+**Current Issue (Jan 21, 2026):**
+- Dashboard loads but v2.0.0 modules not accessible in console
+- `priceService`, `mealLibrary` etc. return "Can't find variable"
+- No price data visible on dashboard
+- Likely a module import failure causing whole app.js to fail silently
+
+**Already Fixed:**
+- ✅ `price-service.js` fetch path: changed `../data/` to `./data/`
+
+**Next Debug Steps:**
+1. User needs to check browser console (F12 → Console) for error messages
+2. Look for red errors about failed imports or syntax errors
+3. Common issues to check:
+   - Module import paths (all should work now)
+   - Any syntax errors in modified files
+   - CORS issues with local file loading
+
+**To test after fixes:**
+```javascript
+// In browser console after page load:
+console.log(priceService);
+console.log(mealLibrary.getAllTags());
+console.log(mealDashboard.state.meals);
+```
+
+**Phase 2 - After debugging complete:**
+1. Add UI for meal tags (tag editor modal, filter by tags)
+2. Create price history visualization component
+3. Build meal archive browser with search
 
 **Reference:** Full feature list in v2.0.0 implementation notes.
 
