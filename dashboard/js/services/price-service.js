@@ -36,7 +36,7 @@ class PriceService {
 
         try {
             // Load ingredients.json
-            const response = await fetch('../data/ingredients.json');
+            const response = await fetch('./data/ingredients.json');
             ingredientsData = await response.json();
 
             // Build alias map for fast lookups
