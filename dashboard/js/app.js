@@ -1341,4 +1341,10 @@ document.addEventListener('DOMContentLoaded', () => {
     window.mealDashboard = new MealDashboardApp();
 });
 
+// v2.0.0: Expose modules globally for debugging/testing
+window.priceService = priceService;
+window.mealLibrary = mealLibrary;
+window.stateManager = { getState, setState, subscribe };
+window.eventBus = { emit, on, EVENTS };
+
 export default MealDashboardApp;
