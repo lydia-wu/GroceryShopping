@@ -1294,6 +1294,37 @@ export const healthBenefits = {
                 relatedIngredients: ['buckwheat']
             }
         ]
+    },
+
+    // ==================
+    // HOMEMADE STAPLES
+    // ==================
+
+    sourdough: {
+        categories: ['gut', 'metabolism'],
+        facts: [
+            {
+                text: 'Sourdough fermentation breaks down phytic acid, making minerals more bioavailable than regular bread',
+                category: 'gut',
+                source: 'The Obesity Code',
+                chapter: 'Chapter 10: Insulin Resistance',
+                relatedIngredients: ['yogurt', 'kefir']
+            },
+            {
+                text: 'Long fermentation in sourdough partially digests gluten and produces beneficial lactic acid bacteria',
+                category: 'gut',
+                source: 'Eat to Beat Disease',
+                chapter: 'Chapter 5: Feed Your Gut',
+                relatedIngredients: ['yogurt', 'sauerkraut']
+            },
+            {
+                text: 'Sourdough has a lower glycemic index than regular bread due to organic acids that slow starch digestion',
+                category: 'metabolism',
+                source: 'The Obesity Code',
+                chapter: 'Chapter 10: Insulin Resistance',
+                relatedIngredients: ['barley', 'oats']
+            }
+        ]
     }
 };
 

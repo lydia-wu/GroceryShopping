@@ -355,6 +355,104 @@ class PriceService {
     }
 
     /**
+     * Get the LATEST (most recent) price for an ingredient
+     * Per user requirement: cost should auto-update to latest price, not average
+     * @param {string} ingredientKey - Ingredient identifier
+     * @returns {Object} - { price, date, store } or null if no data
+     */
+    getLatestPrice(ingredientKey) {
+        const records = this.getPriceRecords(ingredientKey);
+        if (!records || records.length === 0) return null;
+
+        // Sort by date (most recent first)
+        const sorted = [...records].sort((a, b) => {
+            const dateA = a.date ? new Date(a.date) : new Date(0);
+            const dateB = b.date ? new Date(b.date) : new Date(0);
+            return dateB - dateA;
+        });
+
+        const latest = sorted[0];
+        return {
+            price: latest.cost,
+            date: latest.date,
+            store: latest.store,
+            quantity: latest.quantity
+        };
+    }
+
+    /**
+     * Get all ingredients with missing price data
+     * Used for warning users about incomplete pricing
+     * @returns {Array} - Array of ingredient keys without price data
+     */
+    getMissingPriceIngredients() {
+        const prices = getState('ingredientPrices') || {};
+        const allIngredients = ingredientsData?.ingredients || {};
+        const missing = [];
+
+        for (const key of Object.keys(allIngredients)) {
+            if (!prices[key] || !prices[key].records || prices[key].records.length === 0) {
+                missing.push({
+                    key,
+                    name: allIngredients[key].name,
+                    category: allIngredients[key].category
+                });
+            }
+        }
+
+        return missing;
+    }
+
+    /**
+     * Check if an ingredient has price data
+     * @param {string} ingredientKey - Ingredient identifier
+     * @returns {boolean} - True if has price data
+     */
+    hasPriceData(ingredientKey) {
+        const records = this.getPriceRecords(ingredientKey);
+        return records && records.length > 0;
+    }
+
+    /**
+     * Get homemade cost for staples (sourdough, yogurt, breadcrumbs)
+     * These have pre-calculated costs based on ingredient costs
+     * @param {string} ingredientKey - Ingredient identifier
+     * @returns {Object|null} - { cost, notes, isHomemade } or null
+     */
+    getHomemadeCost(ingredientKey) {
+        const ingredient = ingredientsData?.ingredients?.[ingredientKey];
+        if (!ingredient || !ingredient.isHomemade) return null;
+
+        return {
+            cost: ingredient.homemadeCostPerUnit || 0,
+            notes: ingredient.homemadeCostNotes || '',
+            isHomemade: true,
+            typicalQuantity: ingredient.typicalQuantity,
+            gramsPerTypical: ingredient.gramsPerTypical
+        };
+    }
+
+    /**
+     * Get effective price per gram, using shopping data OR homemade cost
+     * Prioritizes actual shopping data, falls back to homemade cost
+     * @param {string} ingredientKey - Ingredient identifier
+     * @returns {number} - Price per gram or 0 if no data
+     */
+    getEffectivePricePerGram(ingredientKey) {
+        // First try shopping data
+        const shoppingPrice = this.getPricePerGram(ingredientKey);
+        if (shoppingPrice > 0) return shoppingPrice;
+
+        // Fall back to homemade cost
+        const homemade = this.getHomemadeCost(ingredientKey);
+        if (homemade && homemade.cost > 0 && homemade.gramsPerTypical > 0) {
+            return homemade.cost / homemade.gramsPerTypical;
+        }
+
+        return 0;
+    }
+
+    /**
      * Calculate the cost of a meal based on tracked prices
      * Uses price-per-unit calculation to estimate proportional costs
      * @param {Object} meal - Meal object with ingredients array
@@ -374,9 +472,10 @@ class PriceService {
             const key = this.matchIngredient(ingredient.name);
 
             if (key) {
-                // Get price per gram for accurate calculation
-                const pricePerGram = this.getPricePerGram(key);
+                // Get price per gram - uses shopping data OR homemade costs
+                const pricePerGram = this.getEffectivePricePerGram(key);
                 const unitInfo = this.getUnitInfo(key);
+                const homemadeInfo = this.getHomemadeCost(key);
 
                 if (pricePerGram > 0 && ingredient.grams) {
                     // Calculate cost based on grams needed
@@ -389,7 +488,8 @@ class PriceService {
                         unit: unitInfo?.unit || 'unit',
                         pricePerUnit: unitInfo?.pricePerUnit ? Math.round(unitInfo.pricePerUnit * 100) / 100 : null,
                         gramsUsed: ingredient.grams,
-                        estimatedCost: Math.round(estimatedCost * 100) / 100
+                        estimatedCost: Math.round(estimatedCost * 100) / 100,
+                        isHomemade: homemadeInfo?.isHomemade || false
                     });
 
                     totalCost += estimatedCost;
