@@ -16,7 +16,14 @@
 - In Progress: **Feature 7 - Comprehensive Ingredient & Health Benefit Database**
 - Next: Create `/dashboard/data/ingredients-database.json` with health benefits structure
 
-**FULL IMPLEMENTATION PLAN:** See `v2_implementation_plan.md` in project root
+**FULL IMPLEMENTATION PLAN:** See `v2_MASTER_IMPLEMENTATION_PLAN.md` in project root (unified comprehensive plan)
+
+**Additional Documentation:**
+- `v2_implementation_plan.md` - Detailed 7-phase plan (1,676 lines)
+- `docs/v2_comprehensive_plan.md` - Full feature specifications
+- `docs/v2_progress_tracker.md` - Progress tracking version
+- `docs/planning_session_extracted.md` - All 160+ clarifying Q&A from planning sessions
+- `docs/v1_original_plan.md` - Original MVP plan for reference
 
 ### Implementation Order (19 remaining features):
 1. Feature 7: Ingredient Database ← **IN PROGRESS**
