@@ -82,6 +82,21 @@
                             <button class="btn btn-primary btn-sm" id="log-cooking-btn">Log Cooking</button>
                         </div>
                     </div>
+
+                    <!-- Tag Filter Bar -->
+                    <div class="tag-filter-bar" id="tag-filter-bar">
+                        <span class="filter-label">Filter by tag:</span>
+                        <div id="tag-filter-chips">
+                            <!-- Populated by JS -->
+                        </div>
+                        <div class="filter-mode-toggle">
+                            <label>
+                                <input type="checkbox" id="filter-mode-all"> Match ALL
+                            </label>
+                            <button class="clear-filters-btn" id="clear-tag-filters">Clear</button>
+                        </div>
+                    </div>
+
                     <div class="meals-grid" id="meals-grid">
                         <!-- Populated by JS -->
                         <div class="meal-card loading-skeleton skeleton-card"></div>
@@ -116,6 +131,12 @@
                             <h4 class="chart-title">Store Breakdown</h4>
                             <div class="chart-container">
                                 <canvas id="store-breakdown-chart"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-card">
+                            <h4 class="chart-title">Spending by Store per Trip</h4>
+                            <div class="chart-container">
+                                <canvas id="store-per-trip-chart"></canvas>
                             </div>
                         </div>
                         <div class="chart-card">
@@ -420,6 +441,44 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" id="close-library-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tag Editor Modal -->
+    <div class="modal-backdrop" id="tag-editor-modal-backdrop">
+        <div class="modal" id="tag-editor-modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit Tags: <span id="tag-editor-meal-name">--</span></h3>
+                <button class="modal-close" id="close-tag-editor">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="tag-editor" id="tag-editor-content">
+                    <!-- Populated by JS -->
+                </div>
+
+                <div class="add-tag-section">
+                    <h5 style="margin-bottom: var(--space-2); font-size: var(--font-size-sm);">Create New Tag</h5>
+                    <div class="add-tag-form">
+                        <div class="form-group">
+                            <input type="text" class="form-input" id="new-tag-name" placeholder="Tag name">
+                        </div>
+                        <div class="form-group">
+                            <select class="form-select" id="new-tag-category">
+                                <option value="dietary">Dietary</option>
+                                <option value="protein">Protein</option>
+                                <option value="cuisine">Cuisine</option>
+                                <option value="effort">Effort</option>
+                                <option value="season">Season</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-outline btn-sm" id="create-new-tag">+ Add Tag</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancel-tag-editor">Cancel</button>
+                <button class="btn btn-primary" id="save-tags">Save Tags</button>
             </div>
         </div>
     </div>

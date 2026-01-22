@@ -448,7 +448,7 @@ class ChartManager {
     }
 
     /**
-     * Create store breakdown pie chart
+     * Create store breakdown doughnut chart
      */
     createStoreBreakdownChart(canvasId, storeData, trips = null) {
         this.destroyChart(canvasId);
@@ -463,35 +463,60 @@ class ChartManager {
         const values = labels.map(l => Math.round(storeData[l] * 100) / 100);
         const total = values.reduce((a, b) => a + b, 0);
 
+        // Store labels for click handler
+        this.storeBreakdownLabels = labels;
+
         this.charts[canvasId] = new Chart(ctx, {
-            type: 'bar',
+            type: 'doughnut',
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'Spending ($)',
                     data: values,
                     backgroundColor: MEAL_COLORS,
                     borderColor: MEAL_COLORS.map(c => c.replace('0.8', '1')),
-                    borderWidth: 1
+                    borderWidth: 2,
+                    hoverOffset: 8
                 }]
             },
             options: {
-                ...this.getDefaultOptions(),
-                indexAxis: 'y', // Horizontal bars
+                responsive: true,
+                maintainAspectRatio: false,
                 onClick: (event, elements) => {
                     if (elements.length > 0) {
                         const index = elements[0].index;
-                        const store = labels[index];
+                        const store = this.storeBreakdownLabels[index];
                         this.showStoreBreakdown(store);
                     }
                 },
                 plugins: {
-                    ...this.getDefaultOptions().plugins,
                     legend: {
-                        display: false
+                        position: 'right',
+                        labels: {
+                            color: '#3E2723',
+                            font: {
+                                family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+                            },
+                            padding: 12,
+                            generateLabels: (chart) => {
+                                const data = chart.data;
+                                return data.labels.map((label, i) => ({
+                                    text: `${label}: $${data.datasets[0].data[i].toFixed(2)}`,
+                                    fillStyle: data.datasets[0].backgroundColor[i],
+                                    strokeStyle: data.datasets[0].borderColor[i],
+                                    lineWidth: 1,
+                                    index: i
+                                }));
+                            }
+                        }
                     },
                     tooltip: {
-                        ...this.getDefaultOptions().plugins.tooltip,
+                        backgroundColor: 'rgba(62, 39, 35, 0.9)',
+                        titleColor: '#FDF6E3',
+                        bodyColor: '#FDF6E3',
+                        borderColor: '#C2703C',
+                        borderWidth: 1,
+                        padding: 12,
+                        cornerRadius: 8,
                         callbacks: {
                             label: (context) => {
                                 const value = context.raw;
@@ -502,22 +527,7 @@ class ChartManager {
                         }
                     }
                 },
-                scales: {
-                    x: {
-                        ...this.getDefaultOptions().scales.x,
-                        beginAtZero: true,
-                        ticks: {
-                            ...this.getDefaultOptions().scales.x.ticks,
-                            callback: value => `$${value}`
-                        }
-                    },
-                    y: {
-                        ...this.getDefaultOptions().scales.y,
-                        ticks: {
-                            ...this.getDefaultOptions().scales.y.ticks
-                        }
-                    }
-                }
+                cutout: '50%'
             }
         });
 
@@ -580,6 +590,186 @@ class ChartManager {
 
         if (items.length > 50) {
             html += `<tr><td colspan="4" style="padding: 0.5rem; color: #8B7355; font-style: italic;">...and ${items.length - 50} more items</td></tr>`;
+        }
+
+        html += `
+                    </tbody>
+                </table>
+            </div>
+        `;
+
+        this.showBreakdownModal(html);
+    }
+
+    /**
+     * Create spending by store per trip grouped bar chart
+     * X-axis: dates, Multiple bars per date (one per store)
+     * Click bar to show that store's item breakdown for that date
+     */
+    createSpendingByStorePerTripChart(canvasId, trips) {
+        this.destroyChart(canvasId);
+        const ctx = document.getElementById(canvasId);
+        if (!ctx) return null;
+
+        if (!trips || trips.length === 0) {
+            this.showNoDataMessage(canvasId, 'No shopping trips in selected date range');
+            return null;
+        }
+
+        // Store trips for click access
+        this.storePerTripData = trips;
+
+        // Get all unique stores across all trips
+        const allStores = new Set();
+        for (const trip of trips) {
+            if (trip.storeBreakdown) {
+                Object.keys(trip.storeBreakdown).forEach(store => allStores.add(store));
+            }
+        }
+        const stores = Array.from(allStores).sort();
+
+        // Format dates for labels
+        const labels = trips.map(trip => {
+            if (trip.date) {
+                const d = new Date(trip.date);
+                return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            }
+            return trip.name || `Trip ${trip.tripNumber}`;
+        });
+
+        // Create dataset for each store
+        const datasets = stores.map((store, index) => ({
+            label: store,
+            data: trips.map(trip => {
+                const amount = trip.storeBreakdown?.[store] || 0;
+                return Math.round(amount * 100) / 100;
+            }),
+            backgroundColor: MEAL_COLORS[index % MEAL_COLORS.length],
+            borderColor: MEAL_COLORS[index % MEAL_COLORS.length].replace('0.8', '1'),
+            borderWidth: 1
+        }));
+
+        // Store mapping for click handler
+        this.storePerTripStores = stores;
+
+        this.charts[canvasId] = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: datasets
+            },
+            options: {
+                ...this.getDefaultOptions(),
+                onClick: (event, elements) => {
+                    if (elements.length > 0) {
+                        const element = elements[0];
+                        const tripIndex = element.index;
+                        const storeIndex = element.datasetIndex;
+                        const store = this.storePerTripStores[storeIndex];
+                        const trip = this.storePerTripData[tripIndex];
+                        this.showStoreTripBreakdown(store, trip);
+                    }
+                },
+                plugins: {
+                    ...this.getDefaultOptions().plugins,
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#3E2723',
+                            padding: 10,
+                            boxWidth: 12
+                        }
+                    },
+                    tooltip: {
+                        ...this.getDefaultOptions().plugins.tooltip,
+                        callbacks: {
+                            title: (items) => {
+                                const idx = items[0].dataIndex;
+                                const trip = this.storePerTripData[idx];
+                                return trip?.date || labels[idx];
+                            },
+                            afterBody: () => ['', 'Click for item details']
+                        }
+                    }
+                },
+                scales: {
+                    ...this.getDefaultOptions().scales,
+                    x: {
+                        ...this.getDefaultOptions().scales.x,
+                        stacked: false
+                    },
+                    y: {
+                        ...this.getDefaultOptions().scales.y,
+                        beginAtZero: true,
+                        stacked: false,
+                        ticks: {
+                            ...this.getDefaultOptions().scales.y.ticks,
+                            callback: value => `$${value}`
+                        }
+                    }
+                }
+            }
+        });
+
+        return this.charts[canvasId];
+    }
+
+    /**
+     * Show store item breakdown for a specific trip in a modal
+     */
+    showStoreTripBreakdown(storeName, trip) {
+        // Collect items from this store for this specific trip
+        const items = [];
+        if (trip.items) {
+            for (const item of trip.items) {
+                if (item.store === storeName) {
+                    items.push(item);
+                }
+            }
+        }
+
+        // Sort by cost descending
+        items.sort((a, b) => (b.cost || 0) - (a.cost || 0));
+
+        const total = items.reduce((sum, item) => sum + (item.cost || 0), 0);
+        const dateStr = trip.date ? new Date(trip.date).toLocaleDateString('en-US', {
+            month: 'long', day: 'numeric', year: 'numeric'
+        }) : 'Unknown date';
+
+        let html = `
+            <div style="max-height: 400px; overflow-y: auto;">
+                <h4 style="margin-bottom: 0.5rem;">${storeName}</h4>
+                <p style="color: #8B7355; margin-bottom: 1rem;">${dateStr}</p>
+                <p><strong>Total:</strong> $${total.toFixed(2)} | <strong>Items:</strong> ${items.length}</p>
+                <hr style="margin: 1rem 0; border-color: #D4A574;">
+
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                    <thead>
+                        <tr style="background: #F5E6D3;">
+                            <th style="padding: 0.5rem; text-align: left;">Item</th>
+                            <th style="padding: 0.5rem; text-align: right;">Qty</th>
+                            <th style="padding: 0.5rem; text-align: right;">Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+
+        if (items.length === 0) {
+            html += `<tr><td colspan="3" style="padding: 1rem; color: #8B7355; font-style: italic; text-align: center;">No itemized data available for this store on this trip</td></tr>`;
+        } else {
+            for (const item of items.slice(0, 50)) {
+                html += `
+                    <tr style="border-bottom: 1px solid #E8DCC8;">
+                        <td style="padding: 0.5rem; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${item.name}">${item.name}</td>
+                        <td style="padding: 0.5rem; text-align: right;">${item.quantity || '--'}</td>
+                        <td style="padding: 0.5rem; text-align: right;"><strong>$${(item.cost || 0).toFixed(2)}</strong></td>
+                    </tr>
+                `;
+            }
+
+            if (items.length > 50) {
+                html += `<tr><td colspan="3" style="padding: 0.5rem; color: #8B7355; font-style: italic;">...and ${items.length - 50} more items</td></tr>`;
+            }
         }
 
         html += `
@@ -759,9 +949,11 @@ class ChartManager {
 
         if (trips && trips.length > 0) {
             this.createSpendingByTripChart('spending-by-trip-chart', trips);
+            this.createSpendingByStorePerTripChart('store-per-trip-chart', trips);
         } else {
             // Show placeholder message for empty trips
             this.showNoDataMessage('spending-by-trip-chart', 'No shopping trips in selected date range');
+            this.showNoDataMessage('store-per-trip-chart', 'No shopping trips in selected date range');
         }
 
         if (storeData && Object.keys(storeData).length > 0) {

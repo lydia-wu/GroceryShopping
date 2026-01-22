@@ -512,6 +512,267 @@ a:hover {
     color: var(--color-gray-600);
 }
 
+/* Tag badges with category colors */
+.badge-tag {
+    background: rgba(155, 89, 182, 0.15);
+    color: #9b59b6;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.badge-tag:hover {
+    transform: scale(1.05);
+}
+
+.badge-tag[data-category="protein"] {
+    background: rgba(231, 76, 60, 0.15);
+    color: #e74c3c;
+}
+
+.badge-tag[data-category="cuisine"] {
+    background: rgba(52, 152, 219, 0.15);
+    color: #3498db;
+}
+
+.badge-tag[data-category="effort"] {
+    background: rgba(243, 156, 18, 0.15);
+    color: #f39c12;
+}
+
+.badge-tag[data-category="season"] {
+    background: rgba(39, 174, 96, 0.15);
+    color: #27ae60;
+}
+
+.badge-tag[data-category="dietary"] {
+    background: rgba(155, 89, 182, 0.15);
+    color: #9b59b6;
+}
+
+/* Tag filter bar */
+.tag-filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-4);
+    border: 1px solid var(--color-gray-200);
+}
+
+.tag-filter-bar .filter-label {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--color-gray-600);
+    display: flex;
+    align-items: center;
+    margin-right: var(--space-2);
+}
+
+.tag-filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    border: 1px solid transparent;
+    background: var(--color-gray-100);
+    color: var(--color-gray-600);
+}
+
+.tag-filter-chip:hover {
+    background: var(--color-gray-200);
+}
+
+.tag-filter-chip.active {
+    background: var(--color-terracotta);
+    color: white;
+    border-color: var(--color-terracotta-dark);
+}
+
+.tag-filter-chip[data-category="protein"].active {
+    background: #e74c3c;
+    border-color: #c0392b;
+}
+
+.tag-filter-chip[data-category="cuisine"].active {
+    background: #3498db;
+    border-color: #2980b9;
+}
+
+.tag-filter-chip[data-category="effort"].active {
+    background: #f39c12;
+    border-color: #d68910;
+}
+
+.tag-filter-chip[data-category="season"].active {
+    background: #27ae60;
+    border-color: #1e8449;
+}
+
+.tag-filter-chip[data-category="dietary"].active {
+    background: #9b59b6;
+    border-color: #7d3c98;
+}
+
+.filter-mode-toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-left: auto;
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-500);
+}
+
+.filter-mode-toggle label {
+    cursor: pointer;
+}
+
+.clear-filters-btn {
+    font-size: var(--font-size-xs);
+    padding: var(--space-1) var(--space-2);
+    background: transparent;
+    border: 1px solid var(--color-gray-300);
+    color: var(--color-gray-500);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.clear-filters-btn:hover {
+    background: var(--color-gray-100);
+    color: var(--color-gray-700);
+}
+
+/* Tag editor in modal */
+.tag-editor {
+    margin-top: var(--space-4);
+}
+
+.tag-editor-title {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-brown);
+    margin-bottom: var(--space-3);
+}
+
+.tag-category-section {
+    margin-bottom: var(--space-4);
+}
+
+.tag-category-label {
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    color: var(--color-gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-2);
+}
+
+.tag-checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.tag-checkbox-item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-2);
+    background: var(--color-gray-100);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-size: var(--font-size-sm);
+}
+
+.tag-checkbox-item:hover {
+    background: var(--color-gray-200);
+}
+
+.tag-checkbox-item input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    accent-color: var(--color-terracotta);
+}
+
+.tag-checkbox-item.checked {
+    background: var(--color-terracotta-light);
+    color: white;
+}
+
+.tag-checkbox-item[data-category="protein"].checked {
+    background: rgba(231, 76, 60, 0.9);
+}
+
+.tag-checkbox-item[data-category="cuisine"].checked {
+    background: rgba(52, 152, 219, 0.9);
+}
+
+.tag-checkbox-item[data-category="effort"].checked {
+    background: rgba(243, 156, 18, 0.9);
+}
+
+.tag-checkbox-item[data-category="season"].checked {
+    background: rgba(39, 174, 96, 0.9);
+}
+
+.tag-checkbox-item[data-category="dietary"].checked {
+    background: rgba(155, 89, 182, 0.9);
+}
+
+/* Add new tag input */
+.add-tag-section {
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-gray-200);
+}
+
+.add-tag-form {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.add-tag-form .form-group {
+    margin-bottom: 0;
+}
+
+.add-tag-form input {
+    padding: var(--space-2);
+    font-size: var(--font-size-sm);
+}
+
+.add-tag-form select {
+    padding: var(--space-2);
+    font-size: var(--font-size-sm);
+}
+
+/* Edit tags button on meal card */
+.edit-tags-btn {
+    font-size: var(--font-size-xs);
+    padding: 2px 6px;
+    background: transparent;
+    border: 1px dashed var(--color-gray-300);
+    color: var(--color-gray-500);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.edit-tags-btn:hover {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-400);
+    color: var(--color-gray-700);
+}
+
 /* ==========================================================================
    Buttons
    ========================================================================== */

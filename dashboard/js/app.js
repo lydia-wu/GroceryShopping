@@ -40,11 +40,15 @@ class MealDashboardApp {
             storeData: {},
             currentView: 'dashboard',
             isLoading: true,
-            error: null
+            error: null,
+            // Tag filter state
+            activeTagFilters: [],
+            tagFilterMode: 'any' // 'any' or 'all'
         };
 
         this.modals = {};
         this.v2Enabled = true; // Flag for v2.0.0 features
+        this.currentEditingMealCode = null; // For tag editor
         this.init();
     }
 
@@ -379,6 +383,23 @@ class MealDashboardApp {
             this.closeModal('meal-edit');
         });
 
+        // Tag editor modal
+        document.getElementById('close-tag-editor')?.addEventListener('click', () => {
+            this.closeModal('tag-editor');
+        });
+
+        document.getElementById('cancel-tag-editor')?.addEventListener('click', () => {
+            this.closeModal('tag-editor');
+        });
+
+        document.getElementById('save-tags')?.addEventListener('click', () => {
+            this.saveTagsFromEditor();
+        });
+
+        document.getElementById('create-new-tag')?.addEventListener('click', () => {
+            this.createNewTag();
+        });
+
         // Close all modals on backdrop click
         document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
             backdrop.addEventListener('click', (e) => {
@@ -407,7 +428,8 @@ class MealDashboardApp {
             { backdrop: 'shopping-modal-backdrop', close: 'close-shopping', name: 'shopping' },
             { backdrop: 'meal-edit-modal-backdrop', close: 'close-meal-edit', name: 'meal-edit' },
             { backdrop: 'staple-modal-backdrop', close: 'close-staple', name: 'staple' },
-            { backdrop: 'library-modal-backdrop', close: 'close-library', name: 'library' }
+            { backdrop: 'library-modal-backdrop', close: 'close-library', name: 'library' },
+            { backdrop: 'tag-editor-modal-backdrop', close: 'close-tag-editor', name: 'tag-editor' }
         ];
 
         modalConfigs.forEach(config => {
@@ -462,6 +484,7 @@ class MealDashboardApp {
     renderDashboard() {
         this.renderHeroSection();
         this.renderRotationTimeline();
+        this.renderTagFilterBar();
         this.renderMealCards();
         this.renderStaples();
         this.renderWhatsNow();
@@ -625,7 +648,18 @@ class MealDashboardApp {
         const rotationOrder = mealLibrary.getRotationOrder();
         let html = '';
 
-        for (const code of rotationOrder) {
+        // Apply tag filters if any
+        let mealsToRender = rotationOrder;
+        if (this.state.activeTagFilters.length > 0) {
+            const filteredMeals = mealLibrary.filterMealsByTags(
+                this.state.activeTagFilters,
+                this.state.tagFilterMode
+            );
+            const filteredCodes = filteredMeals.map(m => m.code);
+            mealsToRender = rotationOrder.filter(code => filteredCodes.includes(code));
+        }
+
+        for (const code of mealsToRender) {
             const meal = this.state.meals[code] || CONFIG.meals[code];
             if (!meal) continue;
 
@@ -656,6 +690,25 @@ class MealDashboardApp {
                 }
             }
 
+            // Render tags
+            const mealTags = mealLibrary.getMealTags(code);
+            let tagsHtml = '';
+            if (seasonalLocal.seasonalCount > 0) {
+                tagsHtml += `<span class="badge badge-seasonal">🌱 ${seasonalLocal.seasonalCount} seasonal</span>`;
+            }
+            if (seasonalLocal.localCount > 0) {
+                tagsHtml += `<span class="badge badge-local">🏔️ ${seasonalLocal.localCount} local</span>`;
+            }
+            if (alerts.hasAlerts) {
+                tagsHtml += `<span class="badge badge-warning" title="${alerts.alerts.map(a => a.reason).join(', ')}">⚠️ ${alerts.count} alert${alerts.count > 1 ? 's' : ''}</span>`;
+            }
+            // Show all meal tags
+            for (const tag of mealTags) {
+                tagsHtml += `<span class="badge badge-tag" data-category="${tag.category}">${tag.name}</span>`;
+            }
+            // Add edit tags button
+            tagsHtml += `<button class="edit-tags-btn" data-meal="${code}" title="Edit tags">✏️</button>`;
+
             html += `
                 <div class="meal-card" data-meal="${code}">
                     <div class="meal-card-header">
@@ -678,21 +731,7 @@ class MealDashboardApp {
                         </div>
 
                         <div class="meal-tags">
-                            ${seasonalLocal.seasonalCount > 0 ? `
-                                <span class="badge badge-seasonal">🌱 ${seasonalLocal.seasonalCount} seasonal</span>
-                            ` : ''}
-                            ${seasonalLocal.localCount > 0 ? `
-                                <span class="badge badge-local">🏔️ ${seasonalLocal.localCount} local</span>
-                            ` : ''}
-                            ${alerts.hasAlerts ? `
-                                <span class="badge badge-warning" title="${alerts.alerts.map(a => a.reason).join(', ')}">
-                                    ⚠️ ${alerts.count} alert${alerts.count > 1 ? 's' : ''}
-                                </span>
-                            ` : ''}
-                            ${this.v2Enabled && meal.tags?.length > 0 ? meal.tags.slice(0, 2).map(tagId => {
-                                const tag = mealLibrary.getAllTags().find(t => t.id === tagId);
-                                return tag ? `<span class="badge badge-tag" data-category="${tag.category}">${tag.name}</span>` : '';
-                            }).join('') : ''}
+                            ${tagsHtml}
                         </div>
 
                         <div class="meal-dates">
@@ -714,6 +753,17 @@ class MealDashboardApp {
             `;
         }
 
+        // Show message if no meals match filters
+        if (mealsToRender.length === 0 && this.state.activeTagFilters.length > 0) {
+            html = `
+                <div class="empty-state" style="grid-column: 1 / -1;">
+                    <div class="empty-state-icon">🔍</div>
+                    <h4 class="empty-state-title">No meals match filters</h4>
+                    <p class="empty-state-text">Try adjusting your tag filters or clear them to see all meals.</p>
+                </div>
+            `;
+        }
+
         container.innerHTML = html;
 
         // Add event listeners
@@ -730,6 +780,263 @@ class MealDashboardApp {
                 this.openLogCookingModal(btn.dataset.meal);
             });
         });
+
+        // Add edit tags button listeners
+        container.querySelectorAll('.edit-tags-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.openTagEditorModal(btn.dataset.meal);
+            });
+        });
+    }
+
+    /**
+     * Render tag filter bar
+     */
+    renderTagFilterBar() {
+        const container = document.getElementById('tag-filter-chips');
+        if (!container) return;
+
+        const allTags = mealLibrary.getAllTags();
+        const categories = mealLibrary.getTagCategories();
+
+        let html = '';
+
+        // Group tags by category for better organization
+        for (const categoryId of Object.keys(categories)) {
+            const categoryTags = allTags.filter(t => t.category === categoryId);
+            for (const tag of categoryTags) {
+                const isActive = this.state.activeTagFilters.includes(tag.id);
+                html += `
+                    <span class="tag-filter-chip ${isActive ? 'active' : ''}"
+                          data-tag-id="${tag.id}"
+                          data-category="${tag.category}">
+                        ${tag.name}
+                    </span>
+                `;
+            }
+        }
+
+        container.innerHTML = html;
+
+        // Update filter mode checkbox
+        const filterModeCheckbox = document.getElementById('filter-mode-all');
+        if (filterModeCheckbox) {
+            filterModeCheckbox.checked = this.state.tagFilterMode === 'all';
+        }
+
+        // Add click handlers
+        container.querySelectorAll('.tag-filter-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                const tagId = chip.dataset.tagId;
+                this.toggleTagFilter(tagId);
+            });
+        });
+
+        // Filter mode toggle handler
+        const modeCheckbox = document.getElementById('filter-mode-all');
+        if (modeCheckbox) {
+            modeCheckbox.removeEventListener('change', this.handleFilterModeChange);
+            this.handleFilterModeChange = () => {
+                this.state.tagFilterMode = modeCheckbox.checked ? 'all' : 'any';
+                this.renderMealCards();
+            };
+            modeCheckbox.addEventListener('change', this.handleFilterModeChange);
+        }
+
+        // Clear filters handler
+        const clearBtn = document.getElementById('clear-tag-filters');
+        if (clearBtn) {
+            clearBtn.removeEventListener('click', this.handleClearFilters);
+            this.handleClearFilters = () => {
+                this.state.activeTagFilters = [];
+                this.renderTagFilterBar();
+                this.renderMealCards();
+            };
+            clearBtn.addEventListener('click', this.handleClearFilters);
+        }
+    }
+
+    /**
+     * Toggle a tag filter on/off
+     */
+    toggleTagFilter(tagId) {
+        const index = this.state.activeTagFilters.indexOf(tagId);
+        if (index > -1) {
+            this.state.activeTagFilters.splice(index, 1);
+        } else {
+            this.state.activeTagFilters.push(tagId);
+        }
+
+        this.renderTagFilterBar();
+        this.renderMealCards();
+    }
+
+    /**
+     * Open tag editor modal for a meal
+     */
+    openTagEditorModal(mealCode) {
+        this.currentEditingMealCode = mealCode;
+        const meal = this.state.meals[mealCode] || CONFIG.meals[mealCode];
+
+        if (!meal) return;
+
+        // Set title
+        document.getElementById('tag-editor-meal-name').textContent = meal.name;
+
+        // Render tag editor content
+        this.renderTagEditorContent(mealCode);
+
+        // Open modal
+        this.openModal('tag-editor');
+    }
+
+    /**
+     * Render tag editor modal content
+     */
+    renderTagEditorContent(mealCode) {
+        const container = document.getElementById('tag-editor-content');
+        if (!container) return;
+
+        const allTags = mealLibrary.getAllTags();
+        const categories = mealLibrary.getTagCategories();
+        const currentTags = mealLibrary.getMealTags(mealCode).map(t => t.id);
+
+        let html = '';
+
+        // Render each category
+        for (const [categoryId, categoryInfo] of Object.entries(categories)) {
+            const categoryTags = allTags.filter(t => t.category === categoryId);
+            if (categoryTags.length === 0) continue;
+
+            html += `
+                <div class="tag-category-section">
+                    <div class="tag-category-label" style="color: ${categoryInfo.color}">${categoryInfo.label}</div>
+                    <div class="tag-checkbox-group">
+            `;
+
+            for (const tag of categoryTags) {
+                const isChecked = currentTags.includes(tag.id);
+                html += `
+                    <label class="tag-checkbox-item ${isChecked ? 'checked' : ''}" data-category="${tag.category}">
+                        <input type="checkbox" name="meal-tags" value="${tag.id}" ${isChecked ? 'checked' : ''}>
+                        <span>${tag.name}</span>
+                    </label>
+                `;
+            }
+
+            html += `
+                    </div>
+                </div>
+            `;
+        }
+
+        // Add suggested tags section
+        const suggestedTags = mealLibrary.suggestTagsForMeal(mealCode);
+        const newSuggestions = suggestedTags.filter(tagId => !currentTags.includes(tagId));
+
+        if (newSuggestions.length > 0) {
+            html += `
+                <div class="tag-category-section" style="margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px dashed var(--color-gray-300);">
+                    <div class="tag-category-label" style="color: var(--color-info);">💡 Suggested Tags</div>
+                    <div class="tag-checkbox-group">
+            `;
+
+            for (const tagId of newSuggestions) {
+                const tag = allTags.find(t => t.id === tagId);
+                if (tag) {
+                    html += `
+                        <label class="tag-checkbox-item" data-category="${tag.category}">
+                            <input type="checkbox" name="meal-tags" value="${tag.id}">
+                            <span>${tag.name}</span>
+                        </label>
+                    `;
+                }
+            }
+
+            html += `
+                    </div>
+                </div>
+            `;
+        }
+
+        container.innerHTML = html;
+
+        // Add change handlers to update visual state
+        container.querySelectorAll('.tag-checkbox-item input').forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                const label = e.target.closest('.tag-checkbox-item');
+                if (e.target.checked) {
+                    label.classList.add('checked');
+                } else {
+                    label.classList.remove('checked');
+                }
+            });
+        });
+    }
+
+    /**
+     * Save tags from the tag editor modal
+     */
+    saveTagsFromEditor() {
+        const mealCode = this.currentEditingMealCode;
+        if (!mealCode) return;
+
+        // Get all checked tags
+        const checkedTags = [];
+        document.querySelectorAll('#tag-editor-content input[name="meal-tags"]:checked').forEach(cb => {
+            checkedTags.push(cb.value);
+        });
+
+        try {
+            mealLibrary.setMealTags(mealCode, checkedTags);
+
+            // Update local state
+            if (this.state.meals[mealCode]) {
+                this.state.meals[mealCode].tags = checkedTags;
+            }
+
+            this.showToast('Tags updated successfully', 'success');
+            this.closeModal('tag-editor');
+            this.renderMealCards();
+            this.renderTagFilterBar();
+        } catch (error) {
+            this.showToast(error.message, 'error');
+        }
+    }
+
+    /**
+     * Create a new tag from the tag editor modal
+     */
+    createNewTag() {
+        const nameInput = document.getElementById('new-tag-name');
+        const categorySelect = document.getElementById('new-tag-category');
+
+        const name = nameInput.value.trim();
+        const category = categorySelect.value;
+
+        if (!name) {
+            this.showToast('Please enter a tag name', 'error');
+            return;
+        }
+
+        try {
+            const newTag = mealLibrary.addTag({ name, category });
+            this.showToast(`Created tag: ${newTag.name}`, 'success');
+
+            // Clear input
+            nameInput.value = '';
+
+            // Re-render tag editor content
+            if (this.currentEditingMealCode) {
+                this.renderTagEditorContent(this.currentEditingMealCode);
+            }
+
+            // Re-render filter bar
+            this.renderTagFilterBar();
+        } catch (error) {
+            this.showToast(error.message, 'error');
+        }
     }
 
     /**
