@@ -9,18 +9,35 @@ const CONFIG = {
     googleSheetId: 'YOUR_GOOGLE_SHEET_ID',
     usdaApiKey: 'YOUR_USDA_API_KEY',
 
-    // GitHub raw file URLs for Excel data
-    // Update these URLs if your repo is different
+    // Excel file paths (relative to dashboard/index.html)
     excelUrls: {
-        mealCostCalculator: 'https://raw.githubusercontent.com/lydia-wu/GroceryShopping/main/MealCostCalculator.xlsx',
-        actualShoppingData: 'https://raw.githubusercontent.com/lydia-wu/GroceryShopping/main/Best_actualShoppingData.xlsx'
+        mealCostCalculator: '../MealCostCalculator.xlsx',
+        actualShoppingData: '../Best_actualShoppingData.xlsx'
     },
 
     // Meal rotation configuration
     mealRotation: {
         defaultOrder: ['B', 'C', 'A', 'D', 'F', 'E'],
         maxMeals: 10,
-        servingsPerDay: 2
+        servingsPerDay: 2,
+
+        // =====================================================================
+        // SPENDING DATA DATE RANGE - Controls what appears in charts/analytics
+        // =====================================================================
+        // Search terms: "rotation start date", "spending date range", "chart date filter"
+        //
+        // rotationStartDate:
+        //   - Set to a date string (e.g., '2025-12-01') to manually specify start date
+        //   - Set to null for DYNAMIC calculation based on cooking history
+        //   - Dynamic mode uses earliest cook date minus buffer for shelf-stable items
+        //
+        // shelfStableBufferDays:
+        //   - Days BEFORE first cook date to include (for flour, frozen items, etc.)
+        //   - Only used when rotationStartDate is null (dynamic mode)
+        //   - Default: 14 days
+        // =====================================================================
+        rotationStartDate: null,  // null = dynamic based on cooking history
+        shelfStableBufferDays: 14
     },
 
     // Meal definitions with actual ingredients

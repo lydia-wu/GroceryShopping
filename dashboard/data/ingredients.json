@@ -939,11 +939,11 @@
     },
     "celery": {
       "name": "Celery",
-      "aliases": ["celery", "celery stalks"],
+      "aliases": ["celery", "celery stalks", "celery bunch"],
       "category": "vegetable",
       "subcategory": "stalk",
-      "typicalQuantity": "1 stalk",
-      "gramsPerTypical": 40,
+      "typicalQuantity": "1 bunch (~12 stalks)",
+      "gramsPerTypical": 450,
       "isOrganicAvailable": true,
       "nutrition": {
         "calories": 16,
@@ -1359,7 +1359,7 @@
     },
     "thyme": {
       "name": "Dried Thyme",
-      "aliases": ["thyme", "dried thyme"],
+      "aliases": ["dried thyme", "thyme leaves", "great value thyme", "gv thyme"],
       "category": "herb",
       "subcategory": "dried_herb",
       "typicalQuantity": "1 tsp",
@@ -1401,7 +1401,7 @@
     },
     "oregano": {
       "name": "Dried Oregano",
-      "aliases": ["oregano", "dried oregano"],
+      "aliases": ["dried oregano", "oregano leaves", "great value oregano", "gv dried oregano", "gv oregano"],
       "category": "herb",
       "subcategory": "dried_herb",
       "typicalQuantity": "1 tsp",

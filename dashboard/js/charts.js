@@ -97,15 +97,21 @@ class ChartManager {
 
     /**
      * Create cost per meal bar chart
+     * Click on a bar to see ingredient cost breakdown
      */
     createCostPerMealChart(canvasId, meals) {
         this.destroyChart(canvasId);
         const ctx = document.getElementById(canvasId);
         if (!ctx) return null;
 
-        const labels = Object.keys(meals).map(code => meals[code].name || `Meal ${code}`);
-        const totalCosts = Object.keys(meals).map(code => meals[code].totalCost || 0);
-        const costPerServing = Object.keys(meals).map(code => meals[code].costPerServing || 0);
+        const mealCodes = Object.keys(meals);
+        const labels = mealCodes.map(code => meals[code].name || `Meal ${code}`);
+        const totalCosts = mealCodes.map(code => meals[code].totalCost || 0);
+        const costPerServing = mealCodes.map(code => meals[code].costPerServing || 0);
+
+        // Store meals reference for click handler
+        this.currentMeals = meals;
+        this.currentMealCodes = mealCodes;
 
         this.charts[canvasId] = new Chart(ctx, {
             type: 'bar',
@@ -130,10 +136,23 @@ class ChartManager {
             },
             options: {
                 ...this.getDefaultOptions(),
+                onClick: (event, elements) => {
+                    if (elements.length > 0) {
+                        const index = elements[0].index;
+                        const mealCode = this.currentMealCodes[index];
+                        this.showCostBreakdown(mealCode, this.currentMeals[mealCode]);
+                    }
+                },
                 plugins: {
                     ...this.getDefaultOptions().plugins,
                     title: {
                         display: false
+                    },
+                    tooltip: {
+                        ...this.getDefaultOptions().plugins.tooltip,
+                        callbacks: {
+                            afterBody: () => ['', 'Click for ingredient breakdown']
+                        }
                     }
                 },
                 scales: {
@@ -154,6 +173,106 @@ class ChartManager {
     }
 
     /**
+     * Show cost breakdown popup for a meal
+     * Requires priceService to be available globally (window.priceService)
+     */
+    showCostBreakdown(mealCode, meal) {
+        if (!window.priceService) {
+            console.error('priceService not available');
+            return;
+        }
+
+        const costData = window.priceService.calculateMealCost(meal);
+
+        // Create modal content
+        let html = `
+            <div style="max-height: 400px; overflow-y: auto;">
+                <h4 style="margin-bottom: 1rem;">Meal ${mealCode}: ${meal.name}</h4>
+                <p><strong>Total Cost:</strong> $${costData.totalCost.toFixed(2)} | <strong>Per Serving:</strong> $${costData.costPerServing.toFixed(2)} (${meal.servings} servings)</p>
+                <hr style="margin: 1rem 0; border-color: #D4A574;">
+
+                <h5 style="margin-bottom: 0.5rem;">Ingredient Breakdown:</h5>
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                    <thead>
+                        <tr style="background: #F5E6D3;">
+                            <th style="padding: 0.5rem; text-align: left;">Ingredient</th>
+                            <th style="padding: 0.5rem; text-align: left;">Recipe Amt</th>
+                            <th style="padding: 0.5rem; text-align: left;">Unit</th>
+                            <th style="padding: 0.5rem; text-align: right;">$/Unit</th>
+                            <th style="padding: 0.5rem; text-align: right;">Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+
+        for (const item of costData.breakdown) {
+            html += `
+                <tr style="border-bottom: 1px solid #E8DCC8;">
+                    <td style="padding: 0.5rem;">${item.name}</td>
+                    <td style="padding: 0.5rem;">${item.quantity}</td>
+                    <td style="padding: 0.5rem; color: #8B7355; font-size: 0.8rem;">${item.unit || '--'}</td>
+                    <td style="padding: 0.5rem; text-align: right;">$${item.pricePerUnit?.toFixed(2) || '--'}</td>
+                    <td style="padding: 0.5rem; text-align: right;"><strong>$${item.estimatedCost.toFixed(2)}</strong></td>
+                </tr>
+            `;
+        }
+
+        if (costData.missing.length > 0) {
+            html += `
+                <tr><td colspan="4" style="padding: 1rem 0.5rem; color: #8B7355; font-style: italic;">
+                    <strong>Missing price data:</strong> ${costData.missing.map(m => m.name).join(', ')}
+                </td></tr>
+            `;
+        }
+
+        html += `
+                    </tbody>
+                </table>
+            </div>
+        `;
+
+        // Show in alert or create a simple modal
+        this.showBreakdownModal(html);
+    }
+
+    /**
+     * Show a simple modal with the breakdown content
+     */
+    showBreakdownModal(content) {
+        // Remove existing modal if any
+        const existing = document.getElementById('cost-breakdown-modal');
+        if (existing) existing.remove();
+
+        const modal = document.createElement('div');
+        modal.id = 'cost-breakdown-modal';
+        modal.style.cssText = `
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); display: flex; align-items: center;
+            justify-content: center; z-index: 1000;
+        `;
+        modal.innerHTML = `
+            <div style="background: #FDF6E3; padding: 1.5rem; border-radius: 12px;
+                        max-width: 600px; width: 90%; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+                ${content}
+                <div style="margin-top: 1rem; text-align: right;">
+                    <button onclick="document.getElementById('cost-breakdown-modal').remove()"
+                            style="background: #5D4037; color: white; border: none;
+                                   padding: 0.5rem 1.5rem; border-radius: 6px; cursor: pointer;">
+                        Close
+                    </button>
+                </div>
+            </div>
+        `;
+
+        // Close on backdrop click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.remove();
+        });
+
+        document.body.appendChild(modal);
+    }
+
+    /**
      * Create spending by trip line chart
      */
     createSpendingByTripChart(canvasId, trips) {
@@ -161,8 +280,25 @@ class ChartManager {
         const ctx = document.getElementById(canvasId);
         if (!ctx) return null;
 
-        const labels = trips.map(trip => trip.name || `Trip ${trip.tripNumber}`);
-        const totals = trips.map(trip => trip.totalCost || 0);
+        // Store trips for hover/click access
+        this.currentTrips = trips;
+
+        // Format dates nicely (e.g., "Jan 8" instead of "2026-01-08")
+        const labels = trips.map(trip => {
+            if (trip.date) {
+                const d = new Date(trip.date);
+                return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            }
+            return trip.name || `Trip ${trip.tripNumber}`;
+        });
+
+        const totals = trips.map(trip => Math.round((trip.totalCost || 0) * 100) / 100);
+
+        console.log('[Charts] Spending by trip data:', trips.map(t => ({
+            date: t.date,
+            total: t.totalCost,
+            items: t.items?.length || 0
+        })));
 
         // Cumulative spending
         const cumulative = [];
@@ -183,7 +319,9 @@ class ChartManager {
                         borderColor: COLORS.primary,
                         backgroundColor: COLORS.primaryLight,
                         fill: true,
-                        tension: 0.3
+                        tension: 0.3,
+                        pointRadius: 6,
+                        pointHoverRadius: 8
                     },
                     {
                         label: 'Cumulative ($)',
@@ -191,12 +329,39 @@ class ChartManager {
                         borderColor: COLORS.secondary,
                         backgroundColor: 'transparent',
                         borderDash: [5, 5],
-                        tension: 0.3
+                        tension: 0.3,
+                        pointRadius: 3,
+                        pointHoverRadius: 5
                     }
                 ]
             },
             options: {
                 ...this.getDefaultOptions(),
+                plugins: {
+                    ...this.getDefaultOptions().plugins,
+                    tooltip: {
+                        ...this.getDefaultOptions().plugins.tooltip,
+                        callbacks: {
+                            title: (items) => {
+                                const idx = items[0].dataIndex;
+                                const trip = this.currentTrips[idx];
+                                return trip?.date || labels[idx];
+                            },
+                            afterBody: (items) => {
+                                const idx = items[0].dataIndex;
+                                const trip = this.currentTrips[idx];
+                                if (!trip?.storeBreakdown) return '';
+
+                                const lines = ['\nBy Store:'];
+                                for (const [store, amount] of Object.entries(trip.storeBreakdown)) {
+                                    lines.push(`  ${store}: $${amount.toFixed(2)}`);
+                                }
+                                lines.push(`\nItems: ${trip.items?.length || 0}`);
+                                return lines;
+                            }
+                        }
+                    }
+                },
                 scales: {
                     ...this.getDefaultOptions().scales,
                     y: {
@@ -285,45 +450,71 @@ class ChartManager {
     /**
      * Create store breakdown pie chart
      */
-    createStoreBreakdownChart(canvasId, storeData) {
+    createStoreBreakdownChart(canvasId, storeData, trips = null) {
         this.destroyChart(canvasId);
         const ctx = document.getElementById(canvasId);
         if (!ctx) return null;
 
-        const labels = Object.keys(storeData);
-        const values = Object.values(storeData);
+        // Store data for click access
+        this.currentStoreData = storeData;
+        this.currentStoreTrips = trips || this.currentTrips || [];
+
+        const labels = Object.keys(storeData).sort((a, b) => storeData[b] - storeData[a]);
+        const values = labels.map(l => Math.round(storeData[l] * 100) / 100);
+        const total = values.reduce((a, b) => a + b, 0);
 
         this.charts[canvasId] = new Chart(ctx, {
-            type: 'doughnut',
+            type: 'bar',
             data: {
                 labels: labels,
                 datasets: [{
+                    label: 'Spending ($)',
                     data: values,
                     backgroundColor: MEAL_COLORS,
                     borderColor: MEAL_COLORS.map(c => c.replace('0.8', '1')),
-                    borderWidth: 2
+                    borderWidth: 1
                 }]
             },
             options: {
-                responsive: true,
-                maintainAspectRatio: false,
+                ...this.getDefaultOptions(),
+                indexAxis: 'y', // Horizontal bars
+                onClick: (event, elements) => {
+                    if (elements.length > 0) {
+                        const index = elements[0].index;
+                        const store = labels[index];
+                        this.showStoreBreakdown(store);
+                    }
+                },
                 plugins: {
+                    ...this.getDefaultOptions().plugins,
                     legend: {
-                        position: 'right',
-                        labels: {
-                            color: '#3E2723',
-                            padding: 10
-                        }
+                        display: false
                     },
                     tooltip: {
                         ...this.getDefaultOptions().plugins.tooltip,
                         callbacks: {
                             label: (context) => {
                                 const value = context.raw;
-                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
                                 const percent = Math.round((value / total) * 100);
-                                return `${context.label}: $${value.toFixed(2)} (${percent}%)`;
-                            }
+                                return `$${value.toFixed(2)} (${percent}%)`;
+                            },
+                            afterBody: () => ['', 'Click for item details']
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ...this.getDefaultOptions().scales.x,
+                        beginAtZero: true,
+                        ticks: {
+                            ...this.getDefaultOptions().scales.x.ticks,
+                            callback: value => `$${value}`
+                        }
+                    },
+                    y: {
+                        ...this.getDefaultOptions().scales.y,
+                        ticks: {
+                            ...this.getDefaultOptions().scales.y.ticks
                         }
                     }
                 }
@@ -331,6 +522,73 @@ class ChartManager {
         });
 
         return this.charts[canvasId];
+    }
+
+    /**
+     * Show store item breakdown in a modal
+     */
+    showStoreBreakdown(storeName) {
+        // Collect all items from this store across all trips
+        const items = [];
+        for (const trip of this.currentStoreTrips) {
+            if (trip.items) {
+                for (const item of trip.items) {
+                    if (item.store === storeName) {
+                        items.push({
+                            ...item,
+                            tripDate: trip.date
+                        });
+                    }
+                }
+            }
+        }
+
+        // Sort by cost descending
+        items.sort((a, b) => (b.cost || 0) - (a.cost || 0));
+
+        const total = items.reduce((sum, item) => sum + (item.cost || 0), 0);
+
+        let html = `
+            <div style="max-height: 400px; overflow-y: auto;">
+                <h4 style="margin-bottom: 1rem;">${storeName}</h4>
+                <p><strong>Total:</strong> $${total.toFixed(2)} | <strong>Items:</strong> ${items.length}</p>
+                <hr style="margin: 1rem 0; border-color: #D4A574;">
+
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                    <thead>
+                        <tr style="background: #F5E6D3;">
+                            <th style="padding: 0.5rem; text-align: left;">Item</th>
+                            <th style="padding: 0.5rem; text-align: left;">Date</th>
+                            <th style="padding: 0.5rem; text-align: right;">Qty</th>
+                            <th style="padding: 0.5rem; text-align: right;">Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+
+        for (const item of items.slice(0, 50)) { // Limit to 50 items
+            const dateStr = item.tripDate ? new Date(item.tripDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '--';
+            html += `
+                <tr style="border-bottom: 1px solid #E8DCC8;">
+                    <td style="padding: 0.5rem; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${item.name}">${item.name}</td>
+                    <td style="padding: 0.5rem; color: #8B7355;">${dateStr}</td>
+                    <td style="padding: 0.5rem; text-align: right;">${item.quantity || '--'}</td>
+                    <td style="padding: 0.5rem; text-align: right;"><strong>$${(item.cost || 0).toFixed(2)}</strong></td>
+                </tr>
+            `;
+        }
+
+        if (items.length > 50) {
+            html += `<tr><td colspan="4" style="padding: 0.5rem; color: #8B7355; font-style: italic;">...and ${items.length - 50} more items</td></tr>`;
+        }
+
+        html += `
+                    </tbody>
+                </table>
+            </div>
+        `;
+
+        this.showBreakdownModal(html);
     }
 
     /**
@@ -488,22 +746,57 @@ class ChartManager {
     updateAllCharts(data) {
         const { meals, trips, storeData, mealsNutrition } = data;
 
-        if (meals) {
+        console.log('[Charts] Updating charts with:', {
+            mealCount: meals ? Object.keys(meals).length : 0,
+            tripCount: trips ? trips.length : 0,
+            storeCount: storeData ? Object.keys(storeData).length : 0,
+            nutritionCount: mealsNutrition ? Object.keys(mealsNutrition).length : 0
+        });
+
+        if (meals && Object.keys(meals).length > 0) {
             this.createCostPerMealChart('cost-per-meal-chart', meals);
         }
 
         if (trips && trips.length > 0) {
             this.createSpendingByTripChart('spending-by-trip-chart', trips);
+        } else {
+            // Show placeholder message for empty trips
+            this.showNoDataMessage('spending-by-trip-chart', 'No shopping trips in selected date range');
         }
 
-        if (storeData) {
-            this.createStoreBreakdownChart('store-breakdown-chart', storeData);
+        if (storeData && Object.keys(storeData).length > 0) {
+            this.createStoreBreakdownChart('store-breakdown-chart', storeData, trips);
+        } else {
+            this.showNoDataMessage('store-breakdown-chart', 'No store data in selected date range');
         }
 
-        if (mealsNutrition) {
+        if (mealsNutrition && Object.keys(mealsNutrition).length > 0) {
             this.createMacrosChart('macros-chart', mealsNutrition);
             this.createMicronutrientsChart('micronutrients-chart', mealsNutrition);
             this.createNutritionRadarChart('nutrition-radar-chart', mealsNutrition);
+        }
+    }
+
+    /**
+     * Show a "no data" message in place of a chart
+     */
+    showNoDataMessage(canvasId, message) {
+        this.destroyChart(canvasId);
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+
+        const container = canvas.parentElement;
+        if (container) {
+            // Check if message already exists
+            let msgEl = container.querySelector('.no-data-message');
+            if (!msgEl) {
+                msgEl = document.createElement('div');
+                msgEl.className = 'no-data-message';
+                msgEl.style.cssText = 'display:flex;align-items:center;justify-content:center;height:100%;color:#8B7355;font-style:italic;';
+                container.appendChild(msgEl);
+            }
+            msgEl.textContent = message;
+            canvas.style.display = 'none';
         }
     }
 

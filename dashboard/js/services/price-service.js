@@ -76,6 +76,7 @@ class PriceService {
 
     /**
      * Match an item name to a known ingredient
+     * Prioritizes exact matches, then form-specific (dried/fresh), then partial
      * @param {string} itemName - Item name from shopping data
      * @returns {string|null} - Matched ingredient key or null
      */
@@ -84,19 +85,59 @@ class PriceService {
 
         const normalized = itemName.toLowerCase().trim();
 
-        // Direct match
+        // Direct exact match (highest priority)
         if (this.aliasMap.has(normalized)) {
             return this.aliasMap.get(normalized);
         }
 
-        // Partial match - check if item contains any alias
+        // Check for form modifiers (dried, fresh, ground, etc.)
+        const hasDried = normalized.includes('dried') || normalized.includes('dry');
+        const hasFresh = normalized.includes('fresh');
+        const hasGround = normalized.includes('ground');
+        const hasCanned = normalized.includes('canned') || normalized.includes('can ');
+
+        // Collect all potential matches with scores
+        const matches = [];
+
         for (const [alias, key] of this.aliasMap) {
+            let score = 0;
+
+            // Check for match
             if (normalized.includes(alias) || alias.includes(normalized)) {
-                return key;
+                score = 1;
+
+                // Bonus for longer alias matches (more specific)
+                score += alias.length / 100;
+
+                // Form matching bonuses/penalties
+                const aliasHasDried = alias.includes('dried') || alias.includes('dry');
+                const aliasHasFresh = alias.includes('fresh');
+                const aliasHasGround = alias.includes('ground');
+                const aliasHasCanned = alias.includes('canned') || alias.includes('can ');
+
+                // Big bonus if forms match
+                if (hasDried && aliasHasDried) score += 10;
+                if (hasFresh && aliasHasFresh) score += 10;
+                if (hasGround && aliasHasGround) score += 10;
+                if (hasCanned && aliasHasCanned) score += 10;
+
+                // Penalty if forms mismatch
+                if (hasDried && aliasHasFresh) score -= 5;
+                if (hasFresh && aliasHasDried) score -= 5;
+
+                // Exact word boundary match bonus
+                const wordPattern = new RegExp(`\\b${alias}\\b`);
+                if (wordPattern.test(normalized)) score += 5;
+
+                matches.push({ alias, key, score });
             }
         }
 
-        return null;
+        if (matches.length === 0) return null;
+
+        // Return best match
+        matches.sort((a, b) => b.score - a.score);
+        return matches[0].key;
     }
 
     /**
@@ -315,6 +356,7 @@ class PriceService {
 
     /**
      * Calculate the cost of a meal based on tracked prices
+     * Uses price-per-unit calculation to estimate proportional costs
      * @param {Object} meal - Meal object with ingredients array
      * @returns {Object} - { totalCost, costPerServing, breakdown, missing }
      */
@@ -330,32 +372,39 @@ class PriceService {
         for (const ingredient of meal.ingredients) {
             // Try to match by name
             const key = this.matchIngredient(ingredient.name);
-            const price = key ? this.getPrice(key) : 0;
 
-            if (price > 0) {
-                // Get ingredient data for unit conversion
-                const ingredientData = ingredientsData?.ingredients?.[key];
-                let estimatedCost = price;
+            if (key) {
+                // Get price per gram for accurate calculation
+                const pricePerGram = this.getPricePerGram(key);
+                const unitInfo = this.getUnitInfo(key);
 
-                // If we have grams and typical quantity info, estimate proportional cost
-                if (ingredient.grams && ingredientData?.gramsPerTypical) {
-                    const ratio = ingredient.grams / ingredientData.gramsPerTypical;
-                    estimatedCost = price * ratio;
+                if (pricePerGram > 0 && ingredient.grams) {
+                    // Calculate cost based on grams needed
+                    const estimatedCost = pricePerGram * ingredient.grams;
+
+                    breakdown.push({
+                        name: ingredient.name,
+                        ingredientKey: key,
+                        quantity: ingredient.display || `${ingredient.grams}g`,
+                        unit: unitInfo?.unit || 'unit',
+                        pricePerUnit: unitInfo?.pricePerUnit ? Math.round(unitInfo.pricePerUnit * 100) / 100 : null,
+                        gramsUsed: ingredient.grams,
+                        estimatedCost: Math.round(estimatedCost * 100) / 100
+                    });
+
+                    totalCost += estimatedCost;
+                } else {
+                    missing.push({
+                        name: ingredient.name,
+                        quantity: ingredient.display || `${ingredient.grams}g`,
+                        reason: pricePerGram === 0 ? 'no price data' : 'no grams specified'
+                    });
                 }
-
-                breakdown.push({
-                    name: ingredient.name,
-                    ingredientKey: key,
-                    quantity: ingredient.display || `${ingredient.grams}g`,
-                    unitPrice: price,
-                    estimatedCost: Math.round(estimatedCost * 100) / 100
-                });
-
-                totalCost += estimatedCost;
             } else {
                 missing.push({
                     name: ingredient.name,
-                    quantity: ingredient.display || `${ingredient.grams}g`
+                    quantity: ingredient.display || `${ingredient.grams}g`,
+                    reason: 'ingredient not matched'
                 });
             }
         }
@@ -368,6 +417,159 @@ class PriceService {
             breakdown,
             missing
         };
+    }
+
+    /**
+     * Get price per gram for an ingredient (for accurate cost calculations)
+     * Uses MOST RECENT purchase price
+     * @param {string} ingredientKey - Ingredient identifier
+     * @returns {object} - { pricePerGram, unit, debug } or null if no data
+     */
+    getPricePerGram(ingredientKey) {
+        const records = this.getPriceRecords(ingredientKey);
+        if (!records || records.length === 0) return 0;
+
+        // Get ingredient metadata
+        const ingredientData = ingredientsData?.ingredients?.[ingredientKey];
+        const gramsPerTypical = ingredientData?.gramsPerTypical || 100;
+        const typicalQuantity = ingredientData?.typicalQuantity || '1 unit';
+
+        // Sort by date (most recent first)
+        const sorted = [...records].sort((a, b) => {
+            const dateA = a.date ? new Date(a.date) : new Date(0);
+            const dateB = b.date ? new Date(b.date) : new Date(0);
+            return dateB - dateA;
+        });
+
+        // Use most recent purchase
+        const mostRecent = sorted[0];
+        const cost = mostRecent.cost || 0;
+        let qty = parseFloat(mostRecent.quantity);
+        let units = (mostRecent.units || '').toLowerCase().trim();
+
+        if (cost <= 0) return 0;
+
+        // Handle NaN or missing quantity
+        if (isNaN(qty) || qty <= 0) {
+            // Try to parse from item name (e.g., "@$2.49/lb" or "3 count")
+            const itemName = (mostRecent.originalName || '').toLowerCase();
+            const lbMatch = itemName.match(/(\d+(?:\.\d+)?)\s*lb/);
+            const ozMatch = itemName.match(/(\d+(?:\.\d+)?)\s*oz/);
+            const countMatch = itemName.match(/(\d+)\s*(?:count|cnt|pack|cans?)/);
+
+            if (lbMatch) {
+                qty = parseFloat(lbMatch[1]);
+                units = 'lb';
+            } else if (ozMatch) {
+                qty = parseFloat(ozMatch[1]);
+                units = 'oz';
+            } else if (countMatch) {
+                qty = parseFloat(countMatch[1]);
+                units = 'cnt';
+            } else {
+                // Default: assume 1 typical unit
+                qty = 1;
+                units = 'cnt';
+            }
+        }
+
+        // Convert quantity to grams based on units
+        let totalGrams;
+        let unitLabel = units || 'unit';
+
+        switch (units) {
+            case 'oz':
+                totalGrams = qty * 28.35;
+                unitLabel = 'oz';
+                break;
+            case 'lb':
+                totalGrams = qty * 453.6;
+                unitLabel = 'lb';
+                break;
+            case 'kg':
+                totalGrams = qty * 1000;
+                unitLabel = 'kg';
+                break;
+            case 'g':
+                totalGrams = qty;
+                unitLabel = 'g';
+                break;
+            case 'l':
+            case 'liter':
+                totalGrams = qty * 1000;
+                unitLabel = 'L';
+                break;
+            case 'ml':
+                totalGrams = qty;
+                unitLabel = 'mL';
+                break;
+            case 'fl oz':
+                totalGrams = qty * 29.57;
+                unitLabel = 'fl oz';
+                break;
+            case 'gal':
+                totalGrams = qty * 3785;
+                unitLabel = 'gal';
+                break;
+            case 'cnt':
+            case 'count':
+            case 'each':
+            case 'bunch':
+            case '':
+                // For count items, use gramsPerTypical
+                totalGrams = qty * gramsPerTypical;
+                unitLabel = typicalQuantity;
+                break;
+            default:
+                // Try to be smart about unknown units
+                if (units.includes('oz')) {
+                    totalGrams = qty * 28.35;
+                    unitLabel = 'oz';
+                } else if (units.includes('lb')) {
+                    totalGrams = qty * 453.6;
+                    unitLabel = 'lb';
+                } else {
+                    // Default: assume count-based
+                    totalGrams = qty * gramsPerTypical;
+                    unitLabel = typicalQuantity;
+                }
+        }
+
+        // Store unit info for display
+        this._lastUnitInfo = this._lastUnitInfo || {};
+        this._lastUnitInfo[ingredientKey] = {
+            unit: unitLabel,
+            pricePerUnit: cost / qty,
+            totalGrams,
+            qty,
+            cost
+        };
+
+        return cost / totalGrams;
+    }
+
+    /**
+     * Get unit info for last price lookup (for display purposes)
+     */
+    getUnitInfo(ingredientKey) {
+        return this._lastUnitInfo?.[ingredientKey] || null;
+    }
+
+    /**
+     * Get price per typical unit for an ingredient (for display)
+     * Uses MOST RECENT purchase price
+     * @param {string} ingredientKey - Ingredient identifier
+     * @returns {number} - Price per typical unit or 0 if no data
+     */
+    getPricePerUnit(ingredientKey) {
+        const pricePerGram = this.getPricePerGram(ingredientKey);
+        if (pricePerGram === 0) return 0;
+
+        // Get typical quantity in grams
+        const ingredientData = ingredientsData?.ingredients?.[ingredientKey];
+        const gramsPerTypical = ingredientData?.gramsPerTypical || 100;
+
+        return pricePerGram * gramsPerTypical;
     }
 
     /**

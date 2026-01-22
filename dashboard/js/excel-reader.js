@@ -74,6 +74,38 @@ class ExcelReader {
     }
 
     /**
+     * Convert Excel serial date number to ISO date string
+     * Excel dates are days since January 1, 1900 (with a leap year bug)
+     * @param {number|string|Date} excelDate - Excel date serial or existing date
+     * @returns {string} - ISO date string (YYYY-MM-DD)
+     */
+    excelDateToString(excelDate) {
+        if (!excelDate) return null;
+
+        // If already a string that looks like a date, return it
+        if (typeof excelDate === 'string' && excelDate.includes('-')) {
+            return excelDate;
+        }
+
+        // If it's a Date object, convert to string
+        if (excelDate instanceof Date) {
+            return excelDate.toISOString().split('T')[0];
+        }
+
+        // If it's a number (Excel serial), convert it
+        if (typeof excelDate === 'number') {
+            // Excel's epoch is January 1, 1900, but it incorrectly treats 1900 as a leap year
+            // So we subtract 1 from dates after Feb 28, 1900
+            // JavaScript's Date epoch is January 1, 1970
+            // Days between 1900-01-01 and 1970-01-01 = 25569
+            const jsDate = new Date((excelDate - 25569) * 86400 * 1000);
+            return jsDate.toISOString().split('T')[0];
+        }
+
+        return null;
+    }
+
+    /**
      * Fetch and parse the MealCostCalculator.xlsx file
      * @returns {Promise<Object>} - Meal cost data
      */
@@ -195,6 +227,7 @@ class ExcelReader {
 
     /**
      * Process shopping data into usable format
+     * Handles itemized purchase sheets (e.g., "2025_2026_Itemized_Pur")
      * @param {Object} data - Raw Excel data
      * @returns {Object} - Processed shopping data
      */
@@ -202,32 +235,63 @@ class ExcelReader {
         const trips = [];
         const itemsByStore = {};
         const totalsByStore = {};
+        let tripCounter = 1;
 
         for (const sheetName of data.sheetNames) {
             const sheetData = data.sheets[sheetName];
 
-            // Check if this is a trip sheet
-            const tripMatch = sheetName.match(/Trip\s*(\d+)/i);
-            if (tripMatch) {
-                const tripNum = parseInt(tripMatch[1]);
-                const trip = this.processTripSheet(sheetData, tripNum, sheetName);
-                trips.push(trip);
+            // Check for itemized purchase sheets (year-based naming)
+            const itemizedMatch = sheetName.match(/\d{4}.*Itemized/i);
+            if (itemizedMatch) {
+                console.log(`Processing itemized sheet: ${sheetName} with ${sheetData.length} rows`);
+                const sheetTrips = this.processItemizedSheet(sheetData, tripCounter);
 
-                // Aggregate by store
-                for (const item of trip.items) {
-                    const store = item.store || 'Unknown';
-                    if (!itemsByStore[store]) {
-                        itemsByStore[store] = [];
-                        totalsByStore[store] = 0;
+                for (const trip of sheetTrips) {
+                    trips.push(trip);
+                    tripCounter++;
+
+                    // Aggregate by store
+                    for (const item of trip.items) {
+                        const store = item.store || 'Unknown';
+                        if (!itemsByStore[store]) {
+                            itemsByStore[store] = [];
+                            totalsByStore[store] = 0;
+                        }
+                        itemsByStore[store].push(item);
+                        totalsByStore[store] += item.cost || 0;
                     }
-                    itemsByStore[store].push(item);
-                    totalsByStore[store] += item.cost || 0;
+                }
+            }
+            // Also check for old "Trip X" format for backwards compatibility
+            else {
+                const tripMatch = sheetName.match(/Trip\s*(\d+)/i);
+                if (tripMatch) {
+                    const tripNum = parseInt(tripMatch[1]);
+                    const trip = this.processTripSheet(sheetData, tripNum, sheetName);
+                    trips.push(trip);
+
+                    for (const item of trip.items) {
+                        const store = item.store || 'Unknown';
+                        if (!itemsByStore[store]) {
+                            itemsByStore[store] = [];
+                            totalsByStore[store] = 0;
+                        }
+                        itemsByStore[store].push(item);
+                        totalsByStore[store] += item.cost || 0;
+                    }
                 }
             }
         }
 
-        // Sort trips by number
-        trips.sort((a, b) => a.tripNumber - b.tripNumber);
+        // Sort trips by date (newest first)
+        trips.sort((a, b) => {
+            if (a.date && b.date) {
+                return new Date(b.date) - new Date(a.date);
+            }
+            return b.tripNumber - a.tripNumber;
+        });
+
+        console.log(`Processed ${trips.length} shopping trips with ${Object.keys(itemsByStore).length} stores`);
 
         return {
             trips,
@@ -238,7 +302,94 @@ class ExcelReader {
     }
 
     /**
-     * Process a single trip sheet
+     * Process an itemized purchase sheet (year-based format)
+     * Groups items by OrderTransID_ReceiptID to create trips
+     * @param {Array} sheetData - Sheet data as array of rows
+     * @param {number} startTripNum - Starting trip number
+     * @returns {Array} - Array of trip objects
+     */
+    processItemizedSheet(sheetData, startTripNum) {
+        const tripsByReceipt = new Map();
+
+        for (const row of sheetData) {
+            // Get item name - skip tax/discount rows
+            const itemName = row['Item'] || '';
+            if (!itemName || itemName.includes('Tax') || itemName.includes('DISCOUNT')) {
+                continue;
+            }
+
+            // Convert Excel serial date to JS Date string
+            const rawDate = row['Date'];
+            const dateStr = this.excelDateToString(rawDate);
+
+            // Group by DATE - one shopping trip = one day of shopping (across all stores)
+            const tripKey = dateStr;
+
+            // Parse price - handle various formats
+            let cost = 0;
+            const priceRaw = row['PriceRaw'];
+            if (typeof priceRaw === 'number') {
+                cost = priceRaw;
+            } else if (typeof priceRaw === 'string') {
+                cost = parseFloat(priceRaw.replace(/[$,]/g, '')) || 0;
+            }
+
+            // Skip items with zero or negative cost
+            if (cost <= 0) continue;
+
+            // Get other fields
+            const store = row['Location'] || '';
+            const date = dateStr;
+            const quantity = row['Qty'] || 1;
+            const units = row['Qty_units'] || '';
+            const category = row['Cat'] || '';
+            const subCategory = row['SubCat'] || '';
+
+            // Only process grocery items (exclude restaurants, prepared foods, etc.)
+            if (category !== 'Food') continue;
+            if (subCategory && subCategory !== 'Groceries') continue;
+
+            // Skip items that look like restaurant/prepared food
+            const lowerItem = itemName.toLowerCase();
+            const restaurantKeywords = ['combo', 'entrée', 'entree', 'wings', 'scoop', 'braised',
+                'sauce', 'curry', 'chow mein', 'fried rice', 'contains', 'with garlic', 'with pork'];
+            const isRestaurant = restaurantKeywords.some(kw => lowerItem.includes(kw));
+            if (isRestaurant) continue;
+
+            // Create or update trip (grouped by date)
+            if (!tripsByReceipt.has(tripKey)) {
+                tripsByReceipt.set(tripKey, {
+                    tripNumber: startTripNum + tripsByReceipt.size,
+                    name: date,  // Just the date as the name
+                    date: date,
+                    items: [],
+                    totalCost: 0,
+                    storeBreakdown: {}
+                });
+            }
+
+            const trip = tripsByReceipt.get(tripKey);
+            trip.items.push({
+                name: itemName.trim(),
+                cost: cost,
+                store: store,
+                quantity: quantity,
+                units: units,
+                date: date
+            });
+            trip.totalCost += cost;
+
+            // Update store breakdown
+            if (store) {
+                trip.storeBreakdown[store] = (trip.storeBreakdown[store] || 0) + cost;
+            }
+        }
+
+        return Array.from(tripsByReceipt.values());
+    }
+
+    /**
+     * Process a single trip sheet (old format for backwards compatibility)
      * @param {Array} sheetData - Sheet data as array of rows
      * @param {number} tripNum - Trip number
      * @param {string} sheetName - Original sheet name

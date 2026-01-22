@@ -1,70 +1,158 @@
 # Claude Session Context
 
 > **Read this file first to minimize token usage**
-> Last updated: January 21, 2026
+> Last updated: January 22, 2026
 
 ---
 
-## IMPLEMENTATION v2.0.0 - IN PROGRESS
+## IMPLEMENTATION v2.0.0 - PHASE 1 DEBUGGING
 
-### What Was Completed (Jan 21, 2026)
+### Session Summary (Jan 22, 2026)
 
-**Phase 1 - Core infrastructure:**
+**Major debugging session focused on:**
+1. Module loading issues (RESOLVED)
+2. Excel data parsing (RESOLVED)
+3. Price calculation accuracy (IN PROGRESS - needs more work)
+4. Analytics charts (PARTIALLY DONE)
 
-| File | Purpose | Status |
-|------|---------|--------|
-| `/dashboard/data/ingredients.json` | 40+ ingredients with full nutrition per 100g | DONE |
-| `/dashboard/js/data/health-benefits.js` | Health facts from 3 books, 12 categories | DONE |
-| `/dashboard/js/core/supabase-client.js` | Supabase connection & real-time | DONE |
-| `/dashboard/js/core/state-manager.js` | Centralized state with persistence | DONE |
-| `/dashboard/js/core/event-bus.js` | Pub/sub for components | DONE |
-| `/dashboard/js/core/sync-manager.js` | Offline sync with IndexedDB | DONE |
-| `/dashboard/js/services/price-service.js` | Track ingredient prices from shopping data | DONE |
-| `/dashboard/js/meal-library.js` | Enhanced with tag system & state manager | DONE |
-| `/dashboard/js/app.js` | Integrated with v2.0.0 core modules | DONE |
+---
 
-### WHERE TO RESUME - DEBUGGING IN PROGRESS
+## WHERE TO RESUME - PRICE CALCULATION BUGS
 
-**Current Issue (Jan 21, 2026):**
-- Dashboard loads but v2.0.0 modules not accessible in console
-- `priceService`, `mealLibrary` etc. return "Can't find variable"
-- No price data visible on dashboard
-- Likely a module import failure causing whole app.js to fail silently
+### Critical Issues Still Remaining:
 
-**Already Fixed:**
-- ✅ `price-service.js` fetch path: changed `../data/` to `./data/`
+**1. Spice Price Calculations - WRONG**
+- Dried spices (thyme, oregano) still matching fresh prices or wrong items
+- Example: "thyme" showing $32.19 for 4 teaspoons (should be <$1)
+- Need to improve matching to prefer "dried" versions in purchase data
+- Excel items like "Great Value Thyme Leaves" not matching properly
 
-**Next Debug Steps:**
-1. User needs to check browser console (F12 → Console) for error messages
-2. Look for red errors about failed imports or syntax errors
-3. Common issues to check:
-   - Module import paths (all should work now)
-   - Any syntax errors in modified files
-   - CORS issues with local file loading
+**2. Parmesan Cheese - NOT MATCHING**
+- Shows "missing price data" but Costco Parmigiano Reggiano IS in Excel
+- $23.62 for 1.45 lb from Costco on 2025-12-06
+- Check alias matching in ingredients.json
 
-**To test after fixes:**
-```javascript
-// In browser console after page load:
-console.log(priceService);
-console.log(mealLibrary.getAllTags());
-console.log(mealDashboard.state.meals);
+**3. Canned Tomato Sauce/Paste - WRONG**
+- Calculations seem off
+- Need to verify unit conversion for canned goods (oz vs cans)
+
+**4. General Unit Conversion Issues**
+- "cnt" (count) items need proper gramsPerTypical values
+- Many items in Excel have qty=NaN - need better parsing
+- Cross-reference ingredients.json typical quantities with actual purchase units
+
+### Excel Data Reference (for debugging):
+```
+Thyme (dried): "Great Value Thyme Leaves, 0.75 oz" - $2.12 from Walmart
+Oregano: "GV Dried Oregano Leaves" - $1.24 for 0.87 oz from Walmart
+Parmesan: "Kirkland Signature Parmigiano Reggiano" - $23.62 for 1.45 lb from Costco
+Celery: "American Celery USA/MEX" - $2.49 for 1 bunch (cnt) from H-Mart
+Mackerel: "Chicken of the Sea Jack Mackerel" - $17.71 for 12 cans (180 oz) from Amazon
+Olive Oil: "KS Italian EVOO" - $27.99 for 2 L from Costco
+Honey: "Local Honey" - $13.99 for 3 lb from Costco
 ```
 
-**Phase 2 - After debugging complete:**
-1. Add UI for meal tags (tag editor modal, filter by tags)
-2. Create price history visualization component
-3. Build meal archive browser with search
+### Debug Commands (run in browser console):
+```javascript
+// Test price calculation for a meal
+priceService.calculateMealCost(mealDashboard.state.meals['A'])
 
-**Reference:** Full feature list in v2.0.0 implementation notes.
+// Check what's stored for an ingredient
+priceService.getPriceRecords('thyme')
+priceService.getPriceRecords('parmesan')
+
+// See all tracked prices
+priceService.getAllPrices()
+
+// Check ingredient matching
+priceService.matchIngredient('dried thyme')
+priceService.matchIngredient('parmigiano reggiano')
+```
 
 ---
 
-## Best Practices for Efficient Claude Usage
+## TODO FOR NEXT SESSION
 
-1. **Start with:** "Read CLAUDE_SESSION_CONTEXT.md, then [your task]"
-2. **Batch updates:** Combine multiple small changes into one request
-3. **Be specific:** "Update Meal D ingredients" is better than "make some changes"
-4. **Commit in batches:** Wait until several changes are done before committing
+### High Priority - Fix Price Calculations:
+1. [ ] Debug why parmesan/eggplant show "missing" when they exist in Excel
+2. [ ] Fix dried spice matching (thyme, oregano, etc.)
+3. [ ] Verify canned goods unit conversion (oz vs cans vs count)
+4. [ ] Review and fix gramsPerTypical values in ingredients.json
+5. [ ] Add more aliases to ingredients.json for better matching
+
+### Medium Priority - New Analytics Visual:
+1. [ ] REVERT store breakdown back to doughnut/pie chart (user preferred circular style)
+2. [ ] ADD NEW chart: "Spending by Store per Trip" - vertical grouped bar chart
+   - X-axis: dates
+   - Multiple bars per date (one per store)
+   - Click bar to show that store's item breakdown for that date
+   - This is ADDITIONAL, not replacing existing charts
+
+### Lower Priority - Phase 2 Features:
+1. [ ] Add UI for meal tags (tag editor modal, filter by tags)
+2. [ ] Create price history visualization component
+3. [ ] Build meal archive browser with search
+
+---
+
+## Configuration Quick Reference
+
+### How to change the spending data date range (rotation start date)
+
+**Search terms:** "rotation start date", "spending date range", "chart date filter"
+
+**File:** `dashboard/js/config.js` → `mealRotation` section
+
+```javascript
+mealRotation: {
+    // ... other settings ...
+
+    // Option 1: Set a specific date (charts show data from this date onwards)
+    rotationStartDate: '2025-12-01',
+
+    // Option 2: Dynamic (set to null) - automatically calculates based on:
+    //   - When meals in current rotation were first cooked
+    //   - Minus buffer days for shelf-stable purchases
+    rotationStartDate: null,
+    shelfStableBufferDays: 14  // Days before first cook to include
+}
+```
+
+**How dynamic mode works:**
+1. Finds earliest "first cooked" date among all meals in rotation
+2. Subtracts `shelfStableBufferDays` (default 14) for pantry items bought earlier
+3. Only shows spending data from that date onwards in charts
+
+---
+
+## What Was Fixed This Session (Jan 22, 2026)
+
+### Module Loading (RESOLVED):
+- ✅ All v2.0.0 modules now load correctly
+- ✅ `priceService`, `mealLibrary`, `stateManager`, `eventBus` accessible globally
+- ✅ Added debug logging to app.js (can remove later)
+
+### Excel Data Parsing (RESOLVED):
+- ✅ Changed config to use local Excel files (`../MealCostCalculator.xlsx`)
+- ✅ Updated excel-reader.js to handle "Itemized_Pur" sheet naming
+- ✅ Fixed Excel date serial numbers (46041 → "2026-01-15")
+- ✅ Group trips by DATE (not receipt ID) - one trip = one shopping day
+- ✅ Filter out restaurant/prepared food items
+
+### Analytics Charts (PARTIAL):
+- ✅ Spending by Trip: shows 2026 data, sorted by date, cumulative line
+- ✅ Hover on trip shows store breakdown and item count
+- ✅ Cost per Meal: click bar to see ingredient breakdown with unit column
+- ✅ Store Breakdown: click to see items (but need to revert to doughnut style)
+- ⚠️ Cost calculations still need work (see bugs above)
+
+### Price Service Improvements:
+- ✅ Uses most recent purchase price (not average)
+- ✅ Added `getPricePerGram()` for accurate unit conversion
+- ✅ Handles "cnt" (count) items using gramsPerTypical
+- ✅ Attempts to parse quantity from item names when qty=NaN
+- ✅ Stores unit info for display in breakdown
+- ⚠️ Still issues with matching and some unit conversions
 
 ---
 
@@ -80,66 +168,55 @@ GroceryList/
 │   ├── index.html                   # Main app
 │   ├── css/styles.css               # Styling
 │   ├── js/
-│   │   ├── app.js                   # Main app (v2.0.0 integrated)
-│   │   ├── config.js                # Meal definitions
+│   │   ├── app.js                   # Main app (v2.0.0 integrated, has debug logs)
+│   │   ├── config.js                # Meal definitions + rotation settings
+│   │   ├── excel-reader.js          # Excel parsing (updated for itemized sheets)
+│   │   ├── charts.js                # Analytics visualizations
 │   │   ├── meal-library.js          # Meal CRUD + tag system
 │   │   ├── nutrition.js             # Nutrition API
 │   │   ├── core/                    # Core infrastructure
-│   │   │   ├── supabase-client.js
 │   │   │   ├── state-manager.js
 │   │   │   ├── event-bus.js
 │   │   │   └── sync-manager.js
-│   │   ├── services/                # Business logic services
-│   │   │   └── price-service.js     # Ingredient price tracking
-│   │   └── data/                    # Data modules
+│   │   ├── services/
+│   │   │   └── price-service.js     # Ingredient price tracking (needs fixes)
+│   │   └── data/
 │   │       └── health-benefits.js
-│   └── data/                        # Static data
-│       └── ingredients.json
+│   └── data/
+│       └── ingredients.json         # Ingredient definitions (needs alias updates)
 └── docs/
 ```
 
 ---
 
-## Current Meal State (Jan 21, 2026)
+## Running the Dashboard
 
-### Cycle 1 - COMPLETE (except Fried Rice)
-| Meal | Status | Date |
-|------|--------|------|
-| B - Kale & Chicken Pasta | DONE | Thu 1/8 |
-| C - Warm Chicken Grain Bowl | DONE | Sun 1/11 |
-| A - Mackerel Meatball | DONE | Wed 1/14 |
-| D - Turkey Barley Soup | DONE | Fri 1/16 |
-| F - Turkey Spaghetti | DONE | Sat 1/18 |
-| E - Mackerel Fried Rice | PLANNED | Tue/Wed 1/20-21 |
+```bash
+# IMPORTANT: Run from project ROOT (not dashboard folder)
+cd /Users/ljwubest/Documents/GroceryList && python3 -m http.server 8000
+
+# Then open: http://localhost:8000/dashboard/
+```
 
 ---
 
-## Key Architecture Notes (for integration)
+## Key Architecture Notes
 
 ```javascript
 // State management
 import { getState, setState, subscribe } from './core/state-manager.js';
-const meals = getState('meals');
-setState({ meals: { ...meals, newMeal } });
 
 // Event bus
 import { emit, on, EVENTS } from './core/event-bus.js';
-on(EVENTS.MEAL_ADDED, (data) => handleMealAdded(data));
-
-// Health benefits
-import { getDiverseFactsForMeal } from './data/health-benefits.js';
-const facts = getDiverseFactsForMeal(meal.ingredients, 10);
 
 // Price service
 import priceService from './services/price-service.js';
 await priceService.init();
 const costData = priceService.calculateMealCost(meal);
 
-// Meal tags
+// Meal library with tags
 import mealLibrary from './meal-library.js';
 mealLibrary.enableStateManager();
-mealLibrary.addTagToMeal('A', 'fish');
-const tagged = mealLibrary.filterMealsByTags(['fish', 'quick']);
 ```
 
 ---
@@ -151,17 +228,3 @@ const tagged = mealLibrary.filterMealsByTags(['fish', 'quick']);
 - **Homemade:** Sourdough, yogurt, stock, breadcrumbs
 - **Location:** Aurora, CO 80247
 - **Household:** 2 adults, 2 babies, 2 servings/day
-
----
-
-## Quick Commands
-
-```bash
-# Test dashboard
-cd dashboard && python3 -m http.server 8000
-
-# Git commit
-git add . && git commit -m "message
-
-Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>" && git push
-```

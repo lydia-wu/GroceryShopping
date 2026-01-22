@@ -5,7 +5,10 @@
  * v2.0.0 - Integrated with new core infrastructure
  */
 
+console.log('[app.js] Module loading started...');
+
 import CONFIG from './config.js';
+console.log('[app.js] CONFIG loaded');
 import excelReader from './excel-reader.js';
 import googleSheets from './google-sheets.js';
 import nutritionAPI from './nutrition.js';
@@ -15,12 +18,17 @@ import shoppingListGenerator from './shopping-list.js';
 import staplesTracker from './staples-tracker.js';
 import seasonalData from './seasonal-data.js';
 import dietaryAlerts from './dietary-alerts.js';
+console.log('[app.js] Legacy modules loaded');
 
 // v2.0.0 Core Infrastructure
 import { getState, setState, subscribe } from './core/state-manager.js';
+console.log('[app.js] state-manager loaded');
 import { emit, on, EVENTS } from './core/event-bus.js';
+console.log('[app.js] event-bus loaded');
 import priceService from './services/price-service.js';
+console.log('[app.js] price-service loaded');
 import { getDiverseFactsForMeal, getFactsForCategory } from './data/health-benefits.js';
+console.log('[app.js] All imports complete!');
 
 class MealDashboardApp {
     constructor() {
@@ -634,16 +642,14 @@ class MealDashboardApp {
             );
             const seasonalLocal = seasonalData.countSeasonalLocal(ingredientNames);
 
-            // Calculate cost (v2.0.0: use price service if available)
-            let totalCost = meal.totalCost || (meal.costPerServing ? meal.costPerServing * meal.servings : 0);
-            let costSource = 'config';
+            // Calculate cost per serving (v2.0.0: use price service if available)
+            let costPerServing = meal.costPerServing || 0;
 
-            if (this.v2Enabled && totalCost === 0) {
+            if (this.v2Enabled) {
                 try {
                     const costData = priceService.calculateMealCost(meal);
-                    if (costData.totalCost > 0) {
-                        totalCost = costData.totalCost;
-                        costSource = 'tracked';
+                    if (costData.costPerServing > 0) {
+                        costPerServing = costData.costPerServing;
                     }
                 } catch (e) {
                     // Price service not ready, use default
@@ -662,7 +668,7 @@ class MealDashboardApp {
                                 <span>Servings:</span> ${meal.servings}
                             </div>
                             <div class="meal-meta-item">
-                                <span>Cost:</span> ${totalCost > 0 ? `$${totalCost.toFixed(2)}` : '--'}
+                                <span>Cost/Serving:</span> ${costPerServing > 0 ? `$${costPerServing.toFixed(2)}` : '--'}
                             </div>
                             ${meal.prepTime || meal.cookTime ? `
                             <div class="meal-meta-item">
@@ -770,12 +776,139 @@ class MealDashboardApp {
      * Render charts
      */
     renderCharts() {
+        // Filter trips to only show current rotation period
+        const filteredTrips = this.filterTripsForDisplay(this.state.trips);
+
+        // Also filter store data based on filtered trips
+        const filteredStoreData = this.calculateStoreDataFromTrips(filteredTrips);
+
+        // Calculate meal costs using price service and add to meals data for charts
+        const mealsWithCosts = this.calculateMealCostsForCharts();
+
         chartManager.updateAllCharts({
-            meals: this.state.meals,
-            trips: this.state.trips,
-            storeData: this.state.storeData,
+            meals: mealsWithCosts,
+            trips: filteredTrips,
+            storeData: filteredStoreData,
             mealsNutrition: this.state.mealsNutrition
         });
+    }
+
+    /**
+     * Calculate costs for all meals using price service
+     * Returns meals object with totalCost and costPerServing populated
+     */
+    calculateMealCostsForCharts() {
+        const mealsWithCosts = {};
+
+        for (const code of Object.keys(this.state.meals)) {
+            const meal = this.state.meals[code];
+            const costData = priceService.calculateMealCost(meal);
+
+            mealsWithCosts[code] = {
+                ...meal,
+                totalCost: costData.totalCost,
+                costPerServing: costData.costPerServing
+            };
+        }
+
+        return mealsWithCosts;
+    }
+
+    /**
+     * Filter trips to only show those relevant to current meal rotation
+     *
+     * DYNAMIC DATE LOGIC:
+     * - Finds the earliest "last cooked" date among all meals in current rotation
+     * - Subtracts a buffer (default 14 days) for shelf-stable item purchases
+     * - Only shows trips from that date onwards
+     *
+     * MANUAL OVERRIDE:
+     * - Set CONFIG.mealRotation.rotationStartDate to a specific date (e.g., '2025-12-01')
+     * - Set to null to use dynamic calculation based on cooking history
+     *
+     * TO CHANGE START DATE: Search for "rotationStartDate" in dashboard/js/config.js
+     */
+    filterTripsForDisplay(trips) {
+        if (!trips || trips.length === 0) return [];
+
+        // For 2026 data: start from Jan 1, 2026
+        const startDate = new Date('2026-01-01');
+        console.log(`[Charts] Filtering trips from ${startDate.toISOString().split('T')[0]} onwards`);
+
+        const filtered = trips.filter(trip => {
+            if (!trip.date) return false;
+            const tripDate = new Date(trip.date);
+            return tripDate >= startDate;
+        });
+
+        // Sort by date ascending (oldest first for timeline view)
+        filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+        console.log(`[Charts] Showing ${filtered.length} of ${trips.length} trips`);
+        return filtered;
+    }
+
+    /**
+     * Calculate the start date for relevant spending data
+     * Based on cooking history of current rotation meals
+     *
+     * TO CUSTOMIZE: Edit CONFIG.mealRotation in dashboard/js/config.js
+     * - rotationStartDate: Set to specific date string (e.g., '2025-12-01') or null for dynamic
+     * - shelfStableBufferDays: Days before first cook to include (default: 14)
+     */
+    calculateRotationStartDate() {
+        // Manual override if set in config
+        if (CONFIG.mealRotation.rotationStartDate) {
+            return new Date(CONFIG.mealRotation.rotationStartDate);
+        }
+
+        // Dynamic: find earliest cook date in current rotation
+        const rotationOrder = mealLibrary.getRotationOrder();
+        const history = this.state.cookingHistory;
+        let earliestCookDate = null;
+
+        for (const code of rotationOrder) {
+            const mealHistory = history[code];
+            if (mealHistory && mealHistory.length > 0) {
+                // Get the FIRST time this meal was cooked in current rotation
+                // (last entry in array if sorted newest-first)
+                const firstCook = mealHistory[mealHistory.length - 1];
+                const cookDate = new Date(firstCook.date);
+
+                if (!earliestCookDate || cookDate < earliestCookDate) {
+                    earliestCookDate = cookDate;
+                }
+            }
+        }
+
+        // If no cooking history, default to last 30 days
+        if (!earliestCookDate) {
+            earliestCookDate = new Date();
+            earliestCookDate.setDate(earliestCookDate.getDate() - 30);
+        }
+
+        // Subtract buffer for shelf-stable purchases (flour, frozen items, etc.)
+        const bufferDays = CONFIG.mealRotation.shelfStableBufferDays || 14;
+        earliestCookDate.setDate(earliestCookDate.getDate() - bufferDays);
+
+        return earliestCookDate;
+    }
+
+    /**
+     * Calculate store totals from filtered trips
+     */
+    calculateStoreDataFromTrips(trips) {
+        const storeData = {};
+        for (const trip of trips) {
+            if (trip.storeBreakdown) {
+                for (const [store, amount] of Object.entries(trip.storeBreakdown)) {
+                    storeData[store] = (storeData[store] || 0) + amount;
+                }
+            } else if (trip.store && trip.totalCost) {
+                storeData[trip.store] = (storeData[trip.store] || 0) + trip.totalCost;
+            }
+        }
+        return storeData;
     }
 
     /**
@@ -1342,9 +1475,11 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // v2.0.0: Expose modules globally for debugging/testing
+console.log('[app.js] Setting up global window exports...');
 window.priceService = priceService;
 window.mealLibrary = mealLibrary;
 window.stateManager = { getState, setState, subscribe };
 window.eventBus = { emit, on, EVENTS };
+console.log('[app.js] Global exports complete! priceService, mealLibrary, stateManager, eventBus now available.');
 
 export default MealDashboardApp;
