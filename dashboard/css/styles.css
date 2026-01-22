@@ -862,6 +862,113 @@ a:hover {
     height: 300px;
 }
 
+.chart-card-full {
+    grid-column: 1 / -1;
+}
+
+.chart-header {
+    margin-bottom: var(--space-4);
+}
+
+.chart-subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-500);
+    margin-top: var(--space-1);
+}
+
+/* ==========================================================================
+   Health Benefits Visualization (Feature 7)
+   ========================================================================== */
+
+.health-benefits-container {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: var(--space-6);
+    align-items: start;
+}
+
+.health-radar-wrapper {
+    position: relative;
+    height: 400px;
+}
+
+.health-categories-legend {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+}
+
+.health-category-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-md);
+    background: var(--color-gray-100);
+    transition: all var(--transition-base);
+    cursor: pointer;
+}
+
+.health-category-item:hover {
+    background: var(--color-gray-200);
+}
+
+.health-category-item.active {
+    background: var(--color-cream-dark);
+    border-left: 3px solid var(--category-color, var(--color-terracotta));
+}
+
+.health-category-icon {
+    font-size: 1.25rem;
+    width: 28px;
+    text-align: center;
+}
+
+.health-category-name {
+    flex: 1;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--color-brown);
+}
+
+.health-category-score {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-terracotta);
+    min-width: 40px;
+    text-align: right;
+}
+
+.health-category-bar {
+    width: 60px;
+    height: 6px;
+    background: var(--color-gray-200);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.health-category-bar-fill {
+    height: 100%;
+    background: var(--category-color, var(--color-terracotta));
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .health-benefits-container {
+        grid-template-columns: 1fr;
+    }
+
+    .health-radar-wrapper {
+        height: 300px;
+    }
+
+    .health-categories-legend {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 /* ==========================================================================
    Modal
    ========================================================================== */

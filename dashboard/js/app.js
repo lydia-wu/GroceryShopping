@@ -27,7 +27,7 @@ import { emit, on, EVENTS } from './core/event-bus.js';
 console.log('[app.js] event-bus loaded');
 import priceService from './services/price-service.js';
 console.log('[app.js] price-service loaded');
-import { getDiverseFactsForMeal, getFactsForCategory } from './data/health-benefits.js';
+import { getDiverseFactsForMeal, getFactsForCategory, healthCategories, healthBenefits } from './data/health-benefits.js';
 console.log('[app.js] All imports complete!');
 
 class MealDashboardApp {
@@ -1096,7 +1096,8 @@ class MealDashboardApp {
             meals: mealsWithCosts,
             trips: filteredTrips,
             storeData: filteredStoreData,
-            mealsNutrition: this.state.mealsNutrition
+            mealsNutrition: this.state.mealsNutrition,
+            healthBenefitsData: { healthCategories, healthBenefits }
         });
     }
 

@@ -931,6 +931,168 @@ class ChartManager {
     }
 
     /**
+     * Create health benefits radar chart showing 12 health defense categories
+     * Based on ingredients in active meals and their health benefits
+     * @param {string} canvasId - Canvas element ID
+     * @param {Object} mealsData - Meal data with ingredients
+     * @param {Object} healthBenefitsData - Health benefits from health-benefits.js
+     */
+    createHealthBenefitsRadarChart(canvasId, mealsData, healthBenefitsData) {
+        this.destroyChart(canvasId);
+        const ctx = document.getElementById(canvasId);
+        if (!ctx) return null;
+
+        const { healthCategories, healthBenefits } = healthBenefitsData || {};
+        if (!healthCategories || !healthBenefits) {
+            console.warn('[Charts] Health benefits data not available');
+            return null;
+        }
+
+        // 12 health categories
+        const categories = Object.values(healthCategories);
+        const categoryIds = categories.map(c => c.id);
+        const categoryLabels = categories.map(c => c.name);
+        const categoryColors = categories.map(c => c.color);
+
+        // Calculate health category scores for combined active meals
+        const scores = this.calculateHealthCategoryScores(mealsData, healthBenefits, categoryIds);
+
+        // Render the legend
+        this.renderHealthCategoriesLegend(categories, scores);
+
+        // Create radar chart
+        this.charts[canvasId] = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: categoryLabels,
+                datasets: [{
+                    label: 'Combined Meal Rotation',
+                    data: scores,
+                    backgroundColor: 'rgba(194, 112, 60, 0.2)',
+                    borderColor: 'rgba(194, 112, 60, 1)',
+                    borderWidth: 2,
+                    pointBackgroundColor: categoryColors,
+                    pointBorderColor: '#fff',
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            stepSize: 20,
+                            color: '#5D4037',
+                            backdropColor: 'transparent'
+                        },
+                        grid: {
+                            color: 'rgba(93, 64, 55, 0.1)'
+                        },
+                        angleLines: {
+                            color: 'rgba(93, 64, 55, 0.1)'
+                        },
+                        pointLabels: {
+                            color: '#3E2723',
+                            font: {
+                                size: 11,
+                                weight: '500'
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => {
+                                const idx = context.dataIndex;
+                                const category = categories[idx];
+                                return `${category.name}: ${Math.round(context.raw)}%`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        return this.charts[canvasId];
+    }
+
+    /**
+     * Calculate health category scores based on meal ingredients
+     * @param {Object} mealsData - Meals with ingredients
+     * @param {Object} healthBenefits - Health benefits data by ingredient
+     * @param {Array} categoryIds - Array of category IDs
+     * @returns {Array} Scores (0-100) for each category
+     */
+    calculateHealthCategoryScores(mealsData, healthBenefits, categoryIds) {
+        const categoryCounts = {};
+        categoryIds.forEach(id => categoryCounts[id] = 0);
+
+        // Count ingredients that contribute to each category
+        let totalIngredients = 0;
+
+        Object.values(mealsData).forEach(meal => {
+            const ingredients = meal.ingredients || [];
+            ingredients.forEach(ing => {
+                const ingredientName = typeof ing === 'string' ? ing : (ing.name || '');
+                const normalizedName = ingredientName.toLowerCase()
+                    .replace(/[^a-z0-9]/g, '_')
+                    .replace(/_+/g, '_')
+                    .replace(/^_|_$/g, '');
+
+                const benefits = healthBenefits[normalizedName];
+                if (benefits && benefits.categories) {
+                    benefits.categories.forEach(cat => {
+                        if (categoryCounts[cat] !== undefined) {
+                            categoryCounts[cat]++;
+                        }
+                    });
+                }
+                totalIngredients++;
+            });
+        });
+
+        // Normalize to 0-100 scale
+        // Max possible: if all ingredients contributed to a category
+        const maxPerCategory = Math.max(totalIngredients, 1);
+
+        return categoryIds.map(id => {
+            // Score based on coverage (how many ingredients benefit this category)
+            // Scale up for better visualization (multiply by factor since not all ingredients will have all categories)
+            const rawScore = (categoryCounts[id] / maxPerCategory) * 100;
+            return Math.min(100, rawScore * 3); // Scale factor for visibility
+        });
+    }
+
+    /**
+     * Render the health categories legend with scores
+     * @param {Array} categories - Health category definitions
+     * @param {Array} scores - Calculated scores for each category
+     */
+    renderHealthCategoriesLegend(categories, scores) {
+        const legendContainer = document.getElementById('health-categories-legend');
+        if (!legendContainer) return;
+
+        legendContainer.innerHTML = categories.map((cat, idx) => `
+            <div class="health-category-item" style="--category-color: ${cat.color}">
+                <span class="health-category-icon">${cat.icon}</span>
+                <span class="health-category-name">${cat.name}</span>
+                <span class="health-category-score">${Math.round(scores[idx])}%</span>
+                <div class="health-category-bar">
+                    <div class="health-category-bar-fill" style="width: ${scores[idx]}%; background: ${cat.color}"></div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    /**
      * Update all charts with new data
      */
     updateAllCharts(data) {
@@ -966,6 +1128,11 @@ class ChartManager {
             this.createMacrosChart('macros-chart', mealsNutrition);
             this.createMicronutrientsChart('micronutrients-chart', mealsNutrition);
             this.createNutritionRadarChart('nutrition-radar-chart', mealsNutrition);
+        }
+
+        // Health Benefits Radar (Feature 7)
+        if (meals && data.healthBenefitsData) {
+            this.createHealthBenefitsRadarChart('health-benefits-radar', meals, data.healthBenefitsData);
         }
     }
 
