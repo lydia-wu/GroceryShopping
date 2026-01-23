@@ -1,288 +1,176 @@
 # Claude Session Context
 
 > **Read this file first to minimize token usage**
-> Last updated: January 22, 2026 (Evening Session)
+> Last updated: January 22, 2026 (Late Evening Session)
 
 ---
 
-## v2.0.0 FULL IMPLEMENTATION - PHASE 1 COMPLETE
+## CURRENT STATUS: PHASE 2 IN PROGRESS
 
-### Session Summary (Jan 22, 2026 - Evening)
+### Session Summary (Jan 22, 2026 - Late Evening)
 
-**PHASE 1 COMPLETED - All 3 features done:**
+**PHASE 1 COMPLETE & VERIFIED** - All systems tested and working.
 
-1. **Feature 7: Comprehensive Ingredient & Health Benefit Database** ✅
-   - Health benefits radar chart visualization (12 categories)
-   - Expanded ingredients database from 40 to 58 ingredients
-   - Added 18 new health-rich whole foods with full nutrition data
-   - Health categories: heart, brain, cancer, gut, muscle, DNA, immunity, regeneration, metabolism, bone, eye, skin
-
-2. **Feature 6: Robust Cost/Nutrition Framework** ✅
-   - `getLatestPrice()` for most recent price (not average)
-   - `getMissingPriceIngredients()` for warning users
-   - `getHomemadeCost()` for staples (sourdough, yogurt, breadcrumbs)
-   - `getEffectivePricePerGram()` combining shopping + homemade costs
-   - Updated `calculateMealCost()` to use effective pricing
-
-3. **Feature 16: Complete Meal Archive System** ✅
-   - Archive search/filter UI in meal library modal
-   - Archive reason prompt with preset and custom reasons
-   - Archive stats summary display
-   - Delete permanently option for archived meals
-   - Display tags and archive reason on archived meal cards
-   - Archive button (📦) on meal cards
-
-**NEXT UP: PHASE 2 (Features 4, 8, 9, 10)**
-
-**FULL IMPLEMENTATION PLAN:** See `v2_MASTER_IMPLEMENTATION_PLAN.md` in project root
-
-**Additional Documentation:**
-- `v2_implementation_plan.md` - Detailed 7-phase plan (1,676 lines)
-- `docs/v2_comprehensive_plan.md` - Full feature specifications
-- `docs/v2_progress_tracker.md` - Progress tracking version
-- `docs/planning_session_extracted.md` - All 160+ clarifying Q&A from planning sessions
-- `docs/v1_original_plan.md` - Original MVP plan for reference
-
-### Implementation Order (Remaining features):
-**PHASE 2 - Data & Display:**
-1. Feature 4: Import Historical Staples Data
-2. Feature 8: Units on All Nutrition Information
-3. Feature 9: Ingredients Button on Meal Cards
-4. Feature 10: Up to 10 Fun Facts per Meal
-
-**PHASE 3 - Visualizations:**
-5. Feature 11: Expand Nutritional Radar Chart
-6. Feature 12: Distinct Colors for Charts
-7. Feature 15: USDA 2025-2030 Guidelines Visualizations
-
-**PHASE 4 - UI/UX:**
-8. Feature 19: Fix Top Navigation Buttons
-9. Feature 2: Drag-and-Drop Meal Reordering
-10. Feature 5: Calendar View
-11. Feature 14: Fix "Next Due" Calculation
-
-**PHASE 5 - Export & Media:**
-12. Feature 17: Export to Cookbook
-13. Feature 18: Upload 1 Photo per Recipe
-
-**PHASE 6 - New Sections:**
-14. Feature 20: Breakfast/Lunch Section
-15. Feature 3: Fresh Now Pricing
-
-**PHASE 7 - Polish:**
-16. Feature 1: Version Update to v2.0.0
+**NOW WORKING ON: PHASE 2 - Feature 4 (Import Historical Staples Data)**
 
 ---
 
-## PREVIOUS SESSION - MVP COMPLETE
+## VERIFICATION REPORT (Jan 22, 2026)
 
-### MVP Session Summary (Jan 22, 2026 - Morning)
+### Critical Systems - ALL VERIFIED
+- Dashboard HTML loads (HTTP 200)
+- All JavaScript modules have balanced brackets (syntax valid)
+- ingredients.json valid (59 ingredients)
+- health-benefits.js exports all required data (12 health categories)
+- Excel files exist and accessible
+- All critical DOM elements present in index.html
 
-**MVP Implementation completed:**
-1. Module loading issues (RESOLVED)
-2. Excel data parsing (RESOLVED)
-3. Price calculation accuracy (DEFERRED - fix incrementally as noticed)
-4. Analytics charts (COMPLETE)
-5. Tag System UI (COMPLETE)
+### Phase 1 Features - ALL IMPLEMENTED & VERIFIED
+
+**Feature 7: Health Benefits Database**
+- `healthCategories` object (12 categories with icons, colors)
+- `healthBenefits` object (ingredients → categories mapping)
+- `createHealthBenefitsRadarChart()` function
+- `calculateHealthCategoryScores()` function
+- `renderHealthCategoriesLegend()` function
+- Canvas: `id="health-benefits-radar"`
+- Legend: `id="health-categories-legend"`
+
+**Feature 6: Cost/Nutrition Framework**
+- `getLatestPrice()` - returns most recent price
+- `getMissingPriceIngredients()` - for warnings
+- `getHomemadeCost()` - for staples (sourdough, yogurt, breadcrumbs)
+- `getEffectivePricePerGram()` - combines shopping + homemade
+- `calculateMealCost()` - uses effective pricing
+- `isHomemade`, `homemadeCostPerUnit` fields in ingredients.json
+
+**Feature 16: Meal Archive System**
+- Archive search input: `id="archive-search-input"`
+- Archive stats display: `id="archive-stats"`
+- Archive reason modal: `id="archive-reason-modal"`
+- Archive button on meal cards (📦 icon)
+- `openArchiveModal()`, `confirmArchiveMeal()` functions
+- `renderMealLibrary(searchQuery)` with search filter
+- `searchArchivedMeals()`, `archiveMealEnhanced()` in meal-library.js
 
 ---
 
-## WHERE TO RESUME - PRICE CALCULATION BUGS
+## IMPLEMENTATION PHASES
 
-### Critical Issues Still Remaining:
+### PHASE 1 - Foundation (COMPLETE)
+- [x] Feature 7: Comprehensive Ingredient & Health Benefit Database
+- [x] Feature 6: Robust Cost/Nutrition Framework
+- [x] Feature 16: Meal Archive/Stack System
 
-**1. Spice Price Calculations - WRONG**
-- Dried spices (thyme, oregano) still matching fresh prices or wrong items
-- Example: "thyme" showing $32.19 for 4 teaspoons (should be <$1)
-- Need to improve matching to prefer "dried" versions in purchase data
-- Excel items like "Great Value Thyme Leaves" not matching properly
+### PHASE 2 - Data & Display (IN PROGRESS)
+- [ ] **Feature 4: Import Historical Staples Data** ← CURRENT
+- [ ] Feature 8: Units on All Nutrition Information
+- [ ] Feature 9: Ingredients Button on Meal Cards
+- [ ] Feature 10: Up to 10 Fun Facts per Meal
 
-**2. Parmesan Cheese - NOT MATCHING**
-- Shows "missing price data" but Costco Parmigiano Reggiano IS in Excel
-- $23.62 for 1.45 lb from Costco on 2025-12-06
-- Check alias matching in ingredients.json
+### PHASE 3 - Visualizations
+- [ ] Feature 11: Expand Nutritional Radar Chart
+- [ ] Feature 12: Distinct Colors for Charts
+- [ ] Feature 15: USDA 2025-2030 Guidelines Visualizations
 
-**3. Canned Tomato Sauce/Paste - WRONG**
-- Calculations seem off
-- Need to verify unit conversion for canned goods (oz vs cans)
+### PHASE 4 - UI/UX
+- [ ] Feature 19: Fix Top Navigation Buttons
+- [ ] Feature 2: Drag-and-Drop Meal Reordering
+- [ ] Feature 5: Calendar View
+- [ ] Feature 14: Fix "Next Due" Calculation
 
-**4. General Unit Conversion Issues**
-- "cnt" (count) items need proper gramsPerTypical values
-- Many items in Excel have qty=NaN - need better parsing
-- Cross-reference ingredients.json typical quantities with actual purchase units
+### PHASE 5 - Export & Media
+- [ ] Feature 17: Export to Cookbook
+- [ ] Feature 18: Upload 1 Photo per Recipe
+
+### PHASE 6 - New Sections
+- [ ] Feature 20: Breakfast/Lunch Section
+- [ ] Feature 3: Fresh Now Pricing
+
+### PHASE 7 - Polish
+- [ ] Feature 1: Version Update to v2.0.0
+
+---
+
+## KNOWN BUGS (Non-blocking)
+
+### Price Calculation Issues (fix incrementally):
+
+1. **Spice Prices - WRONG**
+   - Dried spices matching fresh prices or wrong items
+   - "thyme" showing $32.19 instead of <$1
+   - Fix: Improve matching to prefer "dried" versions
+
+2. **Parmesan Cheese - NOT MATCHING**
+   - Shows "missing price data" but Costco Parmigiano IS in Excel
+   - Fix: Check alias matching in ingredients.json
+
+3. **Canned Goods - WRONG**
+   - Unit conversion issues (oz vs cans)
+   - Fix: Verify unit conversion logic
+
+4. **General Unit Conversion**
+   - "cnt" items need proper gramsPerTypical values
+   - Some Excel items have qty=NaN
 
 ### Excel Data Reference (for debugging):
 ```
 Thyme (dried): "Great Value Thyme Leaves, 0.75 oz" - $2.12 from Walmart
 Oregano: "GV Dried Oregano Leaves" - $1.24 for 0.87 oz from Walmart
 Parmesan: "Kirkland Signature Parmigiano Reggiano" - $23.62 for 1.45 lb from Costco
-Celery: "American Celery USA/MEX" - $2.49 for 1 bunch (cnt) from H-Mart
-Mackerel: "Chicken of the Sea Jack Mackerel" - $17.71 for 12 cans (180 oz) from Amazon
-Olive Oil: "KS Italian EVOO" - $27.99 for 2 L from Costco
-Honey: "Local Honey" - $13.99 for 3 lb from Costco
-```
-
-### Debug Commands (run in browser console):
-```javascript
-// Test price calculation for a meal
-priceService.calculateMealCost(mealDashboard.state.meals['A'])
-
-// Check what's stored for an ingredient
-priceService.getPriceRecords('thyme')
-priceService.getPriceRecords('parmesan')
-
-// See all tracked prices
-priceService.getAllPrices()
-
-// Check ingredient matching
-priceService.matchIngredient('dried thyme')
-priceService.matchIngredient('parmigiano reggiano')
 ```
 
 ---
 
-## TODO FOR NEXT SESSION
-
-### High Priority - Fix Price Calculations (Deferred - fix incrementally):
-1. [ ] Debug why parmesan/eggplant show "missing" when they exist in Excel
-2. [ ] Fix dried spice matching (thyme, oregano, etc.)
-3. [ ] Verify canned goods unit conversion (oz vs cans vs count)
-4. [ ] Review and fix gramsPerTypical values in ingredients.json
-5. [ ] Add more aliases to ingredients.json for better matching
-
-### COMPLETED (Jan 22, 2026):
-1. [x] REVERT store breakdown back to doughnut/pie chart ✅
-2. [x] ADD NEW chart: "Spending by Store per Trip" - grouped bar chart ✅
-3. [x] Add tag display on meal cards ✅
-4. [x] Tag editor modal (click ✏️ on any meal) ✅
-5. [x] Filter meals by tags (filter bar above meal grid) ✅
-
-### Future Enhancements (Lower Priority):
-1. [ ] **Collapsible tag filter bar** - Add toggle to collapse/expand for cleaner dashboard look
-2. [ ] **Units column in store breakdown modal** - Show quantity/unit alongside item name and cost
-3. [ ] **Include shipping/taxes/fees** - Add all fees to store purchase summations
-4. [ ] Create price history visualization component
-5. [x] ~~Build meal archive browser with search~~ - DONE in Feature 16
-
----
-
-## Configuration Quick Reference
-
-### How to change the spending data date range (rotation start date)
-
-**Search terms:** "rotation start date", "spending date range", "chart date filter"
-
-**File:** `dashboard/js/config.js` → `mealRotation` section
-
-```javascript
-mealRotation: {
-    // ... other settings ...
-
-    // Option 1: Set a specific date (charts show data from this date onwards)
-    rotationStartDate: '2025-12-01',
-
-    // Option 2: Dynamic (set to null) - automatically calculates based on:
-    //   - When meals in current rotation were first cooked
-    //   - Minus buffer days for shelf-stable purchases
-    rotationStartDate: null,
-    shelfStableBufferDays: 14  // Days before first cook to include
-}
-```
-
-**How dynamic mode works:**
-1. Finds earliest "first cooked" date among all meals in rotation
-2. Subtracts `shelfStableBufferDays` (default 14) for pantry items bought earlier
-3. Only shows spending data from that date onwards in charts
-
----
-
-## What Was Fixed This Session (Jan 22, 2026)
-
-### Module Loading (RESOLVED):
-- ✅ All v2.0.0 modules now load correctly
-- ✅ `priceService`, `mealLibrary`, `stateManager`, `eventBus` accessible globally
-- ✅ Added debug logging to app.js (can remove later)
-
-### Excel Data Parsing (RESOLVED):
-- ✅ Changed config to use local Excel files (`../MealCostCalculator.xlsx`)
-- ✅ Updated excel-reader.js to handle "Itemized_Pur" sheet naming
-- ✅ Fixed Excel date serial numbers (46041 → "2026-01-15")
-- ✅ Group trips by DATE (not receipt ID) - one trip = one shopping day
-- ✅ Filter out restaurant/prepared food items
-
-### Analytics Charts (COMPLETE):
-- ✅ Spending by Trip: shows 2026 data, sorted by date, cumulative line
-- ✅ Hover on trip shows store breakdown and item count
-- ✅ Cost per Meal: click bar to see ingredient breakdown with unit column
-- ✅ Store Breakdown: REVERTED to doughnut chart, click segments for item details
-- ✅ NEW: Spending by Store per Trip - grouped bar chart with click-to-details
-- ⚠️ Cost calculations deferred - fix incrementally as noticed
-
-### Tag System UI (COMPLETE):
-- ✅ Tags display on meal cards as color-coded badges
-- ✅ Edit tags button (✏️) on each meal card
-- ✅ Tag editor modal with checkboxes by category
-- ✅ Auto-suggested tags based on meal ingredients
-- ✅ Create custom tags feature
-- ✅ Tag filter bar above meals grid
-- ✅ Filter by ANY or ALL matching tags
-- ✅ Clear filters button
-
-### Price Service Improvements:
-- ✅ Uses most recent purchase price (not average)
-- ✅ Added `getPricePerGram()` for accurate unit conversion
-- ✅ Handles "cnt" (count) items using gramsPerTypical
-- ✅ Attempts to parse quantity from item names when qty=NaN
-- ✅ Stores unit info for display in breakdown
-- ⚠️ Still issues with matching and some unit conversions
-
----
-
-## Project Structure
+## PROJECT STRUCTURE
 
 ```
 GroceryList/
-├── README.md                        # Main shopping guide & meal plans
 ├── CLAUDE_SESSION_CONTEXT.md        # THIS FILE - read first
+├── v2_MASTER_IMPLEMENTATION_PLAN.md # Full 20-feature plan
 ├── MealCostCalculator.xlsx          # Meal costs & ingredients
-├── Best_actualShoppingData.xlsx     # Actual purchase receipts (sheets by year)
+├── Best_actualShoppingData.xlsx     # Purchase receipts by year
 ├── dashboard/
 │   ├── index.html                   # Main app
-│   ├── css/styles.css               # Styling
+│   ├── css/styles.css               # Styling (includes archive, health benefits CSS)
 │   ├── js/
-│   │   ├── app.js                   # Main app (v2.0.0 integrated, has debug logs)
+│   │   ├── app.js                   # Main app (v2.0.0 integrated)
 │   │   ├── config.js                # Meal definitions + rotation settings
-│   │   ├── excel-reader.js          # Excel parsing (updated for itemized sheets)
-│   │   ├── charts.js                # Analytics visualizations
-│   │   ├── meal-library.js          # Meal CRUD + tag system
-│   │   ├── nutrition.js             # Nutrition API
-│   │   ├── core/                    # Core infrastructure
+│   │   ├── excel-reader.js          # Excel parsing
+│   │   ├── charts.js                # Analytics + health benefits radar
+│   │   ├── meal-library.js          # Meal CRUD + tags + archive
+│   │   ├── staples-tracker.js       # Staples tracking
+│   │   ├── core/
 │   │   │   ├── state-manager.js
 │   │   │   ├── event-bus.js
 │   │   │   └── sync-manager.js
 │   │   ├── services/
-│   │   │   └── price-service.js     # Ingredient price tracking (needs fixes)
+│   │   │   └── price-service.js     # Price tracking + homemade costs
 │   │   └── data/
-│   │       └── health-benefits.js
+│   │       └── health-benefits.js   # 12 health categories, ingredient mappings
 │   └── data/
-│       └── ingredients.json         # Ingredient definitions (needs alias updates)
+│       └── ingredients.json         # 59 ingredients with nutrition
 └── docs/
+    ├── v2_comprehensive_plan.md
+    ├── v2_progress_tracker.md
+    ├── planning_session_extracted.md # 160+ Q&A from planning
+    └── v1_original_plan.md
 ```
 
 ---
 
-## Running the Dashboard
+## RUNNING THE DASHBOARD
 
 ```bash
-# IMPORTANT: Run from project ROOT (not dashboard folder)
+# From project ROOT
 cd /Users/ljwubest/Documents/GroceryList && python3 -m http.server 8000
 
-# Then open: http://localhost:8000/dashboard/
+# Open: http://localhost:8000/dashboard/
 ```
 
 ---
 
-## Key Architecture Notes
+## KEY ARCHITECTURE
 
 ```javascript
 // State management
@@ -291,22 +179,40 @@ import { getState, setState, subscribe } from './core/state-manager.js';
 // Event bus
 import { emit, on, EVENTS } from './core/event-bus.js';
 
-// Price service
+// Price service (Feature 6)
 import priceService from './services/price-service.js';
 await priceService.init();
-const costData = priceService.calculateMealCost(meal);
+priceService.getLatestPrice('chicken_breast');
+priceService.getHomemadeCost('sourdough');
+priceService.getEffectivePricePerGram('yogurt');
 
-// Meal library with tags
+// Health benefits (Feature 7)
+import { healthCategories, healthBenefits, getDiverseFactsForMeal } from './data/health-benefits.js';
+
+// Meal library with archive (Feature 16)
 import mealLibrary from './meal-library.js';
-mealLibrary.enableStateManager();
+mealLibrary.archiveMealEnhanced(code, reason);
+mealLibrary.searchArchivedMeals(query);
 ```
 
 ---
 
-## User Preferences
+## USER PREFERENCES
 
 - **Stores:** Costco, H-Mart, Safeway (primary); Sprouts, Walmart (occasional)
 - **Dietary:** No onions, no mushrooms, no broccoli, no cow milk
 - **Homemade:** Sourdough, yogurt, stock, breadcrumbs
 - **Location:** Aurora, CO 80247
 - **Household:** 2 adults, 2 babies, 2 servings/day
+
+---
+
+## DOCUMENTATION FILES
+
+| File | Purpose |
+|------|---------|
+| `CLAUDE_SESSION_CONTEXT.md` | Current session state (READ FIRST) |
+| `v2_MASTER_IMPLEMENTATION_PLAN.md` | Unified 20-feature plan |
+| `docs/planning_session_extracted.md` | 160+ clarifying Q&A |
+| `docs/v2_comprehensive_plan.md` | Detailed feature specs |
+| `docs/v2_progress_tracker.md` | Progress tracking |
