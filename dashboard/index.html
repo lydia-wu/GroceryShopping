@@ -440,14 +440,29 @@
         </div>
     </div>
 
-    <!-- Meal Library Modal -->
+    <!-- Meal Library Modal (Feature 16: Archive System) -->
     <div class="modal-backdrop" id="library-modal-backdrop">
-        <div class="modal" id="library-modal">
+        <div class="modal" id="library-modal" style="max-width: 600px;">
             <div class="modal-header">
                 <h3 class="modal-title">Meal Library</h3>
                 <button class="modal-close" id="close-library">&times;</button>
             </div>
             <div class="modal-body">
+                <!-- Archive Stats Summary -->
+                <div id="archive-stats" class="archive-stats" style="display: none;">
+                    <span class="archive-stat-item"><strong id="archive-total">0</strong> archived</span>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="archive-search" style="margin-bottom: 1rem;">
+                    <input type="text"
+                           class="form-input"
+                           id="archive-search-input"
+                           placeholder="Search by name, tag, or reason..."
+                           style="width: 100%;">
+                </div>
+
+                <!-- Archived Meals List -->
                 <div id="library-list">
                     <!-- Populated by JS -->
                     <div class="empty-state">
@@ -459,6 +474,39 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" id="close-library-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Archive Reason Modal (Feature 16) -->
+    <div class="modal-backdrop" id="archive-reason-modal-backdrop">
+        <div class="modal" id="archive-reason-modal" style="max-width: 400px;">
+            <div class="modal-header">
+                <h3 class="modal-title">Archive Meal</h3>
+                <button class="modal-close" id="close-archive-reason">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom: 1rem;">Archiving: <strong id="archive-meal-name">--</strong></p>
+                <div class="form-group">
+                    <label class="form-label">Reason (optional)</label>
+                    <select class="form-select" id="archive-reason-select">
+                        <option value="">No reason</option>
+                        <option value="seasonal">Seasonal - out of season</option>
+                        <option value="tired">Tired of it for now</option>
+                        <option value="expensive">Too expensive currently</option>
+                        <option value="time">Takes too long to make</option>
+                        <option value="kids">Kids don't like it</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group" id="archive-reason-custom-group" style="display: none;">
+                    <label class="form-label">Custom reason</label>
+                    <input type="text" class="form-input" id="archive-reason-custom" placeholder="Enter reason...">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancel-archive-reason">Cancel</button>
+                <button class="btn btn-primary" id="confirm-archive">Archive Meal</button>
             </div>
         </div>
     </div>

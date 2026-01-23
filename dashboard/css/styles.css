@@ -1702,6 +1702,107 @@ a:hover {
 }
 
 /* ==========================================================================
+   Archive System (Feature 16)
+   ========================================================================== */
+
+.archive-stats {
+    display: flex;
+    gap: var(--space-3);
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-gray-100);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-3);
+    font-size: var(--font-size-sm);
+}
+
+.archive-stat-item {
+    color: var(--color-gray-600);
+}
+
+.archive-stat-item strong {
+    color: var(--color-brown);
+}
+
+.archived-meal-card {
+    padding: var(--space-3);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-2);
+    background: var(--color-white);
+    transition: box-shadow var(--transition-fast);
+}
+
+.archived-meal-card:hover {
+    box-shadow: var(--shadow-sm);
+}
+
+.archived-meal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--space-2);
+}
+
+.archived-meal-name {
+    font-weight: 600;
+    color: var(--color-brown);
+    margin: 0;
+}
+
+.archived-meal-meta {
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-500);
+    margin-top: var(--space-1);
+}
+
+.archived-meal-reason {
+    display: inline-block;
+    font-size: var(--font-size-xs);
+    padding: 2px 8px;
+    background: var(--color-gray-100);
+    border-radius: var(--radius-full);
+    color: var(--color-gray-600);
+    margin-top: var(--space-1);
+}
+
+.archived-meal-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    margin-top: var(--space-2);
+}
+
+.archived-meal-tag {
+    font-size: var(--font-size-xs);
+    padding: 2px 6px;
+    background: var(--color-sage-light);
+    color: var(--color-white);
+    border-radius: var(--radius-sm);
+}
+
+.archived-meal-actions {
+    display: flex;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--color-gray-100);
+}
+
+.archived-meal-actions .btn {
+    flex: 1;
+}
+
+.btn-danger {
+    background: var(--color-error);
+    color: var(--color-white);
+    border: none;
+}
+
+.btn-danger:hover {
+    background: #B84C4C;
+}
+
+/* ==========================================================================
    Utility Classes
    ========================================================================== */
 

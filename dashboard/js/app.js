@@ -375,6 +375,27 @@ class MealDashboardApp {
             this.renderMealLibrary();
         });
 
+        // Archive search (Feature 16)
+        document.getElementById('archive-search-input')?.addEventListener('input', (e) => {
+            this.renderMealLibrary(e.target.value);
+        });
+
+        // Archive reason modal handlers (Feature 16)
+        document.getElementById('archive-reason-select')?.addEventListener('change', (e) => {
+            const customGroup = document.getElementById('archive-reason-custom-group');
+            if (customGroup) {
+                customGroup.style.display = e.target.value === 'other' ? 'block' : 'none';
+            }
+        });
+
+        document.getElementById('confirm-archive')?.addEventListener('click', () => {
+            this.confirmArchiveMeal();
+        });
+
+        document.getElementById('cancel-archive-reason')?.addEventListener('click', () => {
+            this.closeModal('archive-reason');
+        });
+
         document.getElementById('save-meal-edit')?.addEventListener('click', () => {
             this.handleSaveMeal();
         });
@@ -429,7 +450,8 @@ class MealDashboardApp {
             { backdrop: 'meal-edit-modal-backdrop', close: 'close-meal-edit', name: 'meal-edit' },
             { backdrop: 'staple-modal-backdrop', close: 'close-staple', name: 'staple' },
             { backdrop: 'library-modal-backdrop', close: 'close-library', name: 'library' },
-            { backdrop: 'tag-editor-modal-backdrop', close: 'close-tag-editor', name: 'tag-editor' }
+            { backdrop: 'tag-editor-modal-backdrop', close: 'close-tag-editor', name: 'tag-editor' },
+            { backdrop: 'archive-reason-modal-backdrop', close: 'close-archive-reason', name: 'archive-reason' }
         ];
 
         modalConfigs.forEach(config => {
@@ -748,6 +770,7 @@ class MealDashboardApp {
                     <div class="meal-card-actions">
                         <button class="btn btn-sm btn-outline view-nutrition-btn" data-meal="${code}">Nutrition</button>
                         <button class="btn btn-sm btn-primary log-meal-btn" data-meal="${code}">Log Cooking</button>
+                        <button class="btn btn-sm btn-outline archive-meal-btn" data-meal="${code}" title="Archive meal">📦</button>
                     </div>
                 </div>
             `;
@@ -786,6 +809,14 @@ class MealDashboardApp {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 this.openTagEditorModal(btn.dataset.meal);
+            });
+        });
+
+        // Add archive button listeners (Feature 16)
+        container.querySelectorAll('.archive-meal-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.openArchiveModal(btn.dataset.meal);
             });
         });
     }
@@ -1647,36 +1678,84 @@ class MealDashboardApp {
     }
 
     /**
-     * Render meal library
+     * Render meal library with optional search filter (Feature 16)
+     * @param {string} searchQuery - Optional search query
      */
-    renderMealLibrary() {
+    renderMealLibrary(searchQuery = '') {
         const container = document.getElementById('library-list');
+        const statsContainer = document.getElementById('archive-stats');
+        const totalEl = document.getElementById('archive-total');
         if (!container) return;
 
-        const archivedMeals = mealLibrary.getArchivedMeals();
+        // Get archived meals (with search if provided)
+        const allArchivedMeals = mealLibrary.getArchivedMeals();
+        const archivedMeals = searchQuery
+            ? mealLibrary.searchArchivedMeals(searchQuery)
+            : allArchivedMeals;
+
+        // Update stats
+        if (statsContainer && totalEl) {
+            if (allArchivedMeals.length > 0) {
+                statsContainer.style.display = 'flex';
+                totalEl.textContent = allArchivedMeals.length;
+            } else {
+                statsContainer.style.display = 'none';
+            }
+        }
+
+        // Get all tags for display
+        const allTags = mealLibrary.getAllTags();
+        const getTagName = (tagId) => {
+            const tag = allTags.find(t => t.id === tagId);
+            return tag?.name || tagId;
+        };
 
         if (archivedMeals.length === 0) {
+            const message = searchQuery
+                ? `No archived meals match "${searchQuery}"`
+                : 'Archived meals will appear here. You can restore them to your rotation at any time.';
             container.innerHTML = `
                 <div class="empty-state">
                     <div class="empty-state-icon">&#128218;</div>
                     <h4 class="empty-state-title">No Archived Meals</h4>
-                    <p class="empty-state-text">Archived meals will appear here. You can restore them to your rotation at any time.</p>
+                    <p class="empty-state-text">${message}</p>
                 </div>
             `;
             return;
         }
 
-        container.innerHTML = archivedMeals.map(meal => `
-            <div class="meal-library-item" style="padding: 1rem; border: 1px solid var(--color-gray-200); border-radius: 0.5rem; margin-bottom: 0.5rem;">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <div>
-                        <strong>${meal.name}</strong>
-                        <div class="text-small text-muted">Archived: ${meal.archivedDate || 'Unknown'}</div>
+        container.innerHTML = archivedMeals.map(meal => {
+            const tagsHtml = (meal.tags || []).map(tagId =>
+                `<span class="archived-meal-tag">${getTagName(tagId)}</span>`
+            ).join('');
+
+            const reasonHtml = meal.archiveReason
+                ? `<span class="archived-meal-reason">${this.formatArchiveReason(meal.archiveReason)}</span>`
+                : '';
+
+            return `
+                <div class="archived-meal-card" data-meal-code="${meal.code}">
+                    <div class="archived-meal-header">
+                        <div>
+                            <h4 class="archived-meal-name">${meal.name}</h4>
+                            <div class="archived-meal-meta">
+                                Archived: ${meal.archivedDate || 'Unknown'}
+                                ${reasonHtml}
+                            </div>
+                        </div>
                     </div>
-                    <button class="btn btn-sm btn-outline restore-meal-btn" data-meal="${meal.code}">Restore</button>
+                    ${tagsHtml ? `<div class="archived-meal-tags">${tagsHtml}</div>` : ''}
+                    <div class="archived-meal-actions">
+                        <button class="btn btn-sm btn-primary restore-meal-btn" data-meal="${meal.code}">
+                            Restore to Rotation
+                        </button>
+                        <button class="btn btn-sm btn-danger delete-meal-btn" data-meal="${meal.code}">
+                            Delete
+                        </button>
+                    </div>
                 </div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
 
         // Add restore handlers
         container.querySelectorAll('.restore-meal-btn').forEach(btn => {
@@ -1686,13 +1765,94 @@ class MealDashboardApp {
                     const meal = mealLibrary.restoreMeal(code);
                     this.state.meals[code] = meal;
                     this.showToast(`Restored ${meal.name}`, 'success');
-                    this.renderMealLibrary();
+                    this.renderMealLibrary(searchQuery);
                     this.renderDashboard();
                 } catch (error) {
                     this.showToast(error.message, 'error');
                 }
             });
         });
+
+        // Add delete handlers
+        container.querySelectorAll('.delete-meal-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const code = btn.dataset.meal;
+                const meal = archivedMeals.find(m => m.code === code);
+                if (meal && confirm(`Permanently delete "${meal.name}"? This cannot be undone.`)) {
+                    try {
+                        mealLibrary.deleteMeal(code);
+                        this.showToast(`Deleted ${meal.name}`, 'info');
+                        this.renderMealLibrary(searchQuery);
+                    } catch (error) {
+                        this.showToast(error.message, 'error');
+                    }
+                }
+            });
+        });
+    }
+
+    /**
+     * Format archive reason for display (Feature 16)
+     */
+    formatArchiveReason(reason) {
+        const reasonLabels = {
+            seasonal: 'Seasonal',
+            tired: 'Tired of it',
+            expensive: 'Too expensive',
+            time: 'Takes too long',
+            kids: "Kids don't like it",
+            other: 'Other'
+        };
+        return reasonLabels[reason] || reason;
+    }
+
+    /**
+     * Open archive meal modal with reason prompt (Feature 16)
+     */
+    openArchiveModal(mealCode) {
+        const meal = this.state.meals[mealCode] || mealLibrary.getMeal(mealCode);
+        if (!meal) return;
+
+        this.pendingArchiveMealCode = mealCode;
+
+        const mealNameEl = document.getElementById('archive-meal-name');
+        if (mealNameEl) mealNameEl.textContent = meal.name;
+
+        // Reset form
+        const selectEl = document.getElementById('archive-reason-select');
+        const customEl = document.getElementById('archive-reason-custom');
+        const customGroupEl = document.getElementById('archive-reason-custom-group');
+
+        if (selectEl) selectEl.value = '';
+        if (customEl) customEl.value = '';
+        if (customGroupEl) customGroupEl.style.display = 'none';
+
+        this.openModal('archive-reason');
+    }
+
+    /**
+     * Confirm archive meal with reason (Feature 16)
+     */
+    confirmArchiveMeal() {
+        if (!this.pendingArchiveMealCode) return;
+
+        const selectEl = document.getElementById('archive-reason-select');
+        const customEl = document.getElementById('archive-reason-custom');
+
+        let reason = selectEl?.value || null;
+        if (reason === 'other' && customEl?.value) {
+            reason = customEl.value;
+        }
+
+        try {
+            mealLibrary.archiveMealEnhanced(this.pendingArchiveMealCode, reason);
+            delete this.state.meals[this.pendingArchiveMealCode];
+            this.closeModal('archive-reason');
+            this.renderDashboard();
+            this.pendingArchiveMealCode = null;
+        } catch (error) {
+            this.showToast(error.message, 'error');
+        }
     }
 
     /**
