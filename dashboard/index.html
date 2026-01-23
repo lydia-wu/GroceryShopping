@@ -401,9 +401,9 @@
         </div>
     </div>
 
-    <!-- Log Staple Modal -->
+    <!-- Log Staple Modal (Feature 4: Enhanced with detailed tracking) -->
     <div class="modal-backdrop" id="staple-modal-backdrop">
-        <div class="modal" id="staple-modal">
+        <div class="modal" id="staple-modal" style="max-width: 500px;">
             <div class="modal-header">
                 <h3 class="modal-title">Log Staple Production</h3>
                 <button class="modal-close" id="close-staple">&times;</button>
@@ -427,6 +427,67 @@
                         <label class="form-label" for="staple-quantity">Quantity</label>
                         <input type="text" class="form-input" id="staple-quantity" required placeholder="e.g., 3 loaves, 6.5 pints">
                     </div>
+
+                    <!-- Sourdough-specific fields (Feature 4) -->
+                    <div id="sourdough-fields" class="staple-specific-fields" style="display: none;">
+                        <hr style="margin: 1rem 0; border-color: var(--color-gray-200);">
+                        <h5 style="margin-bottom: 0.75rem; color: var(--color-brown);">Flour Details</h5>
+                        <div class="form-group">
+                            <label class="form-label" for="flour-type">Flour Type</label>
+                            <select class="form-select" id="flour-type">
+                                <option value="">Select flour...</option>
+                                <option value="ka_bread">King Arthur Bread Flour</option>
+                                <option value="ka_ap">King Arthur All-Purpose</option>
+                                <option value="brm_whole_wheat">Bob's Red Mill Whole Wheat</option>
+                                <option value="brm_rye">Bob's Red Mill Rye</option>
+                                <option value="wheat_scout66">Wheat Berries - Scout 66</option>
+                                <option value="wheat_turkey_red">Wheat Berries - Turkey Red</option>
+                                <option value="wheat_red_fife">Wheat Berries - Red Fife</option>
+                                <option value="other">Other (specify in notes)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="flour-grams">Flour Amount (grams)</label>
+                            <input type="number" class="form-input" id="flour-grams" placeholder="e.g., 500">
+                        </div>
+                    </div>
+
+                    <!-- Yogurt-specific fields (Feature 4) -->
+                    <div id="yogurt-fields" class="staple-specific-fields" style="display: none;">
+                        <hr style="margin: 1rem 0; border-color: var(--color-gray-200);">
+                        <h5 style="margin-bottom: 0.75rem; color: var(--color-brown);">Yogurt Details</h5>
+                        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                            <div class="form-group">
+                                <label class="form-label" for="milk-quantity">Milk (cups)</label>
+                                <input type="number" class="form-input" id="milk-quantity" placeholder="e.g., 8" step="0.5">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="starter-type">Starter Type</label>
+                                <select class="form-select" id="starter-type">
+                                    <option value="">Select...</option>
+                                    <option value="fage">FAGE Greek Yogurt</option>
+                                    <option value="previous">Previous Batch</option>
+                                    <option value="chobani">Chobani</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                            <div class="form-group">
+                                <label class="form-label" for="starter-quantity">Starter (tbsp)</label>
+                                <input type="number" class="form-input" id="starter-quantity" placeholder="e.g., 2" step="0.5">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="incubation-hours">Incubation (hours)</label>
+                                <input type="number" class="form-input" id="incubation-hours" placeholder="e.g., 12" step="0.5">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="straining-hours">Straining Duration (hours)</label>
+                            <input type="number" class="form-input" id="straining-hours" placeholder="e.g., 4" step="0.5">
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label class="form-label" for="staple-notes">Notes (optional)</label>
                         <textarea class="form-textarea" id="staple-notes" placeholder="Any notes about this batch..."></textarea>

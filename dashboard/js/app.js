@@ -354,6 +354,12 @@ class MealDashboardApp {
 
         document.getElementById('cancel-staple')?.addEventListener('click', () => {
             this.closeModal('staple');
+            this.toggleStapleDetailFields(''); // Hide detail fields on cancel
+        });
+
+        // Feature 4: Toggle item-specific fields based on staple selection
+        document.getElementById('staple-select')?.addEventListener('change', (e) => {
+            this.toggleStapleDetailFields(e.target.value);
         });
 
         // Shopping list
@@ -1385,7 +1391,7 @@ class MealDashboardApp {
     }
 
     /**
-     * Handle log staple form submission
+     * Handle log staple form submission (Feature 4: Enhanced with detailed tracking)
      */
     async handleLogStaple() {
         const item = document.getElementById('staple-select').value;
@@ -1398,15 +1404,40 @@ class MealDashboardApp {
             return;
         }
 
+        // Feature 4: Collect detailed tracking data
+        const details = {};
+
+        if (item === 'sourdough') {
+            const flourType = document.getElementById('flour-type')?.value;
+            const flourGrams = document.getElementById('flour-grams')?.value;
+            if (flourType) details.flourType = flourType;
+            if (flourGrams) details.flourGrams = parseFloat(flourGrams);
+        }
+
+        if (item === 'yogurt') {
+            const milkQuantity = document.getElementById('milk-quantity')?.value;
+            const starterType = document.getElementById('starter-type')?.value;
+            const starterQuantity = document.getElementById('starter-quantity')?.value;
+            const incubationHours = document.getElementById('incubation-hours')?.value;
+            const strainingHours = document.getElementById('straining-hours')?.value;
+
+            if (milkQuantity) details.milkQuantity = parseFloat(milkQuantity);
+            if (starterType) details.starterType = starterType;
+            if (starterQuantity) details.starterQuantity = parseFloat(starterQuantity);
+            if (incubationHours) details.incubationHours = parseFloat(incubationHours);
+            if (strainingHours) details.strainingHours = parseFloat(strainingHours);
+        }
+
         try {
-            await staplesTracker.addEntry(item, quantity, notes, date);
+            await staplesTracker.addEntry(item, quantity, notes, date, details);
 
             this.showToast(`Logged ${item} production`, 'success');
             this.closeModal('staple');
 
-            // Clear form
+            // Clear form and hide item-specific fields
             document.getElementById('staple-form').reset();
             document.getElementById('staple-date').value = new Date().toISOString().split('T')[0];
+            this.toggleStapleDetailFields('');
 
             // Re-render
             this.renderStaples();
@@ -1414,6 +1445,22 @@ class MealDashboardApp {
         } catch (error) {
             console.error('Error logging staple:', error);
             this.showToast('Failed to log production', 'error');
+        }
+    }
+
+    /**
+     * Toggle visibility of item-specific staple fields (Feature 4)
+     * @param {string} itemType - The selected staple type
+     */
+    toggleStapleDetailFields(itemType) {
+        const sourdoughFields = document.getElementById('sourdough-fields');
+        const yogurtFields = document.getElementById('yogurt-fields');
+
+        if (sourdoughFields) {
+            sourdoughFields.style.display = itemType === 'sourdough' ? 'block' : 'none';
+        }
+        if (yogurtFields) {
+            yogurtFields.style.display = itemType === 'yogurt' ? 'block' : 'none';
         }
     }
 
