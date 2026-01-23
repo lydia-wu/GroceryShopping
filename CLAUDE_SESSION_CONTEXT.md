@@ -1,71 +1,77 @@
 # Claude Session Context
 
 > **Read this file first to minimize token usage**
-> Last updated: January 22, 2026 (Late Evening Session)
+> Last updated: January 22, 2026 (End of Session)
 
 ---
 
 ## CURRENT STATUS: PHASE 2 IN PROGRESS
 
-### Session Summary (Jan 22, 2026 - Late Evening)
+### Session Summary (Jan 22, 2026)
 
-**PHASE 1 COMPLETE & VERIFIED** - All systems tested and working.
+**PHASE 1 COMPLETE & VERIFIED** - All 3 foundation features tested and working.
+**PHASE 2 STARTED** - Feature 4 complete, Feature 8 is next.
 
-**COMPLETED: Feature 4 (Import Historical Staples Data)**
-**READY FOR: Feature 8 (Units on All Nutrition Information)**
+**NEXT TASK: Feature 8 - Units on All Nutrition Information**
 
 ---
 
-## VERIFICATION REPORT (Jan 22, 2026)
+## COMPLETED FEATURES
 
-### Critical Systems - ALL VERIFIED
-- Dashboard HTML loads (HTTP 200)
-- All JavaScript modules have balanced brackets (syntax valid)
-- ingredients.json valid (59 ingredients)
-- health-benefits.js exports all required data (12 health categories)
-- Excel files exist and accessible
-- All critical DOM elements present in index.html
+### Phase 1 Features (ALL COMPLETE)
 
-### Phase 1 Features - ALL IMPLEMENTED & VERIFIED
+**Feature 7: Health Benefits Database** ✅
+- 12 health categories (heart, brain, cancer, gut, muscle, DNA, immunity, regeneration, metabolism, bone, eye, skin)
+- `healthCategories` object with icons, colors, descriptions
+- `healthBenefits` object mapping ingredients to categories
+- Radar chart visualization: `createHealthBenefitsRadarChart()`
+- Legend rendering: `renderHealthCategoriesLegend()`
+- Files: `charts.js`, `data/health-benefits.js`
 
-**Feature 7: Health Benefits Database**
-- `healthCategories` object (12 categories with icons, colors)
-- `healthBenefits` object (ingredients → categories mapping)
-- `createHealthBenefitsRadarChart()` function
-- `calculateHealthCategoryScores()` function
-- `renderHealthCategoriesLegend()` function
-- Canvas: `id="health-benefits-radar"`
-- Legend: `id="health-categories-legend"`
-
-**Feature 6: Cost/Nutrition Framework**
-- `getLatestPrice()` - returns most recent price
-- `getMissingPriceIngredients()` - for warnings
-- `getHomemadeCost()` - for staples (sourdough, yogurt, breadcrumbs)
-- `getEffectivePricePerGram()` - combines shopping + homemade
+**Feature 6: Cost/Nutrition Framework** ✅
+- `getLatestPrice()` - most recent price (not average)
+- `getMissingPriceIngredients()` - warning system
+- `getHomemadeCost()` - staples cost calculation
+- `getEffectivePricePerGram()` - shopping + homemade combined
 - `calculateMealCost()` - uses effective pricing
-- `isHomemade`, `homemadeCostPerUnit` fields in ingredients.json
+- Fields added to ingredients.json: `isHomemade`, `homemadeCostPerUnit`, `homemadeCostNotes`
+- Files: `services/price-service.js`, `data/ingredients.json`
 
-**Feature 16: Meal Archive System**
-- Archive search input: `id="archive-search-input"`
-- Archive stats display: `id="archive-stats"`
-- Archive reason modal: `id="archive-reason-modal"`
-- Archive button on meal cards (📦 icon)
-- `openArchiveModal()`, `confirmArchiveMeal()` functions
-- `renderMealLibrary(searchQuery)` with search filter
-- `searchArchivedMeals()`, `archiveMealEnhanced()` in meal-library.js
+**Feature 16: Meal Archive System** ✅
+- Archive search/filter: `searchArchivedMeals(query)`
+- Archive with reason: `archiveMealEnhanced(code, reason)`
+- Archive stats: `getArchiveStats()`
+- Archive button (📦) on meal cards
+- Archive reason modal with preset options
+- Delete permanently option
+- Files: `meal-library.js`, `app.js`, `index.html`
+
+### Phase 2 Features (IN PROGRESS)
+
+**Feature 4: Import Historical Staples Data** ✅
+- Enhanced staples modal with item-specific fields
+- Sourdough tracking: flour type (8 options), flour grams
+- Yogurt tracking: milk qty, starter type/qty, incubation hours, straining hours
+- `importFromExcel()` - imports historical data from Excel
+- `parseExcelRow()` - flexible column matching
+- `matchFlourType()` / `matchStarterType()` - fuzzy matching
+- `getFlourTypeStats()` - analytics by flour type
+- `getYogurtAverages()` - average production parameters
+- `toggleStapleDetailFields()` - dynamic UI
+- Files: `staples-tracker.js`, `app.js`, `index.html`
 
 ---
 
 ## IMPLEMENTATION PHASES
 
-### PHASE 1 - Foundation (COMPLETE)
+### PHASE 1 - Foundation (COMPLETE ✅)
 - [x] Feature 7: Comprehensive Ingredient & Health Benefit Database
 - [x] Feature 6: Robust Cost/Nutrition Framework
 - [x] Feature 16: Meal Archive/Stack System
 
 ### PHASE 2 - Data & Display (IN PROGRESS)
-- [x] **Feature 4: Import Historical Staples Data** ✅ COMPLETE
-- [ ] Feature 8: Units on All Nutrition Information ← NEXT
+- [x] Feature 4: Import Historical Staples Data ✅
+- [ ] **Feature 8: Units on All Nutrition Information** ← NEXT
 - [ ] Feature 9: Ingredients Button on Meal Cards
 - [ ] Feature 10: Up to 10 Fun Facts per Meal
 
@@ -114,13 +120,6 @@
    - "cnt" items need proper gramsPerTypical values
    - Some Excel items have qty=NaN
 
-### Excel Data Reference (for debugging):
-```
-Thyme (dried): "Great Value Thyme Leaves, 0.75 oz" - $2.12 from Walmart
-Oregano: "GV Dried Oregano Leaves" - $1.24 for 0.87 oz from Walmart
-Parmesan: "Kirkland Signature Parmigiano Reggiano" - $23.62 for 1.45 lb from Costco
-```
-
 ---
 
 ## PROJECT STRUCTURE
@@ -132,23 +131,23 @@ GroceryList/
 ├── MealCostCalculator.xlsx          # Meal costs & ingredients
 ├── Best_actualShoppingData.xlsx     # Purchase receipts by year
 ├── dashboard/
-│   ├── index.html                   # Main app
-│   ├── css/styles.css               # Styling (includes archive, health benefits CSS)
+│   ├── index.html                   # Main app (archive modal, staples modal)
+│   ├── css/styles.css               # Styling (archive, health benefits CSS)
 │   ├── js/
-│   │   ├── app.js                   # Main app (v2.0.0 integrated)
+│   │   ├── app.js                   # Main app controller
 │   │   ├── config.js                # Meal definitions + rotation settings
 │   │   ├── excel-reader.js          # Excel parsing
 │   │   ├── charts.js                # Analytics + health benefits radar
-│   │   ├── meal-library.js          # Meal CRUD + tags + archive
-│   │   ├── staples-tracker.js       # Staples tracking
+│   │   ├── meal-library.js          # Meal CRUD + tags + archive (Feature 16)
+│   │   ├── staples-tracker.js       # Staples tracking (Feature 4)
 │   │   ├── core/
 │   │   │   ├── state-manager.js
 │   │   │   ├── event-bus.js
 │   │   │   └── sync-manager.js
 │   │   ├── services/
-│   │   │   └── price-service.js     # Price tracking + homemade costs
+│   │   │   └── price-service.js     # Price tracking (Feature 6)
 │   │   └── data/
-│   │       └── health-benefits.js   # 12 health categories, ingredient mappings
+│   │       └── health-benefits.js   # Health categories (Feature 7)
 │   └── data/
 │       └── ingredients.json         # 59 ingredients with nutrition
 └── docs/
@@ -194,6 +193,13 @@ import { healthCategories, healthBenefits, getDiverseFactsForMeal } from './data
 import mealLibrary from './meal-library.js';
 mealLibrary.archiveMealEnhanced(code, reason);
 mealLibrary.searchArchivedMeals(query);
+
+// Staples tracker (Feature 4)
+import staplesTracker from './staples-tracker.js';
+staplesTracker.addEntry(item, quantity, notes, date, details);
+staplesTracker.importFromExcel(workbookData);
+staplesTracker.getFlourTypeStats();
+staplesTracker.getYogurtAverages();
 ```
 
 ---
@@ -217,3 +223,20 @@ mealLibrary.searchArchivedMeals(query);
 | `docs/planning_session_extracted.md` | 160+ clarifying Q&A |
 | `docs/v2_comprehensive_plan.md` | Detailed feature specs |
 | `docs/v2_progress_tracker.md` | Progress tracking |
+
+---
+
+## FEATURE 8 QUICK START (NEXT SESSION)
+
+**Goal:** Display units on all nutrition values with consistent formatting.
+
+**Format Specifications:**
+- Values with full unit names: "25 grams", "450 micrograms"
+- Column header: "% DV" for daily value percentages
+- All nutrients displayed with appropriate units
+
+**Files to modify:**
+- `/dashboard/js/nutrition.js` (formatNutrient function)
+- `/dashboard/css/styles.css` (nutrition modal styling)
+
+**Reference:** See `v2_implementation_plan.md` lines 799-811 for full spec.
