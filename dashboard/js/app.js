@@ -1488,59 +1488,59 @@ class MealDashboardApp {
         const factsContainer = document.getElementById('nutrition-facts');
 
         if (nutritionData) {
-            const n = nutritionData.nutrition;
-            const dv = nutritionData.dailyValues;
+            const n = nutritionData.nutrition || {};
+            const dv = nutritionData.dailyValues || {};
 
-            // Render macros
+            // Render macros with full unit names (Feature 8)
             macrosContainer.innerHTML = `
                 <div class="nutrition-item">
-                    <div class="nutrition-value">${Math.round(n.calories)}</div>
+                    <div class="nutrition-value">${Math.round(n.calories || 0)}</div>
                     <div class="nutrition-label">Calories</div>
                 </div>
                 <div class="nutrition-item">
-                    <div class="nutrition-value">${Math.round(n.protein)}g</div>
+                    <div class="nutrition-value">${Math.round(n.protein || 0)} <span class="nutrition-unit">grams</span></div>
                     <div class="nutrition-label">Protein</div>
                 </div>
                 <div class="nutrition-item">
-                    <div class="nutrition-value">${Math.round(n.carbs)}g</div>
+                    <div class="nutrition-value">${Math.round(n.carbs || 0)} <span class="nutrition-unit">grams</span></div>
                     <div class="nutrition-label">Carbs</div>
                 </div>
                 <div class="nutrition-item">
-                    <div class="nutrition-value">${Math.round(n.fat)}g</div>
+                    <div class="nutrition-value">${Math.round(n.fat || 0)} <span class="nutrition-unit">grams</span></div>
                     <div class="nutrition-label">Fat</div>
                 </div>
                 <div class="nutrition-item">
-                    <div class="nutrition-value">${Math.round(n.fiber)}g</div>
+                    <div class="nutrition-value">${Math.round(n.fiber || 0)} <span class="nutrition-unit">grams</span></div>
                     <div class="nutrition-label">Fiber</div>
                 </div>
                 <div class="nutrition-item">
-                    <div class="nutrition-value">${Math.round(n.sugar || 0)}g</div>
+                    <div class="nutrition-value">${Math.round(n.sugar || 0)} <span class="nutrition-unit">grams</span></div>
                     <div class="nutrition-label">Sugar</div>
                 </div>
             `;
 
-            // Render vitamins (expanded list)
+            // Render vitamins with amounts and units (Feature 8)
             vitaminsContainer.innerHTML = this.renderNutrientBars([
-                { name: 'Vitamin A', percent: dv.vitaminA || 0 },
-                { name: 'Vitamin C', percent: dv.vitaminC || 0 },
-                { name: 'Vitamin D', percent: dv.vitaminD || 0 },
-                { name: 'Vitamin E', percent: dv.vitaminE || 0 },
-                { name: 'Vitamin K', percent: dv.vitaminK || 0 },
-                { name: 'Vitamin B6', percent: dv.vitaminB6 || 0 },
-                { name: 'Vitamin B12', percent: dv.vitaminB12 || 0 },
-                { name: 'Folate', percent: dv.folate || 0 },
-                { name: 'Choline', percent: dv.choline || 0 }
+                { name: 'Vitamin A', amount: n.vitaminA, key: 'vitaminA', percent: dv.vitaminA || 0 },
+                { name: 'Vitamin C', amount: n.vitaminC, key: 'vitaminC', percent: dv.vitaminC || 0 },
+                { name: 'Vitamin D', amount: n.vitaminD, key: 'vitaminD', percent: dv.vitaminD || 0 },
+                { name: 'Vitamin E', amount: n.vitaminE, key: 'vitaminE', percent: dv.vitaminE || 0 },
+                { name: 'Vitamin K', amount: n.vitaminK, key: 'vitaminK', percent: dv.vitaminK || 0 },
+                { name: 'Vitamin B6', amount: n.vitaminB6, key: 'vitaminB6', percent: dv.vitaminB6 || 0 },
+                { name: 'Vitamin B12', amount: n.vitaminB12, key: 'vitaminB12', percent: dv.vitaminB12 || 0 },
+                { name: 'Folate', amount: n.folate, key: 'folate', percent: dv.folate || 0 },
+                { name: 'Choline', amount: n.choline, key: 'choline', percent: dv.choline || 0 }
             ]);
 
-            // Render minerals (expanded list)
+            // Render minerals with amounts and units (Feature 8)
             mineralsContainer.innerHTML = this.renderNutrientBars([
-                { name: 'Iron', percent: dv.iron || 0 },
-                { name: 'Calcium', percent: dv.calcium || 0 },
-                { name: 'Potassium', percent: dv.potassium || 0 },
-                { name: 'Magnesium', percent: dv.magnesium || 0 },
-                { name: 'Zinc', percent: dv.zinc || 0 },
-                { name: 'Selenium', percent: dv.selenium || 0 },
-                { name: 'Manganese', percent: dv.manganese || 0 }
+                { name: 'Iron', amount: n.iron, key: 'iron', percent: dv.iron || 0 },
+                { name: 'Calcium', amount: n.calcium, key: 'calcium', percent: dv.calcium || 0 },
+                { name: 'Potassium', amount: n.potassium, key: 'potassium', percent: dv.potassium || 0 },
+                { name: 'Magnesium', amount: n.magnesium, key: 'magnesium', percent: dv.magnesium || 0 },
+                { name: 'Zinc', amount: n.zinc, key: 'zinc', percent: dv.zinc || 0 },
+                { name: 'Selenium', amount: n.selenium, key: 'selenium', percent: dv.selenium || 0 },
+                { name: 'Manganese', amount: n.manganese, key: 'manganese', percent: dv.manganese || 0 }
             ]);
 
             // Add special nutrients section (omega-3, lycopene)
@@ -1554,20 +1554,22 @@ class MealDashboardApp {
                     let specialHTML = '<h4 class="nutrition-section-title">Special Nutrients</h4>';
 
                     if (hasOmega3) {
+                        const omega3Meta = nutritionAPI.getNutrientMeta('omega3');
                         specialHTML += `
                             <div class="nutrition-row">
                                 <span class="nutrition-row-name">Omega-3 Fatty Acids</span>
-                                <span class="nutrition-row-value">${Math.round(n.omega3)}mg</span>
-                                <span class="nutrition-row-dv">(${dv.omega3 || 0}% DV)</span>
+                                <span class="nutrition-row-amount">${Math.round(n.omega3 || 0)} ${omega3Meta.fullUnit}</span>
+                                <span class="nutrition-row-dv">${dv.omega3 || 0}% DV</span>
                             </div>
                         `;
                     }
 
                     if (hasLycopene) {
+                        const lycopeneMeta = nutritionAPI.getNutrientMeta('lycopene');
                         specialHTML += `
                             <div class="nutrition-row">
                                 <span class="nutrition-row-name">Lycopene</span>
-                                <span class="nutrition-row-value">${Math.round(n.lycopene)}mcg</span>
+                                <span class="nutrition-row-amount">${Math.round(n.lycopene || 0)} ${lycopeneMeta.fullUnit}</span>
                             </div>
                         `;
                     }
@@ -1626,20 +1628,27 @@ class MealDashboardApp {
     }
 
     /**
-     * Render nutrient bars HTML
+     * Render nutrient bars HTML with amounts, units, and % DV (Feature 8)
      */
     renderNutrientBars(nutrients) {
-        return nutrients.map(n => `
-            <div class="nutrition-row">
-                <span class="nutrition-row-name">${n.name}</span>
-                <div style="flex: 1; margin: 0 1rem;">
-                    <div class="nutrition-bar">
-                        <div class="nutrition-bar-fill" style="width: ${Math.min(100, n.percent)}%"></div>
+        return nutrients.map(n => {
+            const meta = n.key ? nutritionAPI.getNutrientMeta(n.key) : null;
+            const amountStr = (n.amount !== undefined && n.amount !== null && meta)
+                ? `${Math.round(n.amount * 10) / 10} ${meta.fullUnit}`
+                : '';
+            return `
+                <div class="nutrition-row">
+                    <span class="nutrition-row-name">${n.name}</span>
+                    <span class="nutrition-row-amount">${amountStr}</span>
+                    <div class="nutrition-bar-wrapper">
+                        <div class="nutrition-bar">
+                            <div class="nutrition-bar-fill" style="width: ${Math.min(100, n.percent)}%"></div>
+                        </div>
                     </div>
+                    <span class="nutrition-row-dv">${n.percent}% DV</span>
                 </div>
-                <span class="nutrition-row-value">${n.percent}%</span>
-            </div>
-        `).join('');
+            `;
+        }).join('');
     }
 
     /**

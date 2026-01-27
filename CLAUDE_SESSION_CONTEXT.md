@@ -1,7 +1,7 @@
 # Claude Session Context
 
 > **Read this file first to minimize token usage**
-> Last updated: January 22, 2026 (End of Session)
+> Last updated: January 27, 2026
 
 ---
 
@@ -10,9 +10,9 @@
 ### Session Summary (Jan 22, 2026)
 
 **PHASE 1 COMPLETE & VERIFIED** - All 3 foundation features tested and working.
-**PHASE 2 STARTED** - Feature 4 complete, Feature 8 is next.
+**PHASE 2 IN PROGRESS** - Features 4 & 8 complete, Feature 9 is next.
 
-**NEXT TASK: Feature 8 - Units on All Nutrition Information**
+**NEXT TASK: Feature 9 - Ingredients Button on Meal Cards**
 
 ---
 
@@ -60,6 +60,18 @@
 - `toggleStapleDetailFields()` - dynamic UI
 - Files: `staples-tracker.js`, `app.js`, `index.html`
 
+**Feature 8: Units on All Nutrition Information** ✅
+- `getNutrientMeta(key)` - returns unit metadata (fullUnit, abbr) for all 30+ nutrients
+- Updated `formatNutrient()` - displays full unit names ("25 grams", "450 micrograms")
+- Macros section shows values with "grams" unit label
+- Vitamins/minerals bars now show actual amounts with full units alongside % DV
+- Special nutrients (Omega-3, Lycopene) show full unit names
+- `.nutrition-unit` CSS class for macro unit styling
+- `.nutrition-row-amount` CSS class for amount display in bar rows
+- `.nutrition-bar-wrapper` CSS for proper bar layout
+- Responsive handling for small screens
+- Files: `nutrition.js`, `app.js`, `styles.css`
+
 ---
 
 ## IMPLEMENTATION PHASES
@@ -71,8 +83,8 @@
 
 ### PHASE 2 - Data & Display (IN PROGRESS)
 - [x] Feature 4: Import Historical Staples Data ✅
-- [ ] **Feature 8: Units on All Nutrition Information** ← NEXT
-- [ ] Feature 9: Ingredients Button on Meal Cards
+- [x] Feature 8: Units on All Nutrition Information ✅
+- [ ] **Feature 9: Ingredients Button on Meal Cards** ← NEXT
 - [ ] Feature 10: Up to 10 Fun Facts per Meal
 
 ### PHASE 3 - Visualizations

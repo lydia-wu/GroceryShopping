@@ -899,13 +899,68 @@ class NutritionAPI {
     }
 
     /**
-     * Format nutrient value for display
+     * Nutrient metadata: units, full names, and display info
      */
-    formatNutrient(value, unit = 'g') {
-        if (value >= 1000) {
-            return `${(value / 1000).toFixed(1)}k${unit}`;
+    getNutrientMeta(key) {
+        const meta = {
+            // Macros
+            calories:    { unit: 'kcal', fullUnit: 'calories',    abbr: 'cal' },
+            protein:     { unit: 'g',    fullUnit: 'grams',       abbr: 'g' },
+            carbs:       { unit: 'g',    fullUnit: 'grams',       abbr: 'g' },
+            fat:         { unit: 'g',    fullUnit: 'grams',       abbr: 'g' },
+            fiber:       { unit: 'g',    fullUnit: 'grams',       abbr: 'g' },
+            sugar:       { unit: 'g',    fullUnit: 'grams',       abbr: 'g' },
+            saturatedFat:{ unit: 'g',    fullUnit: 'grams',       abbr: 'g' },
+            // Vitamins
+            vitaminA:    { unit: 'mcg',  fullUnit: 'micrograms',  abbr: 'mcg' },
+            vitaminC:    { unit: 'mg',   fullUnit: 'milligrams',  abbr: 'mg' },
+            vitaminD:    { unit: 'mcg',  fullUnit: 'micrograms',  abbr: 'mcg' },
+            vitaminE:    { unit: 'mg',   fullUnit: 'milligrams',  abbr: 'mg' },
+            vitaminK:    { unit: 'mcg',  fullUnit: 'micrograms',  abbr: 'mcg' },
+            vitaminB1:   { unit: 'mg',   fullUnit: 'milligrams',  abbr: 'mg' },
+            vitaminB2:   { unit: 'mg',   fullUnit: 'milligrams',  abbr: 'mg' },
+            vitaminB3:   { unit: 'mg',   fullUnit: 'milligrams',  abbr: 'mg' },
+            vitaminB6:   { unit: 'mg',   fullUnit: 'milligrams',  abbr: 'mg' },
+            vitaminB12:  { unit: 'mcg',  fullUnit: 'micrograms',  abbr: 'mcg' },
+            folate:      { unit: 'mcg',  fullUnit: 'micrograms',  abbr: 'mcg' },
+            choline:     { unit: 'mg',   fullUnit: 'milligrams',  abbr: 'mg' },
+            // Minerals
+            calcium:     { unit: 'mg',   fullUnit: 'milligrams',  abbr: 'mg' },
+            iron:        { unit: 'mg',   fullUnit: 'milligrams',  abbr: 'mg' },
+            magnesium:   { unit: 'mg',   fullUnit: 'milligrams',  abbr: 'mg' },
+            phosphorus:  { unit: 'mg',   fullUnit: 'milligrams',  abbr: 'mg' },
+            potassium:   { unit: 'mg',   fullUnit: 'milligrams',  abbr: 'mg' },
+            sodium:      { unit: 'mg',   fullUnit: 'milligrams',  abbr: 'mg' },
+            zinc:        { unit: 'mg',   fullUnit: 'milligrams',  abbr: 'mg' },
+            selenium:    { unit: 'mcg',  fullUnit: 'micrograms',  abbr: 'mcg' },
+            manganese:   { unit: 'mg',   fullUnit: 'milligrams',  abbr: 'mg' },
+            // Special
+            cholesterol: { unit: 'mg',   fullUnit: 'milligrams',  abbr: 'mg' },
+            omega3:      { unit: 'mg',   fullUnit: 'milligrams',  abbr: 'mg' },
+            lycopene:    { unit: 'mcg',  fullUnit: 'micrograms',  abbr: 'mcg' }
+        };
+        return meta[key] || { unit: 'g', fullUnit: 'grams', abbr: 'g' };
+    }
+
+    /**
+     * Format nutrient value for display with full unit names
+     * @param {number} value - The nutrient value
+     * @param {string} nutrientKey - The nutrient key (e.g., 'protein', 'vitaminC')
+     * @param {object} options - { abbreviated: false }
+     */
+    formatNutrient(value, nutrientKey = null, options = {}) {
+        const { abbreviated = false } = options;
+
+        const meta = nutrientKey ? this.getNutrientMeta(nutrientKey) : { unit: 'g', fullUnit: 'grams', abbr: 'g' };
+        const unitLabel = abbreviated ? meta.abbr : meta.fullUnit;
+        const safeValue = (value === undefined || value === null || isNaN(value)) ? 0 : value;
+        const rounded = Math.round(safeValue * 10) / 10;
+
+        if (nutrientKey === 'calories') {
+            return abbreviated ? `${Math.round(safeValue)} cal` : `${Math.round(safeValue)} calories`;
         }
-        return `${Math.round(value * 10) / 10}${unit}`;
+
+        return `${rounded} ${unitLabel}`;
     }
 
     /**

@@ -1158,13 +1158,28 @@ a:hover {
 
 .nutrition-row {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: var(--space-2) 0;
+    gap: var(--space-2);
 }
 
 .nutrition-row-name {
     color: var(--color-gray-600);
+    min-width: 90px;
+    flex-shrink: 0;
+}
+
+.nutrition-row-amount {
+    font-size: var(--font-size-sm);
+    color: var(--color-brown);
+    min-width: 100px;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.nutrition-bar-wrapper {
+    flex: 1;
+    margin: 0 var(--space-2);
 }
 
 .nutrition-row-value {
@@ -1175,7 +1190,15 @@ a:hover {
 .nutrition-row-dv {
     font-size: var(--font-size-sm);
     color: var(--color-gray-500);
-    margin-left: var(--space-2);
+    min-width: 60px;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.nutrition-unit {
+    font-size: var(--font-size-sm);
+    font-weight: 400;
+    color: var(--color-gray-500);
 }
 
 /* Health Facts Cards */
@@ -1666,6 +1689,25 @@ a:hover {
 
     .nutrition-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .nutrition-row {
+        flex-wrap: wrap;
+    }
+
+    .nutrition-row-name {
+        min-width: 80px;
+    }
+
+    .nutrition-row-amount {
+        min-width: 80px;
+        font-size: 0.75rem;
+    }
+
+    .nutrition-bar-wrapper {
+        flex-basis: 100%;
+        order: 4;
+        margin: var(--space-1) 0 0 0;
     }
 
     .rotation-timeline {
