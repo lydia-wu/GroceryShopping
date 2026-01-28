@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Health Benefits Module</title>
+    <style>
+        body { font-family: system-ui; padding: 20px; max-width: 800px; margin: 0 auto; }
+        .test { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
+        .pass { background: #d4edda; border-color: #28a745; }
+        .fail { background: #f8d7da; border-color: #dc3545; }
+        .fact { padding: 10px; margin: 5px 0; background: #f8f9fa; border-radius: 4px; }
+        .fact-icon { font-size: 1.2em; margin-right: 8px; }
+        .fact-source { color: #666; font-size: 0.9em; }
+        .fact-ingredient { background: #e9ecef; padding: 2px 8px; border-radius: 4px; font-size: 0.85em; }
+        h2 { color: #333; }
+        pre { background: #f5f5f5; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>Health Benefits Module Test</h1>
+    <div id="results"></div>
+
+    <script type="module">
+        import {
+            healthCategories,
+            healthBenefits,
+            getDiverseFactsForMeal,
+            getExpandedFactsForMeal,
+            getFactsForCategory
+        } from './js/data/health-benefits.js';
+
+        const results = document.getElementById('results');
+
+        function addTest(name, passed, details = '') {
+            const div = document.createElement('div');
+            div.className = `test ${passed ? 'pass' : 'fail'}`;
+            div.innerHTML = `<strong>${passed ? '✓' : '✗'} ${name}</strong>${details ? '<br>' + details : ''}`;
+            results.appendChild(div);
+            return passed;
+        }
+
+        function addSection(title) {
+            const h2 = document.createElement('h2');
+            h2.textContent = title;
+            results.appendChild(h2);
+        }
+
+        // Test 1: Health Categories
+        addSection('1. Health Categories');
+        const categoryCount = Object.keys(healthCategories).length;
+        addTest(`Has 12 health categories`, categoryCount === 12, `Found ${categoryCount} categories`);
+
+        const hasAllFields = Object.values(healthCategories).every(c => c.id && c.name && c.icon && c.color);
+        addTest(`All categories have required fields (id, name, icon, color)`, hasAllFields);
+
+        // Test 2: Health Benefits Data
+        addSection('2. Health Benefits Database');
+        const ingredientCount = Object.keys(healthBenefits).length;
+        addTest(`Has multiple ingredients`, ingredientCount > 20, `Found ${ingredientCount} ingredients`);
+
+        const salmon = healthBenefits.salmon;
+        addTest(`Salmon has health data`, !!salmon && salmon.facts && salmon.facts.length > 0,
+            salmon ? `${salmon.facts.length} facts for salmon` : 'No salmon data');
+
+        // Test 3: getDiverseFactsForMeal
+        addSection('3. getDiverseFactsForMeal()');
+        const sampleMeal = ['salmon', 'kale', 'garlic', 'olive oil', 'lemon'];
+        const facts10 = getDiverseFactsForMeal(sampleMeal, 10);
+
+        addTest(`Returns facts for meal`, facts10.length > 0, `Got ${facts10.length} facts`);
+        addTest(`Returns max 10 facts`, facts10.length <= 10);
+
+        // Check diversity
+        const categories = new Set(facts10.map(f => f.category));
+        addTest(`Facts are diverse (multiple categories)`, categories.size > 2,
+            `Found ${categories.size} unique categories: ${[...categories].join(', ')}`);
+
+        // Display sample facts
+        if (facts10.length > 0) {
+            const factsDiv = document.createElement('div');
+            factsDiv.innerHTML = '<h4>Sample Facts:</h4>' + facts10.slice(0, 5).map(f => `
+                <div class="fact">
+                    <span class="fact-icon">${getCategoryIcon(f.category)}</span>
+                    <strong>${f.category}</strong>: ${f.text}
+                    <br><span class="fact-ingredient">${f.ingredientName}</span>
+                    <span class="fact-source">${f.source || 'No source'}</span>
+                </div>
+            `).join('');
+            results.appendChild(factsDiv);
+        }
+
+        // Test 4: getExpandedFactsForMeal
+        addSection('4. getExpandedFactsForMeal()');
+        const expandedFacts = getExpandedFactsForMeal(sampleMeal);
+        const expandedCategories = Object.keys(expandedFacts);
+        addTest(`Returns facts organized by category`, expandedCategories.length > 0,
+            `Categories: ${expandedCategories.join(', ')}`);
+
+        const totalExpanded = Object.values(expandedFacts).flat().length;
+        addTest(`Can get more than 10 facts for expanded view`, totalExpanded > 5,
+            `Total expanded facts: ${totalExpanded}`);
+
+        // Test 5: getFactsForCategory
+        addSection('5. getFactsForCategory()');
+        const heartFacts = getFactsForCategory(sampleMeal, 'heart');
+        addTest(`Gets facts for specific category`, heartFacts.length > 0,
+            `Found ${heartFacts.length} heart health facts`);
+
+        const brainFacts = getFactsForCategory(sampleMeal, 'brain');
+        addTest(`Brain category works`, brainFacts.length > 0,
+            `Found ${brainFacts.length} brain health facts`);
+
+        // Test 6: Ingredient Matching
+        addSection('6. Ingredient Name Matching');
+        const chickenTest = getDiverseFactsForMeal(['chicken breast'], 5);
+        addTest(`Matches "chicken breast" to chicken`, chickenTest.length > 0);
+
+        const greekYogurt = getDiverseFactsForMeal(['greek yogurt'], 5);
+        addTest(`Matches "greek yogurt" to yogurt`, greekYogurt.length > 0);
+
+        const tomatoPaste = getDiverseFactsForMeal(['tomato paste'], 5);
+        addTest(`Matches "tomato paste" to tomatoes`, tomatoPaste.length > 0);
+
+        // Test 7: Empty/Edge Cases
+        addSection('7. Edge Cases');
+        const emptyFacts = getDiverseFactsForMeal([], 10);
+        addTest(`Handles empty ingredient list`, emptyFacts.length === 0);
+
+        const unknownFacts = getDiverseFactsForMeal(['unknowningredient123'], 10);
+        addTest(`Handles unknown ingredients gracefully`, unknownFacts.length === 0);
+
+        // Summary
+        addSection('Summary');
+        const allTests = document.querySelectorAll('.test');
+        const passed = document.querySelectorAll('.test.pass').length;
+        const total = allTests.length;
+        addTest(`Total: ${passed}/${total} tests passed`, passed === total);
+
+        // Helper function
+        function getCategoryIcon(category) {
+            const icons = {
+                heart: '❤️', brain: '🧠', immunity: '🛡️', cancer: '🎗️',
+                gut: '🦠', bone: '🦴', skin: '✨', eye: '👁️',
+                metabolism: '🔥', muscle: '💪', regeneration: '🔄', dna: '🧬'
+            };
+            return icons[category] || '💡';
+        }
+    </script>
+</body>
+</html>
