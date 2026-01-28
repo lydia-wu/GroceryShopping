@@ -9,6 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="brown-translucent">
     <title>Meal Planner Dashboard</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/components/slide-panel.css">
 </head>
 <body>
     <div class="dashboard">
@@ -26,6 +27,15 @@
                         <button class="nav-btn" data-view="shopping">Shopping</button>
                         <button class="nav-btn" data-view="analytics">Analytics</button>
                     </nav>
+                    <div class="header-overflow-menu" id="header-overflow-menu">
+                        <button class="btn btn-sm header-overflow-btn" id="header-overflow-btn" title="More options">&#x2026;</button>
+                        <div class="overflow-dropdown" id="overflow-dropdown">
+                            <label class="overflow-dropdown-item">
+                                <input type="checkbox" id="edit-mode-toggle">
+                                <span>Edit Mode</span>
+                            </label>
+                        </div>
+                    </div>
                     <span class="header-version" id="version-display">v1.0.0</span>
                 </div>
             </div>

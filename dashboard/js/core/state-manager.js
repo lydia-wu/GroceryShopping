@@ -78,6 +78,9 @@ const DEFAULT_STATE = {
     // Tags
     tags: [],
 
+    // Instruction overrides (Feature 9 - edit mode)
+    instructionOverrides: {},
+
     // Sync status
     sync: {
         lastSyncTime: null,
@@ -99,7 +102,7 @@ class StateManager {
         this.subscribers = new Map();
         this.persistKeys = ['settings', 'ui', 'meals', 'rotationOrder', 'archivedMeals',
             'cookingLog', 'shoppingTrips', 'ingredientPrices', 'staplesLog',
-            'simpleMeals', 'tags'];
+            'simpleMeals', 'tags', 'instructionOverrides'];
 
         // Load persisted state
         this.loadFromStorage();

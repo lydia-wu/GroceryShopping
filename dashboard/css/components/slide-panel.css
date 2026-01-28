@@ -1,0 +1,256 @@
+/* === Slide Panel Component (Feature 9) === */
+
+.slide-panel-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 25, 23, 0.5);
+    z-index: var(--z-modal-backdrop);
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-base);
+}
+
+.slide-panel-backdrop.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.slide-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(420px, 90vw);
+    background: var(--color-white);
+    box-shadow: var(--shadow-xl);
+    z-index: var(--z-modal);
+    transform: translateX(100%);
+    transition: transform var(--transition-slow);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.slide-panel-backdrop.active .slide-panel {
+    transform: translateX(0);
+}
+
+.slide-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-4) var(--space-6);
+    background: var(--color-gray-100);
+    border-bottom: 1px solid var(--color-gray-200);
+    flex-shrink: 0;
+}
+
+.slide-panel-title {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--color-brown-dark);
+    margin: 0;
+}
+
+.slide-panel-close {
+    background: none;
+    border: none;
+    font-size: var(--font-size-xl);
+    cursor: pointer;
+    color: var(--color-gray-500);
+    padding: var(--space-2);
+    transition: color var(--transition-fast);
+}
+
+.slide-panel-close:hover {
+    color: var(--color-brown);
+}
+
+.slide-panel-body {
+    padding: var(--space-6);
+    overflow-y: auto;
+    flex: 1;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* --- Ingredient Controls --- */
+
+.ingredient-controls {
+    display: flex;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+    flex-wrap: wrap;
+}
+
+.ingredient-toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-600);
+    cursor: pointer;
+}
+
+.ingredient-toggle input[type="checkbox"] {
+    accent-color: var(--color-terracotta);
+}
+
+/* --- Ingredient List --- */
+
+.ingredient-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-6) 0;
+}
+
+.ingredient-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--color-gray-200);
+    font-size: var(--font-size-sm);
+}
+
+.ingredient-row:last-child {
+    border-bottom: none;
+}
+
+.ingredient-name {
+    flex: 1;
+    color: var(--color-gray-700);
+}
+
+.ingredient-cost {
+    color: var(--color-terracotta);
+    font-weight: 500;
+    min-width: 60px;
+    text-align: right;
+}
+
+.ingredient-missing {
+    color: var(--color-gray-400);
+    font-style: italic;
+}
+
+.ingredient-cost-total {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-3) 0;
+    border-top: 2px solid var(--color-gray-300);
+    font-weight: 600;
+    color: var(--color-brown);
+    margin-top: var(--space-2);
+}
+
+/* --- Sides Section --- */
+
+.panel-sides {
+    margin-bottom: var(--space-6);
+}
+
+.panel-sides-title {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-brown);
+    margin-bottom: var(--space-2);
+}
+
+.panel-sides-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.panel-side-chip {
+    padding: var(--space-1) var(--space-3);
+    background: var(--color-gray-100);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-600);
+}
+
+/* --- Instructions Section --- */
+
+.panel-instructions-section {
+    border-top: 1px solid var(--color-gray-200);
+    padding-top: var(--space-4);
+}
+
+.panel-instructions-title {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-brown);
+    margin-bottom: var(--space-2);
+}
+
+.panel-instructions-text {
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-600);
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.panel-instructions-textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: var(--space-3);
+    border: 1px solid var(--color-gray-300);
+    border-radius: var(--radius-md);
+    font-family: var(--font-family);
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-700);
+    line-height: 1.6;
+    resize: vertical;
+    transition: border-color var(--transition-fast);
+    box-sizing: border-box;
+}
+
+.panel-instructions-textarea:focus {
+    outline: none;
+    border-color: var(--color-terracotta);
+    box-shadow: 0 0 0 2px rgba(194, 112, 60, 0.2);
+}
+
+.unsaved-indicator {
+    display: inline-block;
+    font-size: var(--font-size-xs);
+    color: var(--color-terracotta);
+    margin-left: var(--space-2);
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+}
+
+.unsaved-indicator.visible {
+    opacity: 1;
+}
+
+/* --- Responsive: Mobile --- */
+
+@media (max-width: 480px) {
+    .slide-panel {
+        width: 100%;
+        top: 10vh;
+        border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    }
+
+    .slide-panel-header {
+        position: relative;
+    }
+
+    .slide-panel-header::before {
+        content: '';
+        position: absolute;
+        top: var(--space-2);
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 4px;
+        background: var(--color-gray-300);
+        border-radius: var(--radius-full);
+    }
+
+    .slide-panel-body {
+        padding: var(--space-4);
+    }
+}

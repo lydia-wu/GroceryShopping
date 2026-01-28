@@ -28,6 +28,7 @@ console.log('[app.js] event-bus loaded');
 import priceService from './services/price-service.js';
 console.log('[app.js] price-service loaded');
 import { getDiverseFactsForMeal, getFactsForCategory, healthCategories, healthBenefits } from './data/health-benefits.js';
+import SlidePanel from './components/slide-panel.js';
 console.log('[app.js] All imports complete!');
 
 class MealDashboardApp {
@@ -49,6 +50,12 @@ class MealDashboardApp {
         this.modals = {};
         this.v2Enabled = true; // Flag for v2.0.0 features
         this.currentEditingMealCode = null; // For tag editor
+
+        // Feature 9: Ingredients panel
+        this.ingredientPanel = null;
+        this.currentIngredientMeal = null;
+        this.instructionSaveTimer = null;
+
         this.init();
     }
 
@@ -89,6 +96,13 @@ class MealDashboardApp {
 
         // Render UI
         this.renderDashboard();
+
+        // Feature 9: Initialize ingredients slide panel
+        this.ingredientPanel = new SlidePanel({
+            id: 'ingredients-panel',
+            width: '420px',
+            onClose: () => this.handleIngredientPanelClose()
+        });
 
         console.log('Dashboard initialized successfully');
     }
@@ -315,6 +329,36 @@ class MealDashboardApp {
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', (e) => this.handleNavigation(e));
         });
+
+        // Feature 9: Edit mode toggle + overflow menu
+        const editModeToggle = document.getElementById('edit-mode-toggle');
+        if (editModeToggle) {
+            editModeToggle.checked = getState('ui')?.editMode || false;
+            editModeToggle.addEventListener('change', () => {
+                const newMode = editModeToggle.checked;
+                const ui = getState('ui') || {};
+                ui.editMode = newMode;
+                setState({ ui });
+                emit(EVENTS.EDIT_MODE_TOGGLED, { editMode: newMode });
+                this.showToast(newMode ? 'Edit mode ON' : 'Edit mode OFF', 'info');
+                // Re-render panel if open
+                if (this.currentIngredientMeal) {
+                    this.showIngredientsPanel(this.currentIngredientMeal);
+                }
+            });
+        }
+
+        const overflowBtn = document.getElementById('header-overflow-btn');
+        const overflowDropdown = document.getElementById('overflow-dropdown');
+        if (overflowBtn && overflowDropdown) {
+            overflowBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                overflowDropdown.classList.toggle('active');
+            });
+            document.addEventListener('click', () => {
+                overflowDropdown.classList.remove('active');
+            });
+        }
 
         // Log cooking button
         document.getElementById('log-cooking-btn')?.addEventListener('click', () => {
@@ -774,6 +818,7 @@ class MealDashboardApp {
                         </div>
                     </div>
                     <div class="meal-card-actions">
+                        <button class="btn btn-sm btn-outline view-ingredients-btn" data-meal="${code}">Ingredients</button>
                         <button class="btn btn-sm btn-outline view-nutrition-btn" data-meal="${code}">Nutrition</button>
                         <button class="btn btn-sm btn-primary log-meal-btn" data-meal="${code}">Log Cooking</button>
                         <button class="btn btn-sm btn-outline archive-meal-btn" data-meal="${code}" title="Archive meal">📦</button>
@@ -823,6 +868,14 @@ class MealDashboardApp {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 this.openArchiveModal(btn.dataset.meal);
+            });
+        });
+
+        // Add ingredients button listeners (Feature 9)
+        container.querySelectorAll('.view-ingredients-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.showIngredientsPanel(btn.dataset.meal);
             });
         });
     }
@@ -1315,6 +1368,10 @@ class MealDashboardApp {
         document.querySelectorAll('.modal.active').forEach(modal => {
             modal.classList.remove('active');
         });
+        // Feature 9: Also close slide panel
+        if (this.ingredientPanel) {
+            this.ingredientPanel.close();
+        }
     }
 
     /**
@@ -1679,6 +1736,253 @@ class MealDashboardApp {
     /**
      * Show meal details
      */
+    // =========================================================
+    // Feature 9: Ingredients Slide Panel
+    // =========================================================
+
+    /**
+     * Show ingredients slide panel for a meal
+     */
+    showIngredientsPanel(mealCode) {
+        const meal = this.state.meals[mealCode] || CONFIG.meals[mealCode];
+        if (!meal) return;
+
+        this.currentIngredientMeal = mealCode;
+        const html = this.renderIngredientPanelContent(meal);
+        this.ingredientPanel.open(html, meal.name);
+        this.setupIngredientPanelListeners(mealCode);
+    }
+
+    /**
+     * Render the content HTML for the ingredients panel
+     */
+    renderIngredientPanelContent(meal) {
+        const mealCode = meal.code;
+        const editMode = getState('ui')?.editMode || false;
+
+        // Get instruction override if exists
+        const overrides = getState('instructionOverrides') || {};
+        const instructions = overrides[mealCode] || meal.instructions || 'No instructions available.';
+
+        let html = '';
+
+        // Toggle controls
+        html += `
+            <div class="ingredient-controls">
+                <label class="ingredient-toggle">
+                    <input type="checkbox" id="toggle-grams">
+                    Show in grams
+                </label>
+                <label class="ingredient-toggle">
+                    <input type="checkbox" id="toggle-costs">
+                    Show costs
+                </label>
+            </div>
+        `;
+
+        // Ingredient list
+        html += `<ul class="ingredient-list" id="ingredient-list">`;
+        html += this.renderIngredientRows(meal, false, false);
+        html += `</ul>`;
+
+        // Cost total (hidden by default)
+        html += `<div class="ingredient-cost-total" id="ingredient-cost-total" style="display: none;">
+            <span>Total Meal Cost</span>
+            <span id="ingredient-total-value">--</span>
+        </div>`;
+
+        // Sides
+        if (meal.sides && meal.sides.length > 0) {
+            html += `
+                <div class="panel-sides">
+                    <div class="panel-sides-title">Serve With</div>
+                    <div class="panel-sides-list">
+                        ${meal.sides.map(s => `<span class="panel-side-chip">${s}</span>`).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Instructions
+        html += `
+            <div class="panel-instructions-section">
+                <div class="panel-instructions-title">
+                    Instructions
+                    <span class="unsaved-indicator" id="unsaved-indicator">Unsaved changes</span>
+                </div>
+        `;
+
+        if (editMode) {
+            html += `<textarea class="panel-instructions-textarea" id="instructions-editor" data-meal="${mealCode}">${this.escapeHtml(instructions)}</textarea>`;
+        } else {
+            html += `<p class="panel-instructions-text">${this.escapeHtml(instructions)}</p>`;
+        }
+
+        html += `</div>`;
+
+        return html;
+    }
+
+    /**
+     * Render ingredient rows with optional grams and cost display
+     */
+    renderIngredientRows(meal, showGrams, showCosts) {
+        let costData = null;
+        if (showCosts) {
+            try {
+                costData = priceService.calculateMealCost(meal);
+            } catch (e) {
+                console.warn('Price calculation error:', e);
+            }
+        }
+
+        let rows = '';
+        for (const ingredient of (meal.ingredients || [])) {
+            const displayText = showGrams
+                ? `${ingredient.grams || 0}g ${ingredient.name}`
+                : (ingredient.display || ingredient.name);
+
+            let costHtml = '';
+            if (showCosts) {
+                if (costData) {
+                    const match = costData.breakdown.find(b => b.name === ingredient.name);
+                    if (match) {
+                        costHtml = `<span class="ingredient-cost">$${match.estimatedCost.toFixed(2)}</span>`;
+                    } else {
+                        costHtml = `<span class="ingredient-cost ingredient-missing">--</span>`;
+                    }
+                } else {
+                    costHtml = `<span class="ingredient-cost ingredient-missing">--</span>`;
+                }
+            }
+
+            rows += `
+                <li class="ingredient-row">
+                    <span class="ingredient-name">${displayText}</span>
+                    ${costHtml}
+                </li>
+            `;
+        }
+
+        return rows;
+    }
+
+    /**
+     * Set up event listeners inside the ingredients panel
+     */
+    setupIngredientPanelListeners(mealCode) {
+        const meal = this.state.meals[mealCode] || CONFIG.meals[mealCode];
+        if (!meal) return;
+
+        // Grams toggle
+        const gramsToggle = document.getElementById('toggle-grams');
+        if (gramsToggle) {
+            gramsToggle.addEventListener('change', () => {
+                const costsOn = document.getElementById('toggle-costs')?.checked || false;
+                this.refreshIngredientList(meal, gramsToggle.checked, costsOn);
+            });
+        }
+
+        // Costs toggle
+        const costsToggle = document.getElementById('toggle-costs');
+        if (costsToggle) {
+            costsToggle.addEventListener('change', () => {
+                const gramsOn = document.getElementById('toggle-grams')?.checked || false;
+                this.refreshIngredientList(meal, gramsOn, costsToggle.checked);
+            });
+        }
+
+        // Instructions editor (edit mode only)
+        const editor = document.getElementById('instructions-editor');
+        if (editor) {
+            editor.addEventListener('input', () => {
+                this.handleInstructionEdit(mealCode, editor.value);
+            });
+        }
+    }
+
+    /**
+     * Refresh just the ingredient list and cost total
+     */
+    refreshIngredientList(meal, showGrams, showCosts) {
+        const listEl = document.getElementById('ingredient-list');
+        const totalEl = document.getElementById('ingredient-cost-total');
+        const totalValueEl = document.getElementById('ingredient-total-value');
+
+        if (listEl) {
+            listEl.innerHTML = this.renderIngredientRows(meal, showGrams, showCosts);
+        }
+
+        if (totalEl && totalValueEl) {
+            if (showCosts) {
+                try {
+                    const costData = priceService.calculateMealCost(meal);
+                    let totalText = `$${costData.totalCost.toFixed(2)}`;
+                    if (costData.missing.length > 0) {
+                        totalText += ` (${costData.missing.length} missing)`;
+                    }
+                    totalValueEl.textContent = totalText;
+                    totalEl.style.display = 'flex';
+                } catch (e) {
+                    totalEl.style.display = 'none';
+                }
+            } else {
+                totalEl.style.display = 'none';
+            }
+        }
+    }
+
+    /**
+     * Handle instruction text edits with debounced auto-save
+     */
+    handleInstructionEdit(mealCode, newText) {
+        // Show unsaved indicator
+        const indicator = document.getElementById('unsaved-indicator');
+        if (indicator) indicator.classList.add('visible');
+
+        // Debounce save
+        clearTimeout(this.instructionSaveTimer);
+        this.instructionSaveTimer = setTimeout(() => {
+            const overrides = getState('instructionOverrides') || {};
+            overrides[mealCode] = newText;
+            setState({ instructionOverrides: overrides });
+
+            // Hide unsaved indicator
+            if (indicator) indicator.classList.remove('visible');
+
+            emit(EVENTS.MEAL_UPDATED, { code: mealCode });
+        }, 1500);
+    }
+
+    /**
+     * Handle panel close -- save any pending edits
+     */
+    handleIngredientPanelClose() {
+        if (this.instructionSaveTimer) {
+            clearTimeout(this.instructionSaveTimer);
+            const editor = document.getElementById('instructions-editor');
+            if (editor && this.currentIngredientMeal) {
+                const overrides = getState('instructionOverrides') || {};
+                overrides[this.currentIngredientMeal] = editor.value;
+                setState({ instructionOverrides: overrides });
+            }
+        }
+        this.currentIngredientMeal = null;
+    }
+
+    /**
+     * Escape HTML to prevent XSS in user-editable content
+     */
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    // =========================================================
+    // End Feature 9
+    // =========================================================
+
     showMealDetails(mealCode) {
         // For now, show nutrition modal. Could expand to full meal detail modal
         this.showNutritionModal(mealCode);

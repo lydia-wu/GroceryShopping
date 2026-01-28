@@ -10,9 +10,9 @@
 ### Session Summary (Jan 22, 2026)
 
 **PHASE 1 COMPLETE & VERIFIED** - All 3 foundation features tested and working.
-**PHASE 2 IN PROGRESS** - Features 4 & 8 complete, Feature 9 is next.
+**PHASE 2 IN PROGRESS** - Features 4, 8 & 9 complete, Feature 10 is next.
 
-**NEXT TASK: Feature 9 - Ingredients Button on Meal Cards**
+**NEXT TASK: Feature 10 - Up to 10 Fun Facts per Meal**
 
 ---
 
@@ -72,6 +72,24 @@
 - Responsive handling for small screens
 - Files: `nutrition.js`, `app.js`, `styles.css`
 
+**Feature 9: Ingredients Button on Meal Cards** ✅
+- Reusable `SlidePanel` class: `dashboard/js/components/slide-panel.js`
+- Panel slides from right side with backdrop, close on X/backdrop/Escape
+- "Ingredients" button added to all meal cards
+- Default display: `ingredient.display` ("2 cans canned mackerel")
+- Toggle: "Show in grams" switches to "340g mackerel" format
+- Toggle: "Show costs" shows per-ingredient cost via `priceService.calculateMealCost()`
+- Cost total with missing count at bottom
+- Sides displayed as chips ("Serve With" section)
+- Cooking instructions at bottom (read-only by default)
+- Global Edit Mode toggle via "..." overflow menu in header
+- Edit mode: instructions become editable textarea with auto-save (1.5s debounce)
+- "Unsaved changes" indicator during editing
+- Instruction overrides persisted to `instructionOverrides` in state-manager
+- `escapeHtml()` utility for XSS protection on user content
+- Full responsive support (mobile: full-width bottom sheet)
+- Files: `slide-panel.js`, `slide-panel.css`, `app.js`, `index.html`, `styles.css`, `state-manager.js`
+
 ---
 
 ## IMPLEMENTATION PHASES
@@ -84,8 +102,8 @@
 ### PHASE 2 - Data & Display (IN PROGRESS)
 - [x] Feature 4: Import Historical Staples Data ✅
 - [x] Feature 8: Units on All Nutrition Information ✅
-- [ ] **Feature 9: Ingredients Button on Meal Cards** ← NEXT
-- [ ] Feature 10: Up to 10 Fun Facts per Meal
+- [x] Feature 9: Ingredients Button on Meal Cards ✅
+- [ ] **Feature 10: Up to 10 Fun Facts per Meal** ← NEXT
 
 ### PHASE 3 - Visualizations
 - [ ] Feature 11: Expand Nutritional Radar Chart
@@ -152,6 +170,8 @@ GroceryList/
 │   │   ├── charts.js                # Analytics + health benefits radar
 │   │   ├── meal-library.js          # Meal CRUD + tags + archive (Feature 16)
 │   │   ├── staples-tracker.js       # Staples tracking (Feature 4)
+│   │   ├── components/
+│   │   │   └── slide-panel.js          # Reusable slide panel (Feature 9)
 │   │   ├── core/
 │   │   │   ├── state-manager.js
 │   │   │   ├── event-bus.js
