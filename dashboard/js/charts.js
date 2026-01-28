@@ -11,6 +11,10 @@ const COLORS = {
     quaternary: 'rgba(212, 165, 116, 0.8)',   // Gold
     fifth: 'rgba(183, 71, 42, 0.8)',          // Rust
     sixth: 'rgba(112, 130, 56, 0.8)',         // Olive
+    seventh: 'rgba(168, 84, 108, 0.8)',       // Mauve
+    eighth: 'rgba(86, 130, 153, 0.8)',        // Steel Blue
+    ninth: 'rgba(156, 137, 102, 0.8)',        // Khaki
+    tenth: 'rgba(119, 93, 128, 0.8)',         // Dusty Purple
 
     // Lighter versions for backgrounds
     primaryLight: 'rgba(194, 112, 60, 0.2)',
@@ -18,7 +22,11 @@ const COLORS = {
     tertiaryLight: 'rgba(124, 148, 115, 0.2)',
     quaternaryLight: 'rgba(212, 165, 116, 0.2)',
     fifthLight: 'rgba(183, 71, 42, 0.2)',
-    sixthLight: 'rgba(112, 130, 56, 0.2)'
+    sixthLight: 'rgba(112, 130, 56, 0.2)',
+    seventhLight: 'rgba(168, 84, 108, 0.2)',
+    eighthLight: 'rgba(86, 130, 153, 0.2)',
+    ninthLight: 'rgba(156, 137, 102, 0.2)',
+    tenthLight: 'rgba(119, 93, 128, 0.2)'
 };
 
 const MEAL_COLORS = [
@@ -27,7 +35,11 @@ const MEAL_COLORS = [
     COLORS.tertiary,
     COLORS.quaternary,
     COLORS.fifth,
-    COLORS.sixth
+    COLORS.sixth,
+    COLORS.seventh,
+    COLORS.eighth,
+    COLORS.ninth,
+    COLORS.tenth
 ];
 
 const MEAL_COLORS_LIGHT = [
@@ -36,7 +48,11 @@ const MEAL_COLORS_LIGHT = [
     COLORS.tertiaryLight,
     COLORS.quaternaryLight,
     COLORS.fifthLight,
-    COLORS.sixthLight
+    COLORS.sixthLight,
+    COLORS.seventhLight,
+    COLORS.eighthLight,
+    COLORS.ninthLight,
+    COLORS.tenthLight
 ];
 
 class ChartManager {
@@ -921,6 +937,250 @@ class ChartManager {
                         labels: {
                             color: '#3E2723',
                             padding: 15
+                        }
+                    }
+                }
+            }
+        });
+
+        return this.charts[canvasId];
+    }
+
+    // =========================================================
+    // Feature 11: Blood Panel Nutrition Radar Chart
+    // =========================================================
+
+    /**
+     * Calculate blood panel relevant axes from nutrition data
+     * @param {Object} nutrition - Raw nutrition values
+     * @param {Object} dailyValues - Daily value percentages
+     * @returns {Object} Scores for each blood panel axis (0-100)
+     */
+    calculateBloodPanelAxes(nutrition, dailyValues) {
+        const n = nutrition || {};
+        const dv = dailyValues || {};
+
+        return {
+            // Blood Glucose Impact: High fiber + low sugar = better blood sugar control
+            bloodGlucose: Math.min(100, Math.max(0,
+                ((dv.fiber || 0) * 0.6) +
+                (100 - Math.min(100, (dv.sugar || 0))) * 0.4
+            )),
+
+            // Anti-Inflammation Score: omega-3, fiber, vitamins E & C
+            inflammation: Math.min(100, Math.max(0,
+                ((n.omega3 || 0) / 16) +
+                (dv.fiber || 0) * 0.2 +
+                (dv.vitaminE || 0) * 0.15 +
+                (dv.vitaminC || 0) * 0.15
+            )),
+
+            // Iron/Ferritin: iron with vitamin C absorption boost
+            iron: Math.min(100, Math.max(0,
+                (dv.iron || 0) * (1 + Math.min(0.5, (dv.vitaminC || 0) / 200))
+            )),
+
+            // Vitamin D
+            vitaminD: Math.min(100, dv.vitaminD || 0),
+
+            // B12
+            vitaminB12: Math.min(100, dv.vitaminB12 || 0),
+
+            // Heart Health: omega-3 + fiber - saturated fat
+            heartHealth: Math.min(100, Math.max(0,
+                ((n.omega3 || 0) / 16) +
+                (dv.fiber || 0) * 0.3 +
+                (50 - Math.min(50, (dv.saturatedFat || 0) * 0.5))
+            ))
+        };
+    }
+
+    /**
+     * Calculate weighted nutrition score (0-100)
+     * @param {Object} mealsNutrition - Nutrition data for meals
+     * @param {Array} selectedMeals - Array of selected meal codes (null = all)
+     * @param {Object} weights - Custom weight object (optional)
+     * @returns {Object} Score and breakdown
+     */
+    calculateNutritionScore(mealsNutrition, selectedMeals, weights) {
+        const defaultWeights = {
+            protein: 10,
+            antiInflammatory: 9,
+            vitamins: 8,
+            bloodSugar: 7,
+            heartHealth: 6,
+            fiber: 5,
+            lowSugar: 4,
+            minerals: 3,
+            omega3: 2,
+            lowSodium: 1
+        };
+
+        const w = weights || defaultWeights;
+        const totalWeight = Object.values(w).reduce((a, b) => a + b, 0);
+
+        const mealCodes = selectedMeals && selectedMeals.length > 0
+            ? selectedMeals
+            : Object.keys(mealsNutrition);
+
+        if (mealCodes.length === 0) return { score: 0, grade: this.getLetterGrade(0), breakdown: {} };
+
+        let totalScore = 0;
+        const breakdowns = [];
+
+        mealCodes.forEach(code => {
+            const meal = mealsNutrition[code];
+            if (!meal) return;
+
+            const n = meal.nutrition || {};
+            const dv = meal.dailyValues || {};
+            const axes = this.calculateBloodPanelAxes(n, dv);
+
+            const components = {
+                protein: Math.min(100, dv.protein || 0),
+                antiInflammatory: axes.inflammation,
+                vitamins: Math.min(100, ((dv.vitaminA || 0) + (dv.vitaminC || 0) + (dv.vitaminK || 0) + (dv.vitaminB12 || 0)) / 4),
+                bloodSugar: axes.bloodGlucose,
+                heartHealth: axes.heartHealth,
+                fiber: Math.min(100, dv.fiber || 0),
+                lowSugar: Math.max(0, 100 - Math.min(100, dv.sugar || 0)),
+                minerals: Math.min(100, ((dv.iron || 0) + (dv.calcium || 0) + (dv.magnesium || 0)) / 3),
+                omega3: Math.min(100, (n.omega3 || 0) / 16),
+                lowSodium: Math.max(0, 100 - Math.min(100, dv.sodium || 0))
+            };
+
+            let mealScore = 0;
+            for (const [key, weight] of Object.entries(w)) {
+                mealScore += (components[key] || 0) * weight;
+            }
+            totalScore += mealScore / totalWeight;
+            breakdowns.push({ code, components, score: mealScore / totalWeight });
+        });
+
+        const avgScore = Math.round(totalScore / mealCodes.length);
+        return {
+            score: avgScore,
+            grade: this.getLetterGrade(avgScore),
+            breakdown: breakdowns
+        };
+    }
+
+    /**
+     * Get letter grade for nutrition score
+     * @param {number} score - Score 0-100
+     * @returns {Object} Grade info with letter, color, label
+     */
+    getLetterGrade(score) {
+        if (score >= 85) return { grade: 'A', color: '#27ae60', label: 'Excellent' };
+        if (score >= 70) return { grade: 'B', color: '#3498db', label: 'Good' };
+        if (score >= 55) return { grade: 'C', color: '#f39c12', label: 'Average' };
+        if (score >= 40) return { grade: 'D', color: '#e67e22', label: 'Below Average' };
+        return { grade: 'F', color: '#e74c3c', label: 'Poor' };
+    }
+
+    /**
+     * Create Blood Panel Nutrition Radar Chart (Feature 11)
+     * Shows blood-panel-relevant nutritional metrics for selected meals
+     * @param {string} canvasId - Canvas element ID
+     * @param {Object} mealsNutrition - Nutrition data for meals
+     * @param {Array} selectedMeals - Array of selected meal codes (null = all)
+     */
+    createBloodPanelRadarChart(canvasId, mealsNutrition, selectedMeals = null) {
+        this.destroyChart(canvasId);
+        const ctx = document.getElementById(canvasId);
+        if (!ctx) return null;
+
+        const mealCodes = selectedMeals && selectedMeals.length > 0
+            ? selectedMeals
+            : Object.keys(mealsNutrition).slice(0, 10);
+
+        const axisLabels = [
+            'Blood Glucose',
+            'Anti-Inflammation',
+            'Iron',
+            'Vitamin D',
+            'B12',
+            'Heart Health'
+        ];
+
+        // Build datasets for each selected meal
+        const datasets = mealCodes.map((code, index) => {
+            const meal = mealsNutrition[code];
+            if (!meal) return null;
+
+            const axes = this.calculateBloodPanelAxes(meal.nutrition, meal.dailyValues);
+
+            return {
+                label: meal.name || `Meal ${code}`,
+                data: [
+                    axes.bloodGlucose,
+                    axes.inflammation,
+                    axes.iron,
+                    axes.vitaminD,
+                    axes.vitaminB12,
+                    axes.heartHealth
+                ],
+                backgroundColor: MEAL_COLORS_LIGHT[index % MEAL_COLORS_LIGHT.length],
+                borderColor: MEAL_COLORS[index % MEAL_COLORS.length],
+                borderWidth: 2,
+                pointBackgroundColor: MEAL_COLORS[index % MEAL_COLORS.length],
+                pointBorderColor: '#fff',
+                pointRadius: 4,
+                pointHoverRadius: 6
+            };
+        }).filter(d => d !== null);
+
+        if (datasets.length === 0) {
+            console.warn('[Charts] No valid meals for blood panel chart');
+            return null;
+        }
+
+        this.charts[canvasId] = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: axisLabels,
+                datasets: datasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            stepSize: 20,
+                            color: '#5D4037',
+                            backdropColor: 'transparent',
+                            font: { size: 10 }
+                        },
+                        grid: {
+                            color: 'rgba(93, 64, 55, 0.1)'
+                        },
+                        angleLines: {
+                            color: 'rgba(93, 64, 55, 0.1)'
+                        },
+                        pointLabels: {
+                            color: '#3E2723',
+                            font: { size: 12, weight: '500' }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#3E2723',
+                            padding: 12,
+                            usePointStyle: true,
+                            font: { size: 11 }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => {
+                                return `${context.dataset.label}: ${Math.round(context.raw)}%`;
+                            }
                         }
                     }
                 }

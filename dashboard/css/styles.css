@@ -1982,3 +1982,251 @@ a:hover {
 .justify-between { justify-content: space-between; }
 .gap-2 { gap: var(--space-2); }
 .gap-4 { gap: var(--space-4); }
+
+/* ==========================================================================
+   Blood Panel Nutrition Chart (Feature 11)
+   ========================================================================== */
+
+.chart-card-wide {
+    grid-column: span 2;
+}
+
+@media (max-width: 768px) {
+    .chart-card-wide {
+        grid-column: span 1;
+    }
+}
+
+.chart-card .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-3);
+}
+
+.chart-card .chart-header .chart-title {
+    margin: 0;
+}
+
+/* Blood Radar Controls */
+.blood-radar-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-3);
+    padding: var(--space-2);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-md);
+}
+
+.meal-checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    flex: 1;
+}
+
+.meal-checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    cursor: pointer;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    transition: background var(--transition-fast);
+}
+
+.meal-checkbox-item:hover {
+    background: var(--color-gray-100);
+}
+
+.meal-checkbox-item input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+}
+
+.meal-checkbox-item .color-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.meal-checkbox-item .meal-name {
+    font-size: var(--font-size-xs);
+    color: var(--color-brown);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 120px;
+}
+
+.checkbox-actions {
+    display: flex;
+    gap: var(--space-1);
+    margin-left: var(--space-2);
+}
+
+.btn-xs {
+    padding: 2px 8px;
+    font-size: var(--font-size-xs);
+}
+
+/* Blood Radar Content */
+.blood-radar-content {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: var(--space-4);
+    align-items: center;
+    margin-bottom: var(--space-3);
+}
+
+@media (max-width: 600px) {
+    .blood-radar-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .nutrition-score-panel {
+        order: 2;
+    }
+    
+    .blood-radar-wrapper {
+        order: 1;
+    }
+}
+
+/* Nutrition Score Panel */
+.nutrition-score-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    background: var(--color-cream);
+    border-radius: var(--radius-lg);
+}
+
+.score-circle {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: conic-gradient(
+        var(--score-color, var(--color-sage)) calc(var(--score-percent, 0) * 3.6deg),
+        var(--color-gray-200) calc(var(--score-percent, 0) * 3.6deg)
+    );
+    position: relative;
+}
+
+.score-circle::after {
+    content: '';
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: var(--color-cream);
+}
+
+.score-value {
+    position: relative;
+    z-index: 1;
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--color-brown);
+}
+
+.score-grade {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: var(--radius-sm);
+    background: var(--grade-color, var(--color-gray-200));
+    color: var(--color-white);
+}
+
+.blood-radar-wrapper {
+    min-height: 250px;
+    position: relative;
+}
+
+/* Nutrition Info Bar */
+.nutrition-info-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-2);
+    padding: var(--space-2);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-md);
+}
+
+@media (max-width: 600px) {
+    .nutrition-info-bar {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.nutrition-info-bar .info-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: var(--space-2);
+    text-align: center;
+}
+
+.nutrition-info-bar .info-item.highlight {
+    background: var(--color-sage-light);
+    border-radius: var(--radius-sm);
+}
+
+.nutrition-info-bar .info-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-500);
+}
+
+.nutrition-info-bar .info-value {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-brown);
+}
+
+.nutrition-info-bar .info-item.highlight .info-label,
+.nutrition-info-bar .info-item.highlight .info-value {
+    color: var(--color-white);
+}
+
+/* Score Breakdown Modal */
+.score-breakdown-content {
+    padding: var(--space-3);
+}
+
+.breakdown-item {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--color-gray-100);
+}
+
+.breakdown-item:last-child {
+    border-bottom: none;
+}
+
+.breakdown-label {
+    font-weight: 500;
+    color: var(--color-brown);
+}
+
+.breakdown-value {
+    color: var(--color-gray-600);
+}
+
+.breakdown-total {
+    font-weight: 700;
+    font-size: var(--font-size-lg);
+    padding-top: var(--space-3);
+    margin-top: var(--space-2);
+    border-top: 2px solid var(--color-brown);
+}

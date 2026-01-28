@@ -406,6 +406,9 @@ class MealDashboardApp {
             this.toggleStapleDetailFields(e.target.value);
         });
 
+        // Feature 11: Blood Panel Radar Controls
+        this.setupBloodRadarControls();
+
         // Shopping list
         document.getElementById('generate-shopping-list')?.addEventListener('click', () => {
             this.generateShoppingList();
@@ -1189,6 +1192,12 @@ class MealDashboardApp {
             mealsNutrition: this.state.mealsNutrition,
             healthBenefitsData: { healthCategories, healthBenefits }
         });
+
+        // Feature 11: Blood Panel Nutrition Chart
+        this.renderBloodRadarCheckboxes();
+        this.updateBloodPanelChart();
+        this.updateNutritionScore();
+        this.updateNutritionInfoBar();
     }
 
     /**
@@ -2300,7 +2309,308 @@ class MealDashboardApp {
         }
     }
 
+    // ========================================================================
+    // Feature 11: Blood Panel Nutrition Chart Methods
+    // ========================================================================
+
     /**
+     * Set up blood radar chart controls and event listeners
+     */
+    setupBloodRadarControls() {
+        const selectAllBtn = document.getElementById('blood-radar-select-all');
+        const selectNoneBtn = document.getElementById('blood-radar-select-none');
+        const settingsBtn = document.getElementById('nutrition-settings-btn');
+        const breakdownBtn = document.getElementById('show-score-breakdown');
+
+        selectAllBtn?.addEventListener('click', () => {
+            document.querySelectorAll('#blood-radar-meal-checkboxes input[type="checkbox"]')
+                .forEach(cb => cb.checked = true);
+            this.updateBloodRadarSelection();
+        });
+
+        selectNoneBtn?.addEventListener('click', () => {
+            document.querySelectorAll('#blood-radar-meal-checkboxes input[type="checkbox"]')
+                .forEach(cb => cb.checked = false);
+            this.updateBloodRadarSelection();
+        });
+
+        settingsBtn?.addEventListener('click', () => {
+            this.showToast('Settings coming soon', 'info');
+        });
+
+        breakdownBtn?.addEventListener('click', () => {
+            this.showScoreBreakdown();
+        });
+    }
+
+    /**
+     * Render meal checkboxes for blood radar selection
+     */
+    renderBloodRadarCheckboxes() {
+        const container = document.getElementById('blood-radar-meal-checkboxes');
+        if (!container) return;
+
+        const mealsNutrition = this.state.mealsNutrition;
+        const mealCodes = Object.keys(mealsNutrition);
+        const savedSelection = getState('ui.selectedMealsForRadar') || [];
+
+        // Color palette for meals
+        const colors = [
+            'rgba(194, 112, 60, 0.8)',    // Terracotta
+            'rgba(93, 64, 55, 0.8)',       // Brown
+            'rgba(124, 148, 115, 0.8)',    // Sage
+            'rgba(212, 165, 116, 0.8)',    // Gold
+            'rgba(183, 71, 42, 0.8)',      // Rust
+            'rgba(112, 130, 56, 0.8)',     // Olive
+            'rgba(168, 84, 108, 0.8)',     // Mauve
+            'rgba(86, 130, 153, 0.8)',     // Steel Blue
+            'rgba(156, 137, 102, 0.8)',    // Khaki
+            'rgba(119, 93, 128, 0.8)'      // Dusty Purple
+        ];
+
+        container.innerHTML = mealCodes.map((code, index) => {
+            const meal = this.state.meals[code] || CONFIG.meals[code];
+            const mealName = meal?.name || code;
+            const shortName = mealName.length > 15 ? mealName.slice(0, 12) + '...' : mealName;
+            const isChecked = savedSelection.length === 0 || savedSelection.includes(code);
+            const color = colors[index % colors.length];
+
+            return `
+                <label class="meal-checkbox-item" title="${this.escapeHtml(mealName)}">
+                    <input type="checkbox" value="${code}" ${isChecked ? 'checked' : ''}>
+                    <span class="color-dot" style="background: ${color}"></span>
+                    <span class="meal-name">${this.escapeHtml(shortName)}</span>
+                </label>
+            `;
+        }).join('');
+
+        // Add change listeners
+        container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+            cb.addEventListener('change', () => this.updateBloodRadarSelection());
+        });
+    }
+
+    /**
+     * Handle checkbox selection changes for blood radar
+     */
+    updateBloodRadarSelection() {
+        const checkboxes = document.querySelectorAll('#blood-radar-meal-checkboxes input[type="checkbox"]:checked');
+        const selectedMeals = Array.from(checkboxes).map(cb => cb.value);
+
+        // Save to state
+        const ui = getState('ui') || {};
+        ui.selectedMealsForRadar = selectedMeals;
+        setState({ ui });
+
+        // Update chart and score
+        this.updateBloodPanelChart();
+        this.updateNutritionScore();
+        this.updateNutritionInfoBar();
+    }
+
+    /**
+     * Update the blood panel radar chart
+     */
+    updateBloodPanelChart() {
+        const mealsNutrition = this.state.mealsNutrition;
+        const selectedMeals = getState('ui.selectedMealsForRadar') || [];
+
+        // If no selection saved, use all meals
+        const effectiveSelection = selectedMeals.length > 0 ? selectedMeals : Object.keys(mealsNutrition);
+
+        chartManager.createBloodPanelRadarChart('blood-panel-radar', mealsNutrition, effectiveSelection);
+    }
+
+    /**
+     * Update the nutrition score display
+     */
+    updateNutritionScore() {
+        const mealsNutrition = this.state.mealsNutrition;
+        const selectedMeals = getState('ui.selectedMealsForRadar') || [];
+        const weights = getState('settings.scoreWeights') || {};
+
+        const effectiveSelection = selectedMeals.length > 0 ? selectedMeals : Object.keys(mealsNutrition);
+
+        const result = chartManager.calculateNutritionScore(mealsNutrition, effectiveSelection, weights);
+
+        // Update score display
+        const scoreValue = document.getElementById('score-value');
+        const scoreGrade = document.getElementById('score-grade');
+        const scoreCircle = document.getElementById('score-circle');
+
+        if (scoreValue) scoreValue.textContent = Math.round(result.score);
+        if (scoreGrade) {
+            scoreGrade.textContent = `${result.grade.grade} - ${result.grade.label}`;
+            scoreGrade.style.setProperty('--grade-color', result.grade.color);
+            scoreGrade.style.background = result.grade.color;
+        }
+        if (scoreCircle) {
+            scoreCircle.style.setProperty('--score-percent', result.score);
+            scoreCircle.style.setProperty('--score-color', result.grade.color);
+        }
+
+        // Store for breakdown modal
+        this.lastScoreResult = result;
+    }
+
+    /**
+     * Update the nutrition info bar
+     */
+    updateNutritionInfoBar() {
+        const mealsNutrition = this.state.mealsNutrition;
+        const selectedMeals = getState('ui.selectedMealsForRadar') || [];
+        const effectiveSelection = selectedMeals.length > 0 ? selectedMeals : Object.keys(mealsNutrition);
+
+        if (effectiveSelection.length === 0) return;
+
+        // Calculate averages
+        let totalCalories = 0;
+        let totalCost = 0;
+        let totalAntiInflammatory = 0;
+        const strongNutrients = {};
+
+        effectiveSelection.forEach(code => {
+            const data = mealsNutrition[code];
+            if (!data) return;
+
+            // Calories
+            totalCalories += data.nutrition?.calories || 0;
+
+            // Cost from meal data
+            const meal = this.state.meals[code];
+            if (meal) {
+                const costData = priceService.calculateMealCost(meal);
+                totalCost += costData.totalCost || 0;
+            }
+
+            // Anti-inflammatory (based on omega-3 and fiber)
+            const omega3 = data.nutrition?.omega3 || 0;
+            const fiber = data.nutrition?.fiber || 0;
+            totalAntiInflammatory += (omega3 / 16) * 50 + (fiber / 25) * 50;
+
+            // Track strong nutrients (> 50% DV)
+            if (data.dailyValues) {
+                Object.entries(data.dailyValues).forEach(([nutrient, pct]) => {
+                    if (pct > 50) {
+                        strongNutrients[nutrient] = (strongNutrients[nutrient] || 0) + 1;
+                    }
+                });
+            }
+        });
+
+        const count = effectiveSelection.length;
+        const avgCalories = Math.round(totalCalories / count);
+        const avgCost = (totalCost / count).toFixed(2);
+        const avgAntiInflammatory = Math.round(totalAntiInflammatory / count);
+
+        // Get top 3 strong nutrients
+        const topNutrients = Object.entries(strongNutrients)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 3)
+            .map(([n]) => this.formatNutrientName(n))
+            .join(', ');
+
+        // Update UI
+        const avgCaloriesEl = document.getElementById('avg-calories');
+        const avgCostEl = document.getElementById('avg-cost');
+        const antiInflammatoryEl = document.getElementById('anti-inflammatory-score');
+        const strongNutrientsEl = document.getElementById('strong-nutrients');
+
+        if (avgCaloriesEl) avgCaloriesEl.textContent = `${avgCalories} kcal`;
+        if (avgCostEl) avgCostEl.textContent = `$${avgCost}`;
+        if (antiInflammatoryEl) antiInflammatoryEl.textContent = `${avgAntiInflammatory}/100`;
+        if (strongNutrientsEl) strongNutrientsEl.textContent = topNutrients || 'None';
+    }
+
+    /**
+     * Format nutrient name for display
+     */
+    formatNutrientName(key) {
+        const names = {
+            vitA: 'Vitamin A',
+            vitC: 'Vitamin C',
+            vitD: 'Vitamin D',
+            vitE: 'Vitamin E',
+            vitK: 'Vitamin K',
+            vitB6: 'B6',
+            vitB12: 'B12',
+            thiamin: 'B1',
+            riboflavin: 'B2',
+            niacin: 'B3',
+            folate: 'Folate',
+            calcium: 'Calcium',
+            iron: 'Iron',
+            magnesium: 'Magnesium',
+            phosphorus: 'Phosphorus',
+            potassium: 'Potassium',
+            zinc: 'Zinc',
+            selenium: 'Selenium',
+            omega3: 'Omega-3',
+            fiber: 'Fiber'
+        };
+        return names[key] || key;
+    }
+
+    /**
+     * Show score breakdown modal
+     */
+    showScoreBreakdown() {
+        if (!this.lastScoreResult) {
+            this.showToast('No score calculated yet', 'info');
+            return;
+        }
+
+        const breakdown = this.lastScoreResult.breakdown;
+        const items = Object.entries(breakdown)
+            .map(([category, score]) => `
+                <div class="breakdown-item">
+                    <span class="breakdown-label">${this.formatScoreCategory(category)}</span>
+                    <span class="breakdown-value">${Math.round(score)}/100</span>
+                </div>
+            `).join('');
+
+        // Simple alert-style modal for now
+        const modal = document.createElement('div');
+        modal.className = 'modal active';
+        modal.innerHTML = `
+            <div class="modal-content" style="max-width: 400px;">
+                <div class="modal-header">
+                    <h3>Score Breakdown</h3>
+                    <button class="modal-close" onclick="this.closest('.modal').remove()">&times;</button>
+                </div>
+                <div class="score-breakdown-content">
+                    ${items}
+                    <div class="breakdown-item breakdown-total">
+                        <span class="breakdown-label">Overall Score</span>
+                        <span class="breakdown-value">${Math.round(this.lastScoreResult.score)}/100</span>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+
+        // Close on backdrop click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.remove();
+        });
+    }
+
+    /**
+     * Format score category for display
+     */
+    formatScoreCategory(key) {
+        const names = {
+            bloodGlucose: 'Blood Sugar Control',
+            antiInflammation: 'Anti-inflammatory',
+            iron: 'Iron Absorption',
+            vitaminD: 'Vitamin D',
+            b12: 'Vitamin B12',
+            heartHealth: 'Heart Health'
+        };
+        return names[key] || key;
+    }
+
+        /**
      * Generate shopping list
      */
     generateShoppingList() {

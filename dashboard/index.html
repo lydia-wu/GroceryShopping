@@ -155,10 +155,56 @@
                                 <canvas id="micronutrients-chart"></canvas>
                             </div>
                         </div>
-                        <div class="chart-card">
-                            <h4 class="chart-title">Nutritional Completeness</h4>
-                            <div class="chart-container">
-                                <canvas id="nutrition-radar-chart"></canvas>
+                        <!-- Blood Panel Nutrition Chart (Feature 11) -->
+                        <div class="chart-card chart-card-wide">
+                            <div class="chart-header">
+                                <h4 class="chart-title">Blood Panel Nutrition</h4>
+                                <button class="btn btn-sm" id="nutrition-settings-btn" title="Settings">⚙️</button>
+                            </div>
+
+                            <!-- Meal Selection Checkboxes -->
+                            <div class="blood-radar-controls">
+                                <div class="meal-checkboxes" id="blood-radar-meal-checkboxes">
+                                    <!-- Populated by JS -->
+                                </div>
+                                <div class="checkbox-actions">
+                                    <button class="btn btn-xs" id="blood-radar-select-all">All</button>
+                                    <button class="btn btn-xs" id="blood-radar-select-none">None</button>
+                                </div>
+                            </div>
+
+                            <!-- Score + Chart -->
+                            <div class="blood-radar-content">
+                                <div class="nutrition-score-panel">
+                                    <div class="score-circle" id="score-circle">
+                                        <span class="score-value" id="score-value">--</span>
+                                    </div>
+                                    <div class="score-grade" id="score-grade">--</div>
+                                    <button class="btn btn-xs btn-outline" id="show-score-breakdown">View breakdown</button>
+                                </div>
+                                <div class="blood-radar-wrapper">
+                                    <canvas id="blood-panel-radar"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- Info Bar -->
+                            <div class="nutrition-info-bar">
+                                <div class="info-item">
+                                    <span class="info-label">Avg Calories</span>
+                                    <span class="info-value" id="avg-calories">--</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Avg Cost</span>
+                                    <span class="info-value" id="avg-cost">--</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Anti-inflammatory</span>
+                                    <span class="info-value" id="anti-inflammatory-score">--</span>
+                                </div>
+                                <div class="info-item highlight">
+                                    <span class="info-label">Strong Nutrients</span>
+                                    <span class="info-value" id="strong-nutrients">--</span>
+                                </div>
                             </div>
                         </div>
                     </div>
