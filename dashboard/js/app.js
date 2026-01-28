@@ -27,7 +27,7 @@ import { emit, on, EVENTS } from './core/event-bus.js';
 console.log('[app.js] event-bus loaded');
 import priceService from './services/price-service.js';
 console.log('[app.js] price-service loaded');
-import { getDiverseFactsForMeal, getFactsForCategory, healthCategories, healthBenefits } from './data/health-benefits.js';
+import { getDiverseFactsForMeal, getExpandedFactsForMeal, getFactsForCategory, healthCategories, healthBenefits } from './data/health-benefits.js';
 import SlidePanel from './components/slide-panel.js';
 console.log('[app.js] All imports complete!');
 
@@ -1638,41 +1638,48 @@ class MealDashboardApp {
                 }
             }
 
-            // v2.0.0: Use enhanced health benefits system
-            let facts = nutritionData.funFacts || [];
-
-            // Get ingredient names for health benefits lookup
+            // Feature 10: Up to 10 fun facts per meal (expandable to 25)
             const ingredientNames = (meal.ingredients || []).map(ing =>
                 typeof ing === 'string' ? ing : (ing.name || '')
             );
 
-            // Try to get richer facts from health-benefits.js
+            let facts = [];
             if (this.v2Enabled && ingredientNames.length > 0) {
                 try {
-                    const enhancedFacts = getDiverseFactsForMeal(ingredientNames, 8);
-                    if (enhancedFacts.length > 0) {
-                        facts = enhancedFacts.map(f => ({
-                            icon: this.getCategoryIcon(f.category),
-                            text: f.fact,
-                            category: f.category,
-                            source: f.source,
-                            ingredient: f.ingredient
-                        }));
-                    }
+                    const enhancedFacts = getDiverseFactsForMeal(ingredientNames, 10);
+                    facts = enhancedFacts.map(f => ({
+                        icon: this.getCategoryIcon(f.category),
+                        text: f.text,
+                        category: f.category,
+                        source: f.source || '',
+                        chapter: f.chapter || '',
+                        ingredientName: f.ingredientName || '',
+                        relatedIngredients: f.relatedIngredients || []
+                    }));
                 } catch (e) {
                     console.warn('Could not load enhanced health facts:', e);
                 }
             }
 
-            factsContainer.innerHTML = facts.length > 0
-                ? `<div class="health-facts-grid">${facts.map(f => `
-                    <div class="health-fact" data-category="${f.category || 'general'}">
-                        <span class="health-fact-icon">${f.icon}</span>
-                        <span class="health-fact-text">${f.text}</span>
-                        ${f.source ? `<span class="health-fact-source" title="Source: ${f.source}">📚</span>` : ''}
-                    </div>
-                `).join('')}</div>`
-                : '<p class="text-muted">Calculating nutrition facts...</p>';
+            // Fallback to nutrition-based facts
+            if (facts.length === 0) {
+                const fallback = nutritionData.funFacts || [];
+                facts = fallback.map(f => ({
+                    icon: f.icon || '\u{1F4A1}',
+                    text: f.text || '',
+                    category: f.category || 'general',
+                    source: f.source || '',
+                    chapter: '',
+                    ingredientName: '',
+                    relatedIngredients: []
+                }));
+            }
+
+            // Store for expand functionality
+            this._currentNutritionMeal = mealCode;
+            this._currentIngredientNames = ingredientNames;
+
+            factsContainer.innerHTML = this.renderHealthFacts(facts, false);
 
         } else {
             macrosContainer.innerHTML = '<p class="text-muted">Nutrition data not available</p>';
@@ -1733,9 +1740,87 @@ class MealDashboardApp {
         return icons[category] || '💡';
     }
 
+    // =========================================================
+    // Feature 10: Health Facts Rendering & Expand
+    // =========================================================
+
     /**
-     * Show meal details
+     * Render health facts grid with ingredient badges and source tooltips
+     * @param {Array} facts - Array of fact objects
+     * @param {boolean} expanded - Whether showing expanded (up to 25) view
      */
+    renderHealthFacts(facts, expanded) {
+        if (facts.length === 0) {
+            return '<p class="text-muted">No health facts available for this meal.</p>';
+        }
+
+        const factsHTML = facts.map(f => {
+            const ingredientBadge = f.ingredientName
+                ? `<span class="health-fact-ingredient" title="From: ${this.escapeHtml(f.ingredientName)}">${this.escapeHtml(f.ingredientName)}</span>`
+                : '';
+            const sourceTooltip = f.source
+                ? `<span class="health-fact-source" title="${this.escapeHtml(f.source)}${f.chapter ? ' — ' + this.escapeHtml(f.chapter) : ''}">📚</span>`
+                : '';
+            return `
+                <div class="health-fact" data-category="${f.category || 'general'}">
+                    <span class="health-fact-icon">${f.icon}</span>
+                    <div class="health-fact-content">
+                        <span class="health-fact-text">${this.escapeHtml(f.text)}</span>
+                        <div class="health-fact-meta">
+                            ${ingredientBadge}
+                            ${sourceTooltip}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        const expandBtn = !expanded
+            ? `<button class="health-facts-expand-btn" onclick="window.__app.expandHealthFacts()">
+                   Show more facts ▾
+               </button>`
+            : '';
+
+        return `<div class="health-facts-grid">${factsHTML}</div>${expandBtn}`;
+    }
+
+    /**
+     * Expand health facts to show up to 25 (organized by category)
+     */
+    expandHealthFacts() {
+        const ingredientNames = this._currentIngredientNames || [];
+        if (ingredientNames.length === 0) return;
+
+        const factsContainer = document.getElementById('nutrition-facts');
+        if (!factsContainer) return;
+
+        try {
+            const expandedByCategory = getExpandedFactsForMeal(ingredientNames);
+            const allFacts = [];
+
+            // Flatten category groups, capping at 25 total
+            for (const [catId, catFacts] of Object.entries(expandedByCategory)) {
+                for (const f of catFacts) {
+                    if (allFacts.length >= 25) break;
+                    allFacts.push({
+                        icon: this.getCategoryIcon(f.category),
+                        text: f.text,
+                        category: f.category,
+                        source: f.source || '',
+                        chapter: f.chapter || '',
+                        ingredientName: f.ingredientName || '',
+                        relatedIngredients: f.relatedIngredients || []
+                    });
+                }
+                if (allFacts.length >= 25) break;
+            }
+
+            factsContainer.innerHTML = this.renderHealthFacts(allFacts, true);
+        } catch (e) {
+            console.warn('Could not expand health facts:', e);
+        }
+    }
+
     // =========================================================
     // Feature 9: Ingredients Slide Panel
     // =========================================================
@@ -2299,7 +2384,9 @@ class MealDashboardApp {
 
 // Initialize app when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    window.mealDashboard = new MealDashboardApp();
+    const app = new MealDashboardApp();
+    window.mealDashboard = app;
+    window.__app = app; // Feature 10: expose for inline onclick handlers
 });
 
 // v2.0.0: Expose modules globally for debugging/testing

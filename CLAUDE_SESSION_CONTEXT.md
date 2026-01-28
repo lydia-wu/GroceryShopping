@@ -10,9 +10,9 @@
 ### Session Summary (Jan 22, 2026)
 
 **PHASE 1 COMPLETE & VERIFIED** - All 3 foundation features tested and working.
-**PHASE 2 IN PROGRESS** - Features 4, 8 & 9 complete, Feature 10 is next.
+**PHASE 2 COMPLETE** - All Phase 2 features (4, 8, 9, 10) done. Phase 3 is next.
 
-**NEXT TASK: Feature 10 - Up to 10 Fun Facts per Meal**
+**NEXT TASK: Feature 11 - Expand Nutritional Radar Chart**
 
 ---
 
@@ -90,6 +90,18 @@
 - Full responsive support (mobile: full-width bottom sheet)
 - Files: `slide-panel.js`, `slide-panel.css`, `app.js`, `index.html`, `styles.css`, `state-manager.js`
 
+**Feature 10: Up to 10 Fun Facts per Meal** ✅
+- 10 diverse facts displayed by default (was 8), randomly rotated each view
+- "Show more facts" expand button loads up to 25 facts via `getExpandedFactsForMeal()`
+- Ingredient badge on each fact showing which ingredient it relates to
+- Book source tooltip (📚 icon) with hover showing book title + chapter
+- Fixed pre-existing bug: `f.fact` → `f.text`, `f.ingredient` → `f.ingredientName`
+- `renderHealthFacts(facts, expanded)` — reusable method for fact card rendering
+- `expandHealthFacts()` — loads all facts organized by category, caps at 25
+- `escapeHtml()` applied to all user-facing text for XSS protection
+- New CSS: `.health-fact-content`, `.health-fact-meta`, `.health-fact-ingredient`, `.health-fact-source`, `.health-facts-expand-btn`
+- Files: `app.js`, `styles.css`, `health-benefits.js` (exports used)
+
 ---
 
 ## IMPLEMENTATION PHASES
@@ -103,10 +115,10 @@
 - [x] Feature 4: Import Historical Staples Data ✅
 - [x] Feature 8: Units on All Nutrition Information ✅
 - [x] Feature 9: Ingredients Button on Meal Cards ✅
-- [ ] **Feature 10: Up to 10 Fun Facts per Meal** ← NEXT
+- [x] Feature 10: Up to 10 Fun Facts per Meal ✅
 
 ### PHASE 3 - Visualizations
-- [ ] Feature 11: Expand Nutritional Radar Chart
+- [ ] **Feature 11: Expand Nutritional Radar Chart** ← NEXT
 - [ ] Feature 12: Distinct Colors for Charts
 - [ ] Feature 15: USDA 2025-2030 Guidelines Visualizations
 

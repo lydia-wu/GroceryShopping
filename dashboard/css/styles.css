@@ -1288,10 +1288,66 @@ a:hover {
     line-height: 1;
 }
 
+.health-fact-content {
+    flex: 1;
+    min-width: 0;
+}
+
 .health-fact-text {
     font-size: var(--font-size-sm);
     color: var(--color-gray-600);
     line-height: 1.5;
+}
+
+/* Feature 10: Ingredient badge & source tooltip */
+.health-fact-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-1);
+    flex-wrap: wrap;
+}
+
+.health-fact-ingredient {
+    display: inline-block;
+    padding: 1px var(--space-2);
+    background: var(--color-gray-200);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-600);
+    white-space: nowrap;
+}
+
+.health-fact-source {
+    cursor: help;
+    font-size: var(--font-size-sm);
+    opacity: 0.7;
+    transition: opacity var(--transition-fast);
+}
+
+.health-fact-source:hover {
+    opacity: 1;
+}
+
+/* Feature 10: Expand button */
+.health-facts-expand-btn {
+    display: block;
+    width: 100%;
+    margin-top: var(--space-3);
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-gray-100);
+    border: 1px dashed var(--color-gray-300);
+    border-radius: var(--radius-md);
+    color: var(--color-brown);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.health-facts-expand-btn:hover {
+    background: var(--color-gray-200);
+    border-color: var(--color-brown);
 }
 
 /* Health fact category colors */
